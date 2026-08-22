@@ -147,11 +147,13 @@ Yuqoridagi burak-react daraxti — namuna. Bu bo'lim esa **haqiqiy `bstore-react
 | 3. `components/` | ⏳ Qisman | `auth/`, `divider/`, `footer/`, `headers/` papkalari yaratilgan (bo'sh); ichidagi fayllar (index.tsx, Basket.tsx va h.k.) sotib olingan loyihadan mosligiga qarab yoziladi |
 | 4. `context/` + `hooks/` | ✅ Skelet tayyor | `context/ContextProvider.tsx`, `hooks/useBasket.ts`, `hooks/useGlobals.ts` — barchasi bo'sh stub |
 | 5. `services/` | ✅ Skelet tayyor | `services/MemberService.ts`, `OrderService.ts`, `ProductService.ts` — barchasi bo'sh stub |
-| 6. `screens/` | ⏳ Ataylab kutmoqda | Sahifa mazmuniga eng ko'p bog'liq qism — sotib olingan loyiha ko'rilmaguncha yaratilmaydi (shu jumladan asl `Test.tsx` — "leftover practice component" — umuman qayta yaratilmaydi) |
-| 7. `css/` | ⏳ Ataylab kutmoqda | Faqat scaffold'dan qolgan `app.css`/`index.css` bor. Sahifaga xos CSS fayllar **ataylab yaratilmagan** — sotib olingan HTML/CSS loyiha ko'rib chiqilgach, real sahifalarga qarab yoziladi |
-| 8. `lib/` | ✅ Skelet tayyor | `config.ts`, `sweetAlert.ts` (bo'sh); `data/{faq,plans,terms}.ts` (bo'sh); `enums/{member,order,product,view}.enum.ts` (bo'sh); `types/{common,member,order,product,screen,search}.ts` (bo'sh) — barchasi hali mazmunsiz, sotib olingan loyihadan mazmun kutilmoqda |
+| 6. `screens/` | ⏳ Faqat `homePage/` | Manba: `C:\Users\User\Desktop\bookjar\template\` (BookJar — kitob-do'koni shabloni), **Home Two** (`index-2.html`) variant tanlandi va **to'liq ko'chirildi**: HeroBanner, Promo, BestBooks, BookCategories, BestSelling (tabli), PromotionBox, NewProducts (filtrlanadigan), HomeBlog, Subscribe — har biri alohida `.tsx` fayl, `homePage/index.tsx` yig'adi. Qolgan 25+ sahifa (shop, cart, checkout, my-account/*, author, blog, login/registration va h.k.) hali yaratilmagan |
+| 7. `css/` → `scss/` | ✅ Home Two uchun tayyor | Manba SCSS (legacy `@import`) ekanligi sababli `.css` emas, `.scss` ishlatiladi (`sass` paketi o'rnatilgan). `src/scss/index.scss` — global negiz (variables/root/predefine/preloader/header/footer), `src/scss/home.scss` — Home Two'ning barcha bo'limlari, `src/scss/modal.scss` — Quick-View modal. Eski `src/css/` (Vite scaffold qoldig'i) o'chirildi |
+| 8. `lib/` | ✅ Skelet tayyor (mazmun hali bo'sh) | `config.ts`, `sweetAlert.ts`, `data/`, `enums/`, `types/` — barchasi stub, real mazmun keyingi bosqichlarda (services/screens qurilishi bilan) to'ldiriladi |
 
-Qo'shimcha: `src/assets/` (Vite scaffold'ning ishlatilmayotgan demo rasmlari) o'chirildi; `public/icons/`, `public/img/`, `public/video/` papkalari yaratildi (`favicon.svg`/`icons.svg` `public/icons/`ga ko'chirildi).
+**Qo'shimcha (Step 1 — sayt bo'ylab umumiy qismlar, ✅ tayyor):** `components/preloader/`, `components/headers/HomeNavbar.tsx` (mega-menyu bilan, demo-only Home 1/3/4 submenyusi olib tashlangan), `components/footer/`, `components/modals/ProductQuickView.tsx`. `bootstrap`, `wowjs`(→ global script sifatida) qo'shildi; Font Awesome/Themify/Elegant Icons/Icomoon vendor fontlari `public/vendors/`ga ko'chirildi va `index.html`da ulandi.
+
+Qo'shimcha: `src/assets/` (Vite scaffold'ning ishlatilmayotgan demo rasmlari) o'chirildi; `public/icons/`, `public/img/`, `public/video/`, `public/vendors/` papkalari yaratildi (`favicon.svg`/`icons.svg` `public/icons/`ga ko'chirildi; bookjar'dan ko'chirilgan real rasmlar `public/img/home-two/` va `public/img/home/`da).
 
 ---
 
