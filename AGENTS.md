@@ -186,3 +186,25 @@ Bu struktura faqat **shu loyiha** (burak-react) uchun hujjatlashtirilgan. Yangi 
 - `react-scripts` va `@material-ui/core` (v4) ataylab o'rnatilmagan — loyiha Vite'da qurilgan va MUI'ning joriy `@mui/material` (v5+ chizig'i) ishlatiladi.
 - `@types/axios` va `@types/react-router-dom` ataylab o'rnatilmagan — `axios` va `react-router-dom` (v7) endi o'z TypeScript tiplarini o'zi ta'minlaydi.
 - `@testing-library/*` paketlari o'rnatilgan, lekin hali test ishga tushiruvchi (Vitest/Jest) sozlanmagan — sozlanmaguncha testlar ishlamaydi.
+
+---
+
+## Environment Variables (.env)
+
+Manba: rasmiy Vite hujjatlari ([vite.dev/guide/env-and-mode](https://vite.dev/guide/env-and-mode)), tekshirilgan sana: 2026-08-23.
+
+### Fayl turlari
+| Fayl | Qamrov | Git holati |
+|---|---|---|
+| `.env` | Barcha rejimlarda yuklanadi | **Commit qilinadi** (faqat maxfiy bo'lmagan default qiymatlar) |
+| `.env.local` | Barcha rejimlarda yuklanadi | **Gitignore qilinadi** (mahalliy/maxfiy qiymatlar) |
+| `.env.[mode]` | Faqat shu rejimda (masalan `.env.production`) | Commit qilinadi |
+| `.env.[mode].local` | Faqat shu rejimda | Gitignore qilinadi |
+
+### Qoidalar
+- Faqat **`VITE_`** prefiksli o'zgaruvchilar client kodga chiqadi: `import.meta.env.VITE_SOME_KEY`. Prefikssiz o'zgaruvchilar (masalan `DB_PASSWORD`) build'ga kirmaydi.
+- **Hech qachon maxfiy kalit/parolni `VITE_` prefiksi bilan yozmang** — u build paytida browser kodiga qadab qo'yiladi va oshkor bo'ladi.
+- Yuklash tartibi (yuqoridan pastga ustunlik): 1) tizim env o'zgaruvchilari → 2) `.env.[mode].local`/`.env.[mode]` → 3) `.env.local`/`.env`.
+
+### Joriy loyihadagi holat
+Hozircha faqat bo'sh `.env` fayli bor. Rasmiy tavsiyaga ko'ra bu fayl commit qilinishi kerak (faqat xavfsiz default/placeholder qiymatlar bilan); haqiqiy maxfiy kalitlar (`serverApi` manzillari, tokenlar va h.k.) `.env.local`ga yozilishi va u orqali `.gitignore`dagi `*.local` qoidasi bilan avtomatik chiqarib tashlanishi kerak.
