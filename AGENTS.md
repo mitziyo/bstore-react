@@ -136,6 +136,25 @@ Bu struktura faqat **shu loyiha** (burak-react) uchun hujjatlashtirilgan. Yangi 
 
 ---
 
+## Migration Progress (bstore-react)
+
+Yuqoridagi burak-react daraxti — namuna. Bu bo'lim esa **haqiqiy `bstore-react` loyihasida** shu namunaga qarab qurilayotgan strukturaning holatini kuzatib boradi (holat: 2026-08-23).
+
+| Bosqich | Holat | Izoh |
+|---|---|---|
+| 1. `app/` core | ⏳ Qisman | `store.ts` ✅, `hooks.ts` ✅, `App.tsx` ✅ (ko'chirilgan); `App.test.tsx` ❌ hali yo'q |
+| 2. `MaterialTheme/` | ⏳ Kutmoqda (noaniq) | Manba loyiha MUI ishlatmasa, umuman kerak bo'lmasligi mumkin — sotib olingan loyiha ko'rilgach hal qilinadi |
+| 3. `components/` | ⏳ Qisman | `auth/`, `divider/`, `footer/`, `headers/` papkalari yaratilgan (bo'sh); ichidagi fayllar (index.tsx, Basket.tsx va h.k.) sotib olingan loyihadan mosligiga qarab yoziladi |
+| 4. `context/` + `hooks/` | ✅ Skelet tayyor | `context/ContextProvider.tsx`, `hooks/useBasket.ts`, `hooks/useGlobals.ts` — barchasi bo'sh stub |
+| 5. `services/` | ✅ Skelet tayyor | `services/MemberService.ts`, `OrderService.ts`, `ProductService.ts` — barchasi bo'sh stub |
+| 6. `screens/` | ⏳ Ataylab kutmoqda | Sahifa mazmuniga eng ko'p bog'liq qism — sotib olingan loyiha ko'rilmaguncha yaratilmaydi (shu jumladan asl `Test.tsx` — "leftover practice component" — umuman qayta yaratilmaydi) |
+| 7. `css/` | ⏳ Ataylab kutmoqda | Faqat scaffold'dan qolgan `app.css`/`index.css` bor. Sahifaga xos CSS fayllar **ataylab yaratilmagan** — sotib olingan HTML/CSS loyiha ko'rib chiqilgach, real sahifalarga qarab yoziladi |
+| 8. `lib/` | ✅ Skelet tayyor | `config.ts`, `sweetAlert.ts` (bo'sh); `data/{faq,plans,terms}.ts` (bo'sh); `enums/{member,order,product,view}.enum.ts` (bo'sh); `types/{common,member,order,product,screen,search}.ts` (bo'sh) — barchasi hali mazmunsiz, sotib olingan loyihadan mazmun kutilmoqda |
+
+Qo'shimcha: `src/assets/` (Vite scaffold'ning ishlatilmayotgan demo rasmlari) o'chirildi; `public/icons/`, `public/img/`, `public/video/` papkalari yaratildi (`favicon.svg`/`icons.svg` `public/icons/`ga ko'chirildi).
+
+---
+
 ## Package Versions
 
 `package.json`da hozir o'rnatilgan versiyalar (holat: 2026-08-23, barchasi o'rnatish vaqtidagi eng so'nggi versiya sifatida tanlangan).
@@ -207,4 +226,4 @@ Manba: rasmiy Vite hujjatlari ([vite.dev/guide/env-and-mode](https://vite.dev/gu
 - Yuklash tartibi (yuqoridan pastga ustunlik): 1) tizim env o'zgaruvchilari → 2) `.env.[mode].local`/`.env.[mode]` → 3) `.env.local`/`.env`.
 
 ### Joriy loyihadagi holat
-Hozircha faqat bo'sh `.env` fayli bor. Rasmiy tavsiyaga ko'ra bu fayl commit qilinishi kerak (faqat xavfsiz default/placeholder qiymatlar bilan); haqiqiy maxfiy kalitlar (`serverApi` manzillari, tokenlar va h.k.) `.env.local`ga yozilishi va u orqali `.gitignore`dagi `*.local` qoidasi bilan avtomatik chiqarib tashlanishi kerak.
+`.env`da hozircha faqat `PORT=3009` bor (dev server porti, `vite.config.ts` ichida `loadEnv()` orqali o'qiladi va `server.port`ga uzatiladi). Bu maxfiy emas — shuning uchun `VITE_` prefikssiz va commit qilingan holda saqlanadi (`.gitignore`da `.env` yo'q). Haqiqiy maxfiy kalitlar (`serverApi` manzillari, tokenlar va h.k.) keyinchalik qo'shilsa, ular `.env.local`ga yozilishi kerak — u `.gitignore`dagi `*.local` qoidasi bilan avtomatik chiqarib tashlanadi.
