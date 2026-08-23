@@ -17,6 +17,11 @@ import { MyOrders } from "./screens/dashboard/MyOrders";
 import { MyWishlist } from "./screens/dashboard/MyWishlist";
 import { MyRatingReviews } from "./screens/dashboard/MyRatingReviews";
 import { MyFollowingAuthors } from "./screens/dashboard/MyFollowingAuthors";
+import { OrderTrack } from "./screens/dashboard/OrderTrack";
+import { OrderConfirmation } from "./screens/dashboard/OrderConfirmation";
+import { MyListCreate } from "./screens/dashboard/MyListCreate";
+import { AddNewAddress } from "./screens/dashboard/AddNewAddress";
+import { MyListDetails } from "./screens/dashboard/MyListDetails";
 
 function AppRoutes() {
   const location = useLocation();
@@ -40,8 +45,12 @@ function AppRoutes() {
           <Route path="/my-wishlist" element={<MyWishlist />} />
           <Route path="/my-rating-reviews" element={<MyRatingReviews />} />
           <Route path="/my-following-authors" element={<MyFollowingAuthors />} />
+          <Route path="/add-new-address" element={<AddNewAddress />} />
         </Route>
-        
+        <Route path="/order-track" element={<OrderTrack />} />
+        <Route path="/order-confrmation" element={<OrderConfirmation />} />
+        <Route path="/my-list-create" element={<MyListCreate />} />
+        <Route path="/my-list-details" element={<MyListDetails />} />
       </Routes>
       <Footer />
     </div>

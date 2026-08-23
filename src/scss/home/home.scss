@@ -1170,6 +1170,8 @@
 
 // best_product_item_two variant (hover-reveal quick actions + add-to-cart)
 .best_product_item_two {
+  position: relative;
+
   .img {
     margin-right: 0;
     padding: 5px;
