@@ -16,6 +16,7 @@ import { MyAddress } from "./screens/dashboard/MyAddress";
 import { MyOrders } from "./screens/dashboard/MyOrders";
 import { MyWishlist } from "./screens/dashboard/MyWishlist";
 import { MyRatingReviews } from "./screens/dashboard/MyRatingReviews";
+import { MyFollowingAuthors } from "./screens/dashboard/MyFollowingAuthors";
 
 function AppRoutes() {
   const location = useLocation();
@@ -38,7 +39,9 @@ function AppRoutes() {
           <Route path="/my-orders" element={<MyOrders />} />
           <Route path="/my-wishlist" element={<MyWishlist />} />
           <Route path="/my-rating-reviews" element={<MyRatingReviews />} />
+          <Route path="/my-following-authors" element={<MyFollowingAuthors />} />
         </Route>
+        
       </Routes>
       <Footer />
     </div>
