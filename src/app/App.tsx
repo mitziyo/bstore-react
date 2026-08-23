@@ -14,6 +14,7 @@ import { EbookLibrary } from "./screens/dashboard/EbookLibrary";
 import { MyList } from "./screens/dashboard/MyList";
 import { MyAddress } from "./screens/dashboard/MyAddress";
 import { MyOrders } from "./screens/dashboard/MyOrders";
+import { MyWishlist } from "./screens/dashboard/MyWishlist";
 
 function AppRoutes() {
   const location = useLocation();
@@ -34,6 +35,7 @@ function AppRoutes() {
           <Route path="/my-list" element={<MyList />} />
           <Route path="/my-address" element={<MyAddress />} />
           <Route path="/my-orders" element={<MyOrders />} />
+          <Route path="/my-wishlist" element={<MyWishlist />} />
         </Route>
       </Routes>
       <Footer />
