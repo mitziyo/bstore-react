@@ -569,6 +569,218 @@
   }
 }
 
+.collection-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+.collection-card {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border: 1.5px solid var(--black_100);
+  border-radius: 20px;
+  text-decoration: none;
+  overflow: hidden;
+  transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+  &:hover {
+    border-color: rgba($blue, 0.3);
+    box-shadow: 0 16px 40px rgba($blue, 0.12);
+    transform: translateY(-6px);
+
+    .collection-card__book--front {
+      transform: translateX(0) rotate(0deg);
+    }
+
+    .collection-card__book--middle {
+      transform: translateX(-15px) rotate(-6deg);
+    }
+
+    .collection-card__book--back {
+      transform: translateX(-30px) rotate(-12deg);
+    }
+
+    .collection-card__arrow {
+      background: $blue;
+      color: #fff;
+      transform: translateX(4px);
+    }
+  }
+
+  &__visual {
+    position: relative;
+    padding: 32px 24px;
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__stack {
+    position: relative;
+    width: 180px;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    perspective: 1000px;
+  }
+
+  &__book {
+    position: absolute;
+    width: 100px;
+    height: 140px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    &--front {
+      z-index: 3;
+      right: 0;
+      transform: translateX(0) rotate(0deg);
+    }
+
+    &--middle {
+      z-index: 2;
+      right: 0;
+      transform: translateX(-10px) rotate(-3deg);
+    }
+
+    &--back {
+      z-index: 1;
+      right: 0;
+      transform: translateX(-20px) rotate(-6deg);
+    }
+  }
+
+  &__badge {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    padding: 6px 14px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #fff;
+    background: linear-gradient(135deg, $blue 0%, color.adjust($blue, $lightness: -10%) 100%);
+    border-radius: 20px;
+    box-shadow: 0 4px 12px rgba($blue, 0.3);
+  }
+
+  &__info {
+    padding: 20px 24px 24px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #202124;
+    margin: 0 0 8px;
+    transition: color 0.25s ease;
+  }
+
+  &__desc {
+    font-size: 14px;
+    color: var(--black_500);
+    margin: 0 0 16px;
+    flex: 1;
+  }
+
+  &__footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__date {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--black_400);
+
+    i {
+      font-size: 12px;
+    }
+  }
+
+  &__arrow {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--black_50);
+    border-radius: 50%;
+    color: var(--black_500);
+    font-size: 14px;
+    transition: all 0.25s ease;
+  }
+
+  &--create {
+    border-style: dashed;
+    border-color: var(--black_200);
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 320px;
+    background: linear-gradient(135deg, #fafbfc 0%, #f5f5f5 100%);
+    padding-top: 80px;
+
+    &:hover {
+      border-color: $blue;
+      background: linear-gradient(135deg, rgba($blue, 0.02) 0%, rgba($blue, 0.06) 100%);
+
+      .collection-card__create-icon {
+        background: $blue;
+        color: #fff;
+        transform: scale(1.1);
+      }
+
+      .collection-card__title {
+        color: $blue;
+      }
+    }
+
+    .collection-card__info {
+      padding: 0 24px 24px;
+    }
+
+    .collection-card__title {
+      margin-bottom: 4px;
+    }
+
+    .collection-card__desc {
+      margin: 0;
+    }
+  }
+
+  &__create-icon {
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--black_100);
+    border-radius: 50%;
+    color: var(--black_400);
+    font-size: 24px;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+  }
+}
+
 .dashboard-nav {
   list-style: none;
   padding: 0;
