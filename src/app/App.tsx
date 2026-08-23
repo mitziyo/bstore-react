@@ -7,6 +7,7 @@ import { ProductQuickView } from "./components/modals/ProductQuickView";
 import { HomePage } from "./screens/homePage";
 import { ShopPage } from "./screens/shop";
 import { CartPage } from "./screens/cart";
+import { CheckoutPage } from "./screens/checkout";
 
 function AppRoutes() {
   const location = useLocation();
@@ -20,6 +21,7 @@ function AppRoutes() {
         <Route path="/" element={<HomePage />} />
         <Route path="/shop" element={<ShopPage />} />
         <Route path="/cart" element={<CartPage />} />
+        <Route path="/checkout" element={<CheckoutPage />} />
       </Routes>
       <Footer />
     </div>
