@@ -311,16 +311,7 @@ export function Navbar({ relative = false }: NavbarProps) {
                                   <a href="/forgot-password">Forgot Password</a>
                                 </li>
                                 <li>
-                                  <a href="/typography">Typography</a>
-                                </li>
-                                <li>
                                   <a href="/faq">Faq</a>
-                                </li>
-                                <li>
-                                  <a href="/page-banner-style-2">Banner style 02</a>
-                                </li>
-                                <li>
-                                  <a href="/page-banner-style-3">Banner style 03</a>
                                 </li>
                               </ul>
                             </div>

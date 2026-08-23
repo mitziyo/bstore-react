@@ -1,0 +1,141 @@
+@use "sass:color";
+@import "../variables";
+
+.bj_faq_area {
+  .faq_sidebar {
+    background: #fff;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+
+    h3 {
+      font-size: 20px;
+      font-weight: 700;
+      color: #202124;
+    }
+  }
+
+  .faq_nav {
+    .nav-item {
+      margin-bottom: 8px;
+
+      .nav-link {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 14px 18px;
+        font-size: 15px;
+        font-weight: 500;
+        color: #4d4e50;
+        background: #f8f9fa;
+        border-radius: 10px;
+        border: none;
+        transition: all 0.25s ease;
+        width: 100%;
+        text-align: left;
+
+        i {
+          font-size: 16px;
+          color: $blue;
+        }
+
+        &:hover {
+          background: rgba(66, 133, 244, 0.08);
+          color: #202124;
+        }
+
+        &.active {
+          background: $blue;
+          color: #fff;
+
+          i {
+            color: #fff;
+          }
+        }
+      }
+    }
+  }
+
+  .faq_contact_box {
+    background: linear-gradient(135deg, #4285f4 0%, color.adjust(#4285f4, $lightness: -8%) 100%);
+    padding: 25px;
+    border-radius: 12px;
+    color: #fff;
+
+    h4 {
+      font-size: 18px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 14px;
+      color: hsla(0, 0%, 100%, 0.85);
+      margin-bottom: 20px;
+    }
+
+    .bj_theme_btn {
+      background: #fff;
+      color: $blue;
+      font-size: 14px;
+      padding: 12px 24px;
+
+      &:hover {
+        background: hsla(0, 0%, 100%, 0.9);
+      }
+    }
+  }
+
+  .faq_section_title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #202124;
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #e2e8f0;
+  }
+
+  .bj_accordion {
+    .accordion-item {
+      border: 1px solid #e2e8f0;
+      border-radius: 12px !important;
+      margin-bottom: 15px;
+      overflow: hidden;
+    }
+
+    .accordion-header .accordion-button {
+      font-size: 16px;
+      font-weight: 600;
+      color: #202124;
+      padding: 20px 24px;
+      background: #fff;
+      box-shadow: none;
+
+      &:not(.collapsed) {
+        background: rgba(66, 133, 244, 0.05);
+        color: $blue;
+      }
+
+      &:focus {
+        box-shadow: none;
+        border-color: transparent;
+      }
+    }
+
+    .accordion-body {
+      padding: 0 24px 20px;
+      font-size: 15px;
+      line-height: 1.7;
+      color: #636466;
+
+      a {
+        color: $blue;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}

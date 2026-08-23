@@ -27,15 +27,22 @@ import { ShopNoSidebarPage } from "./screens/shopNoSidebar";
 import { CartGuestPage } from "./screens/cartGuest";
 import { CheckoutGiftPage } from "./screens/checkoutGift";
 import { CheckoutLoginPage } from "./screens/checkoutLogin";
+import { LoginPage } from "./screens/auth/Login";
+import { RegistrationPage } from "./screens/auth/Registration";
+import { ForgotPasswordPage } from "./screens/auth/ForgotPassword";
+import { FaqPage } from "./screens/faq";
+
+const BARE_PAGES = ["/login", "/registration", "/forgot-password"];
 
 function AppRoutes() {
   const location = useLocation();
+  const isBarePage = BARE_PAGES.includes(location.pathname);
 
   return (
     <div className="body_wrapper">
       <Preloader />
-      <ProductQuickView />
-      <Navbar relative={location.pathname !== "/"} />
+      {!isBarePage && <ProductQuickView />}
+      {!isBarePage && <Navbar relative={location.pathname !== "/"} />}
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/shop" element={<ShopPage />} />
@@ -61,8 +68,12 @@ function AppRoutes() {
         <Route path="/cart-guest" element={<CartGuestPage />} />
         <Route path="/checkout-gift" element={<CheckoutGiftPage />} />
         <Route path="/checkout-login" element={<CheckoutLoginPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/registration" element={<RegistrationPage />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        <Route path="/faq" element={<FaqPage />} />
       </Routes>
-      <Footer />
+      {!isBarePage && <Footer />}
     </div>
   );
 }

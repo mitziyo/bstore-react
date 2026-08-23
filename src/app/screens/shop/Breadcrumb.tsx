@@ -1,10 +1,11 @@
 import { useParallax } from "../../hooks/useParallax";
 
 interface BreadcrumbProps {
+  title?: string;
   label?: string;
 }
 
-export function Breadcrumb({ label = "Shop Sidebar" }: BreadcrumbProps) {
+export function Breadcrumb({ title = "Book Shope", label = "Shop Sidebar" }: BreadcrumbProps) {
   const parallaxRef = useParallax<HTMLElement>(7, 10);
 
   return (
@@ -40,7 +41,7 @@ export function Breadcrumb({ label = "Shop Sidebar" }: BreadcrumbProps) {
       </div>
       <div className="container">
         <h2 className="title wow fadeInUp" data-wow-delay="0.2s">
-          Book Shope
+          {title}
         </h2>
         <ol className="breadcrumb justify-content-center wow fadeInUp" data-wow-delay="0.3s">
           <li>
