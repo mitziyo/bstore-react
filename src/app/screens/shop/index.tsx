@@ -1,4 +1,4 @@
-import "../../../scss/shop.scss";
+import "../../../scss/shop/shop.scss";
 import { Breadcrumb } from "./Breadcrumb";
 import { ShopSidebar } from "./ShopSidebar";
 

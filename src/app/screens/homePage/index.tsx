@@ -1,4 +1,4 @@
-import "../../../scss/home.scss";
+import "../../../scss/home/home.scss";
 import { HeroBanner } from "./HeroBanner";
 import { Promo } from "./Promo";
 import { BestBooks } from "./BestBooks";
