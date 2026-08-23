@@ -10,6 +10,7 @@ import { CartPage } from "./screens/cart";
 import { CheckoutPage } from "./screens/checkout";
 import { DashboardLayout } from "./screens/dashboard/DashboardLayout";
 import { UserProfile } from "./screens/dashboard/UserProfile";
+import { EbookLibrary } from "./screens/dashboard/EbookLibrary";
 
 function AppRoutes() {
   const location = useLocation();
@@ -24,8 +25,9 @@ function AppRoutes() {
         <Route path="/shop" element={<ShopPage />} />
         <Route path="/cart" element={<CartPage />} />
         <Route path="/checkout" element={<CheckoutPage />} />
-        <Route path="/my-account" element={<DashboardLayout />}>
-          <Route index element={<UserProfile />} />
+        <Route element={<DashboardLayout />}>
+          <Route path="/my-account" element={<UserProfile />} />
+          <Route path="/my-ebook-library" element={<EbookLibrary />} />
         </Route>
       </Routes>
       <Footer />
