@@ -8,6 +8,8 @@ import { HomePage } from "./screens/homePage";
 import { ShopPage } from "./screens/shop";
 import { CartPage } from "./screens/cart";
 import { CheckoutPage } from "./screens/checkout";
+import { DashboardLayout } from "./screens/dashboard/DashboardLayout";
+import { UserProfile } from "./screens/dashboard/UserProfile";
 
 function AppRoutes() {
   const location = useLocation();
@@ -22,6 +24,9 @@ function AppRoutes() {
         <Route path="/shop" element={<ShopPage />} />
         <Route path="/cart" element={<CartPage />} />
         <Route path="/checkout" element={<CheckoutPage />} />
+        <Route path="/my-account" element={<DashboardLayout />}>
+          <Route index element={<UserProfile />} />
+        </Route>
       </Routes>
       <Footer />
     </div>
