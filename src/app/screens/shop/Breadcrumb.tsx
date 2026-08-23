@@ -1,6 +1,10 @@
 import { useParallax } from "../../hooks/useParallax";
 
-export function Breadcrumb() {
+interface BreadcrumbProps {
+  label?: string;
+}
+
+export function Breadcrumb({ label = "Shop Sidebar" }: BreadcrumbProps) {
   const parallaxRef = useParallax<HTMLElement>(7, 10);
 
   return (
@@ -42,7 +46,7 @@ export function Breadcrumb() {
           <li>
             <a href="/">Home</a>
           </li>
-          <li className="active">Shop Sidebar</li>
+          <li className="active">{label}</li>
         </ol>
       </div>
     </section>

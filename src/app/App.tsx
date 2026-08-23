@@ -22,6 +22,11 @@ import { OrderConfirmation } from "./screens/dashboard/OrderConfirmation";
 import { MyListCreate } from "./screens/dashboard/MyListCreate";
 import { AddNewAddress } from "./screens/dashboard/AddNewAddress";
 import { MyListDetails } from "./screens/dashboard/MyListDetails";
+import { ProductSinglePage } from "./screens/productSingle";
+import { ShopNoSidebarPage } from "./screens/shopNoSidebar";
+import { CartGuestPage } from "./screens/cartGuest";
+import { CheckoutGiftPage } from "./screens/checkoutGift";
+import { CheckoutLoginPage } from "./screens/checkoutLogin";
 
 function AppRoutes() {
   const location = useLocation();
@@ -51,6 +56,11 @@ function AppRoutes() {
         <Route path="/order-confrmation" element={<OrderConfirmation />} />
         <Route path="/my-list-create" element={<MyListCreate />} />
         <Route path="/my-list-details" element={<MyListDetails />} />
+        <Route path="/product-single" element={<ProductSinglePage />} />
+        <Route path="/shop-no-sidebar" element={<ShopNoSidebarPage />} />
+        <Route path="/cart-guest" element={<CartGuestPage />} />
+        <Route path="/checkout-gift" element={<CheckoutGiftPage />} />
+        <Route path="/checkout-login" element={<CheckoutLoginPage />} />
       </Routes>
       <Footer />
     </div>
