@@ -1,6 +1,10 @@
-export function HomeNavbar() {
+interface NavbarProps {
+  relative?: boolean;
+}
+
+export function Navbar({ relative = false }: NavbarProps) {
   return (
-    <header className="header_area">
+    <header className={relative ? "header_area header_relative" : "header_area"}>
       <nav className="navbar navbar-expand-lg menu_one" id="header">
         <div className="container">
           <a className="navbar-brand" href="/">
