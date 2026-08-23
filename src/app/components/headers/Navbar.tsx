@@ -51,115 +51,28 @@ export function Navbar({ relative = false }: NavbarProps) {
                 </a>
 
                 <ul className="dropdown-menu">
-                  <li className="nav-item dropdown submenu">
-                    <a
-                      className="nav-link dropdown-toggle"
-                      href="/shop"
-                      role="button"
-                      data-bs-toggle="dropdown"
-                      aria-haspopup="true"
-                      aria-expanded="false"
-                    >
+                  <li className="nav-item">
+                    <a href="/shop" className="nav-link">
                       Shop
+                      <span className="arrow_carrot-right"></span>
                     </a>
-                    <ul className="dropdown-menu">
-                      <li className="nav-item">
-                        <a href="/shop" className="nav-link">
-                          Shop
-                        </a>
-                      </li>
-                      <li className="nav-item">
-                        <a href="/shop-no-sidebar" className="nav-link">
-                          Shop No Sidebar
-                        </a>
-                      </li>
-                      <li className="nav-item">
-                        <a href="/product-single" className="nav-link">
-                          Product Details
-                        </a>
-                      </li>
-                    </ul>
                   </li>
-                  <li className="nav-item dropdown submenu">
-                    <a
-                      className="nav-link dropdown-toggle"
-                      href="/cart"
-                      role="button"
-                      data-bs-toggle="dropdown"
-                      aria-haspopup="true"
-                      aria-expanded="false"
-                    >
+                  <li className="nav-item">
+                    <a href="/cart" className="nav-link">
                       Cart
+                      <span className="arrow_carrot-right"></span>
                     </a>
-                    <ul className="dropdown-menu">
-                      <li className="nav-item">
-                        <a href="/cart" className="nav-link">
-                          Cart
-                        </a>
-                      </li>
-                      <li className="nav-item">
-                        <a href="/cart-guest" className="nav-link">
-                          Cart Guest
-                        </a>
-                      </li>
-                    </ul>
                   </li>
-                  <li className="nav-item dropdown submenu">
-                    <a
-                      className="nav-link dropdown-toggle"
-                      href="/checkout"
-                      role="button"
-                      data-bs-toggle="dropdown"
-                      aria-haspopup="true"
-                      aria-expanded="false"
-                    >
+                  <li className="nav-item">
+                    <a href="/checkout" className="nav-link">
                       Checkout
+                      <span className="arrow_carrot-right"></span>
                     </a>
-                    <ul className="dropdown-menu">
-                      <li className="nav-item">
-                        <a href="/checkout" className="nav-link">
-                          Checkout
-                        </a>
-                      </li>
-                      <li className="nav-item">
-                        <a href="/checkout-login" className="nav-link">
-                          Checkout Login
-                        </a>
-                      </li>
-                      <li className="nav-item">
-                        <a href="/checkout-gift" className="nav-link">
-                          Checkout Gift
-                        </a>
-                      </li>
-                    </ul>
                   </li>
-                </ul>
-              </li>
-              <li className="nav-item dropdown submenu">
-                <a
-                  className="nav-link dropdown-toggle"
-                  href="/compare"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-haspopup="true"
-                  aria-expanded="false"
-                >
-                  Compare
-                </a>
-                <ul className="dropdown-menu">
                   <li className="nav-item">
                     <a href="/compare" className="nav-link">
                       Compare
-                    </a>
-                  </li>
-                  <li className="nav-item">
-                    <a href="/deals-offers" className="nav-link">
-                      Deals Offers
-                    </a>
-                  </li>
-                  <li className="nav-item">
-                    <a href="/new-arrivals" className="nav-link">
-                      New Arrivals
+                      <span className="arrow_carrot-right"></span>
                     </a>
                   </li>
                 </ul>

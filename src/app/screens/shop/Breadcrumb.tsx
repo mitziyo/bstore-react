@@ -1,6 +1,11 @@
+import { useParallax } from "../../hooks/useParallax";
+
 export function Breadcrumb() {
+  const parallaxRef = useParallax<HTMLElement>(7, 10);
+
   return (
     <section
+      ref={parallaxRef}
       className="bj_breadcrumb_area text-center banner_animation_03"
       style={{ backgroundColor: "#f5f5f5" }}
     >
