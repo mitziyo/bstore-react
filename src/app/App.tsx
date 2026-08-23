@@ -12,6 +12,7 @@ import { DashboardLayout } from "./screens/dashboard/DashboardLayout";
 import { UserProfile } from "./screens/dashboard/UserProfile";
 import { EbookLibrary } from "./screens/dashboard/EbookLibrary";
 import { MyList } from "./screens/dashboard/MyList";
+import { MyAddress } from "./screens/dashboard/MyAddress";
 
 function AppRoutes() {
   const location = useLocation();
@@ -30,6 +31,7 @@ function AppRoutes() {
           <Route path="/my-account" element={<UserProfile />} />
           <Route path="/my-ebook-library" element={<EbookLibrary />} />
           <Route path="/my-list" element={<MyList />} />
+          <Route path="/my-address" element={<MyAddress />} />
         </Route>
       </Routes>
       <Footer />
