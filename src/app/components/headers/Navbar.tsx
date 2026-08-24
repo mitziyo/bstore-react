@@ -1,8 +1,14 @@
+import { useState } from "react";
+
 interface NavbarProps {
   relative?: boolean;
 }
 
+type ExploreTab = "utility" | "company" | "shop" | "blog";
+
 export function Navbar({ relative = false }: NavbarProps) {
+  const [exploreTab, setExploreTab] = useState<ExploreTab>("utility");
+
   return (
     <header className={relative ? "header_area header_relative" : "header_area"}>
       <nav className="navbar navbar-expand-lg menu_one" id="header">
@@ -54,25 +60,21 @@ export function Navbar({ relative = false }: NavbarProps) {
                   <li className="nav-item">
                     <a href="/shop" className="nav-link">
                       Shop
-                      <span className="arrow_carrot-right"></span>
                     </a>
                   </li>
                   <li className="nav-item">
                     <a href="/cart" className="nav-link">
                       Cart
-                      <span className="arrow_carrot-right"></span>
                     </a>
                   </li>
                   <li className="nav-item">
                     <a href="/checkout" className="nav-link">
                       Checkout
-                      <span className="arrow_carrot-right"></span>
                     </a>
                   </li>
                   <li className="nav-item">
                     <a href="/compare" className="nav-link">
                       Compare
-                      <span className="arrow_carrot-right"></span>
                     </a>
                   </li>
                 </ul>
@@ -218,73 +220,55 @@ export function Navbar({ relative = false }: NavbarProps) {
                   <li>
                     <div className="row">
                       <div className="col-lg-5 tabHeader">
-                        <ul
-                          className="nav flex-column nav-pills"
-                          id="v-pills-tab"
-                          role="tablist"
-                          aria-orientation="vertical"
-                        >
-                          <li className="nav-item active">
+                        <ul className="nav flex-column nav-pills" role="tablist" aria-orientation="vertical">
+                          <li className={`nav-item${exploreTab === "utility" ? " active" : ""}`}>
                             <a
                               className="nav-link"
-                              id="v-pills-tour-tab"
-                              data-bs-toggle="pill"
                               href="#v-pills-tour"
                               role="tab"
                               aria-controls="v-pills-tour"
-                              aria-selected="false"
+                              aria-selected={exploreTab === "utility"}
+                              onMouseEnter={() => setExploreTab("utility")}
+                              onClick={(e) => e.preventDefault()}
                             >
                               Utility Pages
                             </a>
                           </li>
-                          <li className="nav-item">
+                          <li className={`nav-item${exploreTab === "company" ? " active" : ""}`}>
                             <a
                               className="nav-link"
-                              id="v-others-menu-tab"
-                              data-bs-toggle="pill"
                               href="#v-others-menu"
                               role="tab"
                               aria-controls="v-others-menu"
-                              aria-selected="false"
+                              aria-selected={exploreTab === "company"}
+                              onMouseEnter={() => setExploreTab("company")}
+                              onClick={(e) => e.preventDefault()}
                             >
                               Company
                             </a>
                           </li>
-                          <li className="nav-item">
+                          <li className={`nav-item${exploreTab === "shop" ? " active" : ""}`}>
                             <a
                               className="nav-link"
-                              id="v-pills-doc-tab"
-                              data-bs-toggle="pill"
                               href="#v-pills-doc"
                               role="tab"
                               aria-controls="v-pills-doc"
-                              aria-selected="true"
+                              aria-selected={exploreTab === "shop"}
+                              onMouseEnter={() => setExploreTab("shop")}
+                              onClick={(e) => e.preventDefault()}
                             >
                               Shop Pages
                             </a>
                           </li>
-                          <li className="nav-item">
+                          <li className={`nav-item${exploreTab === "blog" ? " active" : ""}`}>
                             <a
                               className="nav-link"
-                              id="v-pills-code-tab"
-                              data-bs-toggle="pill"
-                              href="#v-pills-code"
-                              role="tab"
-                              aria-controls="v-pills-code"
-                              aria-selected="false"
-                            >
-                              Dashboard
-                            </a>
-                          </li>
-                          <li className="nav-item">
-                            <a
-                              className="nav-link"
-                              id="v-pills-layout-tab"
-                              data-bs-toggle="pill"
                               href="#v-pills-layout"
                               role="tab"
                               aria-controls="v-pills-layout"
-                              aria-selected="false"
+                              aria-selected={exploreTab === "blog"}
+                              onMouseEnter={() => setExploreTab("blog")}
+                              onClick={(e) => e.preventDefault()}
                             >
                               Blog &amp; Author
                             </a>
@@ -294,16 +278,12 @@ export function Navbar({ relative = false }: NavbarProps) {
                       <div className="col-lg-7">
                         <div className="tab-content tabContent" id="v-pills-tabContent">
                           <div
-                            className="tab-pane fade active show"
-                            id="v-pills-tour"
+                            className={`tab-pane fade${exploreTab === "utility" ? " active show" : ""}`}
                             role="tabpanel"
-                            aria-labelledby="v-pills-tour-tab"
+                            style={{ display: exploreTab === "utility" ? undefined : "none" }}
                           >
                             <div className="d-flex">
                               <ul className="list-unstyled tab_list w_100">
-                                <li>
-                                  <a href="/login">Sign In</a>
-                                </li>
                                 <li>
                                   <a href="/registration">Sign Up</a>
                                 </li>
@@ -316,7 +296,11 @@ export function Navbar({ relative = false }: NavbarProps) {
                               </ul>
                             </div>
                           </div>
-                          <div className="tab-pane fade" id="v-others-menu" role="tabpanel" aria-labelledby="v-others-menu-tab">
+                          <div
+                            className={`tab-pane fade${exploreTab === "company" ? " active show" : ""}`}
+                            role="tabpanel"
+                            style={{ display: exploreTab === "company" ? undefined : "none" }}
+                          >
                             <div className="d-flex">
                               <ul className="list-unstyled tab_list w_100">
                                 <li>
@@ -337,12 +321,13 @@ export function Navbar({ relative = false }: NavbarProps) {
                               </ul>
                             </div>
                           </div>
-                          <div className="tab-pane fade" id="v-pills-doc" role="tabpanel" aria-labelledby="v-pills-doc-tab">
+                          <div
+                            className={`tab-pane fade${exploreTab === "shop" ? " active show" : ""}`}
+                            role="tabpanel"
+                            style={{ display: exploreTab === "shop" ? undefined : "none" }}
+                          >
                             <div className="d-flex">
                               <ul className="list-unstyled tab_list">
-                                <li>
-                                  <a href="/shop">Shop</a>
-                                </li>
                                 <li>
                                   <a href="/shop-no-sidebar">Shop No Sidebar</a>
                                 </li>
@@ -350,88 +335,26 @@ export function Navbar({ relative = false }: NavbarProps) {
                                   <a href="/product-single">Product Details</a>
                                 </li>
                                 <li>
-                                  <a href="/cart">Cart</a>
-                                </li>
-                                <li>
                                   <a href="/cart-guest">Cart Guest</a>
                                 </li>
                               </ul>
                               <ul className="list-unstyled tab_list">
-                                <li>
-                                  <a href="/checkout">Checkout</a>
-                                </li>
                                 <li>
                                   <a href="/checkout-gift">Checkout Gift</a>
                                 </li>
                                 <li>
                                   <a href="/checkout-login">Checkout Login</a>
                                 </li>
-
-                                <li>
-                                  <a href="/my-wishlist">Wishlist</a>
-                                </li>
                               </ul>
                             </div>
                           </div>
-                          <div className="tab-pane fade" id="v-pills-code" role="tabpanel" aria-labelledby="v-pills-code-tab">
+                          <div
+                            className={`tab-pane fade${exploreTab === "blog" ? " active show" : ""}`}
+                            role="tabpanel"
+                            style={{ display: exploreTab === "blog" ? undefined : "none" }}
+                          >
                             <div className="d-flex">
                               <ul className="list-unstyled tab_list">
-                                <li>
-                                  <a href="/my-account">User Profile</a>
-                                </li>
-                                <li>
-                                  <a href="/my-orders">Orders</a>
-                                </li>
-                                <li>
-                                  <a href="/order-track">Order Tracking</a>
-                                </li>
-                                <li>
-                                  <a href="/order-confrmation">Thank You Page</a>
-                                </li>
-                                <li>
-                                  <a href="/my-ebook-library">Ebook Library</a>
-                                </li>
-                                <li>
-                                  <a href="/my-following-authors">Following Authors</a>
-                                </li>
-                                <li>
-                                  <a href="/my-rating-reviews">Rating &amp; Authors</a>
-                                </li>
-                              </ul>
-                              <ul className="list-unstyled tab_list">
-                                <li>
-                                  <a href="/my-list">Book List</a>
-                                </li>
-                                <li>
-                                  <a href="/my-list-details">Book List Details</a>
-                                </li>
-                                <li>
-                                  <a href="/my-list-create">Create Book List</a>
-                                </li>
-                                <li>
-                                  <a href="/my-address">Address Book</a>
-                                </li>
-                                <li>
-                                  <a href="/add-new-address">Add New Address</a>
-                                </li>
-                              </ul>
-                            </div>
-                          </div>
-                          <div className="tab-pane fade" id="v-pills-layout" role="tabpanel" aria-labelledby="v-pills-layout-tab">
-                            <div className="d-flex">
-                              <ul className="list-unstyled tab_list">
-                                <li>
-                                  <a href="/blog-grid">Blog Grid</a>
-                                </li>
-                                <li>
-                                  <a href="/blog-extend-grid">Extended Grid</a>
-                                </li>
-                                <li>
-                                  <a href="/blog-list">Blog List</a>
-                                </li>
-                                <li>
-                                  <a href="/blog-details">Blog Details</a>
-                                </li>
                                 <li>
                                   <a href="/author">Author</a>
                                 </li>
