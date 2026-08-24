@@ -270,7 +270,7 @@ export function Navbar({ relative = false }: NavbarProps) {
                               onMouseEnter={() => setExploreTab("blog")}
                               onClick={(e) => e.preventDefault()}
                             >
-                              Blog &amp; Author
+                              Author
                             </a>
                           </li>
                         </ul>
@@ -367,41 +367,6 @@ export function Navbar({ relative = false }: NavbarProps) {
                         </div>
                       </div>
                     </div>
-                  </li>
-                </ul>
-              </li>
-              <li className="nav-item dropdown submenu">
-                <a
-                  className="nav-link dropdown-toggle"
-                  href="/blog-list"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-haspopup="true"
-                  aria-expanded="false"
-                >
-                  Blog
-                </a>
-
-                <ul className="dropdown-menu">
-                  <li className="nav-item">
-                    <a href="/blog-grid" className="nav-link">
-                      Blog Grid
-                    </a>
-                  </li>
-                  <li className="nav-item">
-                    <a href="/blog-extend-grid" className="nav-link">
-                      Extended Grid
-                    </a>
-                  </li>
-                  <li className="nav-item">
-                    <a href="/blog-list" className="nav-link">
-                      Blog List
-                    </a>
-                  </li>
-                  <li className="nav-item">
-                    <a href="/blog-details" className="nav-link">
-                      Blog Details
-                    </a>
                   </li>
                 </ul>
               </li>

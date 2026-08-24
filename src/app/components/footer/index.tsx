@@ -50,11 +50,6 @@ export function Footer() {
                     </a>
                   </li>
                   <li>
-                    <a href="/blog-grid">
-                      <i className="fa-solid fa-chevron-right"></i> Blog
-                    </a>
-                  </li>
-                  <li>
                     <a href="/author">
                       <i className="fa-solid fa-chevron-right"></i> Authors
                     </a>
