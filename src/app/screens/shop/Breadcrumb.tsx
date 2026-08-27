@@ -3,9 +3,10 @@ import { useParallax } from "../../hooks/useParallax";
 interface BreadcrumbProps {
   title?: string;
   label?: string;
+  parent?: { label: string; href: string };
 }
 
-export function Breadcrumb({ title = "Book Shope", label = "Shop Sidebar" }: BreadcrumbProps) {
+export function Breadcrumb({ title = "Book Shope", label = "Shop Sidebar", parent }: BreadcrumbProps) {
   const parallaxRef = useParallax<HTMLElement>(7, 10);
 
   return (
@@ -47,6 +48,11 @@ export function Breadcrumb({ title = "Book Shope", label = "Shop Sidebar" }: Bre
           <li>
             <a href="/">Home</a>
           </li>
+          {parent && (
+            <li>
+              <a href={parent.href}>{parent.label}</a>
+            </li>
+          )}
           <li className="active">{label}</li>
         </ol>
       </div>

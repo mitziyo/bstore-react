@@ -37,6 +37,7 @@ import { ContactPage } from "./screens/contact";
 import { TermsPage } from "./screens/terms";
 import { PrivacyPolicyPage } from "./screens/privacy";
 import { AuthorPage } from "./screens/author";
+import { AuthorSinglePage } from "./screens/authorSingle";
 
 const BARE_PAGES = ["/login", "/registration", "/forgot-password"];
 
@@ -84,6 +85,7 @@ function AppRoutes() {
         <Route path="/terms-condition" element={<TermsPage />} />
         <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
         <Route path="/author" element={<AuthorPage />} />
+        <Route path="/author-single" element={<AuthorSinglePage />} />
       </Routes>
       {!isBarePage && <Footer />}
     </div>
