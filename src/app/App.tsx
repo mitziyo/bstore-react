@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet, useLocation } from "react-router-dom";
 import { Preloader } from "./components/preloader";
 import { Navbar } from "./components/headers/Navbar";
 import { Footer } from "./components/footer";
@@ -40,58 +40,66 @@ import { AuthorPage } from "./screens/author";
 import { AuthorSinglePage } from "./screens/authorSingle";
 import { DealsOffersPage } from "./screens/dealsOffers";
 import { NewArrivalsPage } from "./screens/newArrivals";
+import { NotFoundPage } from "./screens/notFound";
 
-const BARE_PAGES = ["/login", "/registration", "/forgot-password"];
+function SiteLayout() {
+  const location = useLocation();
+  return (
+    <>
+      <ProductQuickView />
+      <Navbar relative={location.pathname !== "/"} />
+      <Outlet />
+      <Footer />
+    </>
+  );
+}
 
 function AppRoutes() {
-  const location = useLocation();
-  const isBarePage = BARE_PAGES.includes(location.pathname);
-
   return (
     <div className="body_wrapper">
       <Preloader />
-      {!isBarePage && <ProductQuickView />}
-      {!isBarePage && <Navbar relative={location.pathname !== "/"} />}
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/shop" element={<ShopPage />} />
-        <Route path="/cart" element={<CartPage />} />
-        <Route path="/checkout" element={<CheckoutPage />} />
-        <Route element={<DashboardLayout />}>
-          <Route path="/my-account" element={<UserProfile />} />
-          <Route path="/my-ebook-library" element={<EbookLibrary />} />
-          <Route path="/my-list" element={<MyList />} />
-          <Route path="/my-address" element={<MyAddress />} />
-          <Route path="/my-orders" element={<MyOrders />} />
-          <Route path="/my-wishlist" element={<MyWishlist />} />
-          <Route path="/my-rating-reviews" element={<MyRatingReviews />} />
-          <Route path="/my-following-authors" element={<MyFollowingAuthors />} />
-          <Route path="/add-new-address" element={<AddNewAddress />} />
+        <Route element={<SiteLayout />}>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/shop" element={<ShopPage />} />
+          <Route path="/cart" element={<CartPage />} />
+          <Route path="/checkout" element={<CheckoutPage />} />
+          <Route element={<DashboardLayout />}>
+            <Route path="/my-account" element={<UserProfile />} />
+            <Route path="/my-ebook-library" element={<EbookLibrary />} />
+            <Route path="/my-list" element={<MyList />} />
+            <Route path="/my-address" element={<MyAddress />} />
+            <Route path="/my-orders" element={<MyOrders />} />
+            <Route path="/my-wishlist" element={<MyWishlist />} />
+            <Route path="/my-rating-reviews" element={<MyRatingReviews />} />
+            <Route path="/my-following-authors" element={<MyFollowingAuthors />} />
+            <Route path="/add-new-address" element={<AddNewAddress />} />
+          </Route>
+          <Route path="/order-track" element={<OrderTrack />} />
+          <Route path="/order-confrmation" element={<OrderConfirmation />} />
+          <Route path="/my-list-create" element={<MyListCreate />} />
+          <Route path="/my-list-details" element={<MyListDetails />} />
+          <Route path="/product-single" element={<ProductSinglePage />} />
+          <Route path="/shop-no-sidebar" element={<ShopNoSidebarPage />} />
+          <Route path="/cart-guest" element={<CartGuestPage />} />
+          <Route path="/checkout-gift" element={<CheckoutGiftPage />} />
+          <Route path="/checkout-login" element={<CheckoutLoginPage />} />
+          <Route path="/faq" element={<FaqPage />} />
+          <Route path="/compare" element={<ComparePage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="/terms-condition" element={<TermsPage />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+          <Route path="/author" element={<AuthorPage />} />
+          <Route path="/author-single" element={<AuthorSinglePage />} />
+          <Route path="/deals-offers" element={<DealsOffersPage />} />
+          <Route path="/new-arrivals" element={<NewArrivalsPage />} />
         </Route>
-        <Route path="/order-track" element={<OrderTrack />} />
-        <Route path="/order-confrmation" element={<OrderConfirmation />} />
-        <Route path="/my-list-create" element={<MyListCreate />} />
-        <Route path="/my-list-details" element={<MyListDetails />} />
-        <Route path="/product-single" element={<ProductSinglePage />} />
-        <Route path="/shop-no-sidebar" element={<ShopNoSidebarPage />} />
-        <Route path="/cart-guest" element={<CartGuestPage />} />
-        <Route path="/checkout-gift" element={<CheckoutGiftPage />} />
-        <Route path="/checkout-login" element={<CheckoutLoginPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/registration" element={<RegistrationPage />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-        <Route path="/faq" element={<FaqPage />} />
-        <Route path="/compare" element={<ComparePage />} />
-        <Route path="/about" element={<AboutPage />} />
-        <Route path="/contact" element={<ContactPage />} />
-        <Route path="/terms-condition" element={<TermsPage />} />
-        <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
-        <Route path="/author" element={<AuthorPage />} />
-        <Route path="/author-single" element={<AuthorSinglePage />} />
-        <Route path="/deals-offers" element={<DealsOffersPage />} />
-        <Route path="/new-arrivals" element={<NewArrivalsPage />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
-      {!isBarePage && <Footer />}
     </div>
   );
 }
