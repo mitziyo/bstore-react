@@ -33,6 +33,7 @@ import { ForgotPasswordPage } from "./screens/auth/ForgotPassword";
 import { FaqPage } from "./screens/faq";
 import { ComparePage } from "./screens/compare";
 import { AboutPage } from "./screens/about";
+import { ContactPage } from "./screens/contact";
 
 const BARE_PAGES = ["/login", "/registration", "/forgot-password"];
 
@@ -76,6 +77,7 @@ function AppRoutes() {
         <Route path="/faq" element={<FaqPage />} />
         <Route path="/compare" element={<ComparePage />} />
         <Route path="/about" element={<AboutPage />} />
+        <Route path="/contact" element={<ContactPage />} />
       </Routes>
       {!isBarePage && <Footer />}
     </div>
