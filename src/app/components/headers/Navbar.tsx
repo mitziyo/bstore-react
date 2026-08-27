@@ -68,13 +68,13 @@ export function Navbar({ relative = false }: NavbarProps) {
                     </a>
                   </li>
                   <li className="nav-item">
-                    <a href="/checkout" className="nav-link">
-                      Checkout
+                    <a href="/deals-offers" className="nav-link">
+                      Deals Offers
                     </a>
                   </li>
                   <li className="nav-item">
-                    <a href="/compare" className="nav-link">
-                      Compare
+                    <a href="/new-arrivals" className="nav-link">
+                      New Arrivals
                     </a>
                   </li>
                 </ul>

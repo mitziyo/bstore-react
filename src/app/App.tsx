@@ -38,6 +38,8 @@ import { TermsPage } from "./screens/terms";
 import { PrivacyPolicyPage } from "./screens/privacy";
 import { AuthorPage } from "./screens/author";
 import { AuthorSinglePage } from "./screens/authorSingle";
+import { DealsOffersPage } from "./screens/dealsOffers";
+import { NewArrivalsPage } from "./screens/newArrivals";
 
 const BARE_PAGES = ["/login", "/registration", "/forgot-password"];
 
@@ -86,6 +88,8 @@ function AppRoutes() {
         <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
         <Route path="/author" element={<AuthorPage />} />
         <Route path="/author-single" element={<AuthorSinglePage />} />
+        <Route path="/deals-offers" element={<DealsOffersPage />} />
+        <Route path="/new-arrivals" element={<NewArrivalsPage />} />
       </Routes>
       {!isBarePage && <Footer />}
     </div>
