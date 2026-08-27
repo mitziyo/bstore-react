@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { BrowserRouter, Routes, Route, Outlet, useLocation } from "react-router-dom";
+import { Tooltip } from "bootstrap";
 import { Preloader } from "./components/preloader";
 import { Navbar } from "./components/headers/Navbar";
 import { Footer } from "./components/footer";
@@ -109,6 +110,7 @@ function AppRoutes() {
 function App() {
   useEffect(() => {
     new window.WOW().init();
+    new Tooltip(document.body, { selector: '[data-bs-toggle="tooltip"]' });
   }, []);
 
   return (
