@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 interface NavbarProps {
   relative?: boolean;
@@ -8,6 +8,8 @@ type ExploreTab = "utility" | "company" | "shop" | "blog";
 
 export function Navbar({ relative = false }: NavbarProps) {
   const [exploreTab, setExploreTab] = useState<ExploreTab>("utility");
+  const [searchOpen, setSearchOpen] = useState(false);
+  const searchInputRef = useRef<HTMLInputElement>(null);
 
   return (
     <header className={relative ? "header_area header_relative" : "header_area"}>
@@ -370,13 +372,23 @@ export function Navbar({ relative = false }: NavbarProps) {
             </ul>
             <div className="alter_nav">
               <ul className="navbar-nav search_cart menu">
-                <li className="nav-item search">
-                  <a className="nav-link search-btn" href="#">
+                <li className={`nav-item search${searchOpen ? " open" : ""}`}>
+                  <a
+                    className="nav-link search-btn"
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      if (!searchOpen) {
+                        setTimeout(() => searchInputRef.current?.focus(), 500);
+                      }
+                      setSearchOpen(!searchOpen);
+                    }}
+                  >
                     <i className="ti-search"></i>
                   </a>
-                  <form action="#" method="get" className="menu-search-form">
+                  <form action="#" method="get" className="menu-search-form" onSubmit={(e) => e.preventDefault()}>
                     <div className="input-group">
-                      <input type="search" className="form-control" placeholder="Search here.." />
+                      <input ref={searchInputRef} type="search" className="form-control" placeholder="Search here.." />
                       <button type="submit">
                         <i className="ti-arrow-right"></i>
                       </button>
