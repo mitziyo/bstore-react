@@ -4,6 +4,7 @@ import { Preloader } from "./components/preloader";
 import { Navbar } from "./components/headers/Navbar";
 import { Footer } from "./components/footer";
 import { ProductQuickView } from "./components/modals/ProductQuickView";
+import { BackToTop } from "./components/backToTop";
 import { HomePage } from "./screens/homePage";
 import { ShopPage } from "./screens/shop";
 import { CartPage } from "./screens/cart";
@@ -50,6 +51,7 @@ function SiteLayout() {
       <Navbar relative={location.pathname !== "/"} />
       <Outlet />
       <Footer />
+      <BackToTop />
     </>
   );
 }
