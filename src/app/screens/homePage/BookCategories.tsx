@@ -10,8 +10,11 @@ const CATEGORIES = [
 
 export function BookCategories() {
   return (
-    <section className="bj_book_category_area sec_padding_three" style={{ backgroundColor: "#f5f5f5" }}>
+    <section id="categories" className="bj_book_category_area sec_padding_three" style={{ backgroundColor: "#f5f5f5" }}>
       <div className="container">
+        <div className="section_title text-center wow fadeInUp" data-wow-delay="0.2s">
+          <h2 className="title">Explore Categories</h2>
+        </div>
         <div className="bj_category_inner">
           {CATEGORIES.map((category, index) => (
             <a

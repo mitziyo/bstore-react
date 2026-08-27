@@ -304,9 +304,6 @@ export function Navbar({ relative = false }: NavbarProps) {
                             <div className="d-flex">
                               <ul className="list-unstyled tab_list w_100">
                                 <li>
-                                  <a href="/book-listing">Book Listing</a>
-                                </li>
-                                <li>
                                   <a href="/about">About</a>
                                 </li>
                                 <li>

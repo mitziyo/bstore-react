@@ -40,7 +40,14 @@ export function HeroBanner() {
                   <i className="fa-solid fa-shopping-bag"></i>
                   Browse Books
                 </a>
-                <a href="/book-listing" className="btn-secondary-hero">
+                <a
+                  href="#categories"
+                  className="btn-secondary-hero"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    document.getElementById("categories")?.scrollIntoView({ behavior: "smooth" });
+                  }}
+                >
                   <i className="fa-solid fa-compass"></i>
                   Explore Categories
                 </a>
