@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 const CATEGORIES = [
-  { label: "All Categories", count: 500, active: true },
+  { label: "All Categories", count: 500 },
   { label: "Fiction", count: 125 },
   { label: "Drama", count: 98 },
   { label: "Mystery", count: 76 },
@@ -26,6 +26,7 @@ const RATINGS = [
 export function ShopSidebar() {
   const [priceMin, setPriceMin] = useState(0);
   const [priceMax, setPriceMax] = useState(500);
+  const [activeCategory, setActiveCategory] = useState("All Categories");
 
   return (
     <div className="shop-sidebar">
@@ -48,10 +49,16 @@ export function ShopSidebar() {
         <ul className="category-list">
           {CATEGORIES.map((category) => (
             <li
-              className={`category-list__item${category.active ? " category-list__item--active" : ""}`}
+              className={`category-list__item${activeCategory === category.label ? " category-list__item--active" : ""}`}
               key={category.label}
             >
-              <a href="#">
+              <a
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setActiveCategory(category.label);
+                }}
+              >
                 <span>{category.label}</span>
                 <span className="count">{category.count}</span>
               </a>
@@ -65,8 +72,17 @@ export function ShopSidebar() {
         <div className="collapse" id="moreCategories">
           <ul className="category-list category-list--more">
             {MORE_CATEGORIES.map((category) => (
-              <li className="category-list__item" key={category.label}>
-                <a href="#">
+              <li
+                className={`category-list__item${activeCategory === category.label ? " category-list__item--active" : ""}`}
+                key={category.label}
+              >
+                <a
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setActiveCategory(category.label);
+                  }}
+                >
                   <span>{category.label}</span>
                   <span className="count">{category.count}</span>
                 </a>

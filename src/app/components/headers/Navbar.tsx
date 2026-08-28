@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import { useLocation } from "react-router-dom";
 
 interface NavbarProps {
   relative?: boolean;
@@ -6,7 +7,25 @@ interface NavbarProps {
 
 type ExploreTab = "utility" | "company" | "shop" | "blog";
 
+const SHOP_PATHS = ["/shop", "/cart", "/deals-offers", "/new-arrivals"];
+const DASHBOARD_PATHS = [
+  "/my-account",
+  "/my-orders",
+  "/order-track",
+  "/order-confrmation",
+  "/my-ebook-library",
+  "/my-list",
+  "/my-list-details",
+  "/my-list-create",
+  "/my-address",
+  "/add-new-address",
+  "/my-following-authors",
+  "/my-rating-reviews",
+  "/my-wishlist",
+];
+
 export function Navbar({ relative = false }: NavbarProps) {
+  const { pathname } = useLocation();
   const [exploreTab, setExploreTab] = useState<ExploreTab>("utility");
   const [searchOpen, setSearchOpen] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
@@ -15,8 +34,9 @@ export function Navbar({ relative = false }: NavbarProps) {
     <header className={relative ? "header_area header_relative" : "header_area"}>
       <nav className="navbar navbar-expand-lg menu_one" id="header">
         <div className="container">
-          <a className="navbar-brand" href="/">
-            <img src="/img/home-two/logo-dark.svg" alt="logo" />
+          <a className="navbar-brand logo-lockup" href="/">
+            <img src="/icons/logo-icon.png" alt="" />
+            <span>LightBooks</span>
           </a>
           <button
             className="navbar-toggler collapsed"
@@ -41,12 +61,12 @@ export function Navbar({ relative = false }: NavbarProps) {
           </button>
           <div className="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
             <ul className="navbar-nav menu w_menu ms-auto me-auto">
-              <li className="nav-item active">
+              <li className={`nav-item${pathname === "/" ? " active" : ""}`}>
                 <a className="nav-link" href="/">
                   HOME
                 </a>
               </li>
-              <li className="nav-item dropdown submenu">
+              <li className={`nav-item dropdown submenu${SHOP_PATHS.includes(pathname) ? " active" : ""}`}>
                 <a
                   className="nav-link dropdown-toggle"
                   href="/shop"
@@ -81,7 +101,7 @@ export function Navbar({ relative = false }: NavbarProps) {
                   </li>
                 </ul>
               </li>
-              <li className="nav-item dropdown submenu">
+              <li className={`nav-item dropdown submenu${DASHBOARD_PATHS.includes(pathname) ? " active" : ""}`}>
                 <a
                   className="nav-link dropdown-toggle"
                   href="/my-account"
