@@ -11,7 +11,7 @@ interface TimelineStep {
 
 const TIMELINE_STEPS: TimelineStep[] = [
   { icon: "fa-solid fa-box-open", title: "Order Delivered", date: "02 Oct 2024, 5:18 PM", desc: "Your order has been successfully delivered to your address." },
-  { icon: "fa-solid fa-truck", title: "Out for Delivery", date: "02 Oct 2024, 9:30 AM", desc: "Order handed over to Bookjar (Comilla) courier for delivery." },
+  { icon: "fa-solid fa-truck", title: "Out for Delivery", date: "02 Oct 2024, 9:30 AM", desc: "Order handed over to LightBooks (Comilla) courier for delivery." },
   { icon: "fa-solid fa-box", title: "Ready to Ship", date: "01 Oct 2024, 4:45 PM", desc: "Your order is packed and ready for shipment." },
   { icon: "fa-solid fa-clipboard-check", title: "Order Confirmed", date: "01 Oct 2024, 11:20 AM", desc: "Your order has been confirmed and is being prepared." },
   { icon: "fa-solid fa-cart-shopping", title: "Order Placed", date: "01 Oct 2024, 10:05 AM", desc: "Your order has been placed successfully." },

@@ -14,8 +14,9 @@ export function LoginPage() {
       </div>
       <div className="login-wrapper">
         <div className="login-left">
-          <a href="/" className="logo">
-            <img src="/img/home-two/logo-dark.svg" alt="" />
+          <a href="/" className="logo logo-lockup">
+            <img src="/icons/logo-icon.png" alt="" />
+            <span>LightBooks</span>
           </a>
           <h2 className="title">Login to Your Account</h2>
           <div className="sibtitle">Welcome Back! Select Method to login:</div>

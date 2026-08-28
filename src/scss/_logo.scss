@@ -1,0 +1,25 @@
+.logo-lockup {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+
+  img {
+    height: 22px;
+    width: auto;
+    flex-shrink: 0;
+    margin-top: -3px;
+  }
+
+  span {
+    font-family: "Open Sans", sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: #212833;
+    line-height: 1;
+  }
+}
+
+// Footer sits on a dark background — the wordmark needs to stay light.
+.footer-modern__logo.logo-lockup span {
+  color: #fff;
+}

@@ -10,8 +10,9 @@ export function Footer() {
       <div className="container">
         <div className="footer-modern__top wow fadeInUp" data-wow-delay="0.1s">
           <div className="footer-modern__brand">
-            <a href="/" className="footer-modern__logo">
-              <img src="/img/home-two/logo-dark.svg" alt="BookJar Logo" />
+            <a href="/" className="footer-modern__logo logo-lockup">
+              <img src="/icons/logo-icon.png" alt="" />
+              <span>LightBooks</span>
             </a>
             <p className="footer-modern__tagline">Discover worlds within pages. Your journey begins here.</p>
           </div>
@@ -150,7 +151,7 @@ export function Footer() {
                     <i className="fa-solid fa-envelope"></i>
                     <div>
                       <span>Email Us</span>
-                      <a href="mailto:hello@bookjar.com">hello@bookjar.com</a>
+                      <a href="mailto:hello@lightbooks.com">hello@lightbooks.com</a>
                     </div>
                   </div>
                   <div className="footer-modern__contact-item">
@@ -186,7 +187,7 @@ export function Footer() {
         <div className="footer-modern__bottom wow fadeInUp" data-wow-delay="0.6s">
           <div className="footer-modern__copyright">
             <p>
-              © 2026 <strong>BookJar</strong>. All Rights Reserved. Made with <i className="fa-solid fa-heart"></i> for book
+              © 2026 <strong>LightBooks</strong>. All Rights Reserved. Made with <i className="fa-solid fa-heart"></i> for book
               lovers.
             </p>
           </div>

@@ -9,10 +9,11 @@ export function RegistrationPage() {
     <div className="login-area registration-area">
       <div className="login-wrapper">
         <div className="login-left">
-          <a href="/" className="logo">
-            <img src="/img/home-two/logo-dark.svg" alt="" />
+          <a href="/" className="logo logo-lockup">
+            <img src="/icons/logo-icon.png" alt="" />
+            <span>LightBooks</span>
           </a>
-          <h2 className="title">Sign Up to Bookjar</h2>
+          <h2 className="title">Sign Up to LightBooks</h2>
           <div className="sibtitle">Create Your Account with Just Few Steps</div>
 
           <div className="social-links">
@@ -56,7 +57,7 @@ export function RegistrationPage() {
               </div>
             </div>
             <button type="submit" className="bj_theme_btn w-100 border-0">
-              Log In
+              Sign Up
             </button>
           </form>
           <div className="new-user">

@@ -20,19 +20,19 @@ export function TermsPage() {
                 &ldquo;Services&rdquo; means the services we provide, including our online bookstore, and the sale of
                 physical and digital books through our website;
               </li>
-              <li>&ldquo;Website&rdquo; means our website, BookJar;</li>
+              <li>&ldquo;Website&rdquo; means our website, LightBooks;</li>
               <li>&ldquo;User&rdquo; means anyone who uses our services, including general visitors to our website;</li>
               <li>&ldquo;You&rdquo; means the person bound by this Agreement.</li>
             </ul>
 
-            <h3>What BookJar offers</h3>
+            <h3>What LightBooks offers</h3>
             <p>
-              BookJar is an online bookstore offering a wide selection of physical and digital books across multiple
+              LightBooks is an online bookstore offering a wide selection of physical and digital books across multiple
               genres. We manage the full purchase experience directly on our website, including order processing,
               payment, and delivery of both printed and eBook titles.
             </p>
             <p>
-              BookJar provides customer support to anyone who purchases from our store. Support is available through
+              LightBooks provides customer support to anyone who purchases from our store. Support is available through
               our website&rsquo;s contact channels, and our support hours and policies may be updated from time to
               time.
             </p>
@@ -46,7 +46,7 @@ export function TermsPage() {
             <ul>
               <li>
                 You shall not violate any applicable export control or other laws of your jurisdiction, or this
-                agreement with BookJar.
+                agreement with LightBooks.
               </li>
               <li>
                 You must be of the minimum age required to enter into a contract in the region where you live, and in
@@ -66,17 +66,17 @@ export function TermsPage() {
               <li>Violate any applicable local, national, or international law.</li>
               <li>
                 Post or send any violent, threatening, pornographic, racist, hateful, or otherwise objectionable
-                content in the opinion of BookJar.
+                content in the opinion of LightBooks.
               </li>
               <li>
                 Violate anyone&rsquo;s intellectual property, defame anyone, impersonate anyone, or otherwise violate
                 the rights of a third party.
               </li>
               <li>
-                Attempt phishing, SQL injection, or otherwise compromise the security or integrity of the BookJar
+                Attempt phishing, SQL injection, or otherwise compromise the security or integrity of the LightBooks
                 site, service, or its users&rsquo; devices.
               </li>
-              <li>Do anything else that may bring BookJar into disrepute or violate anyone&rsquo;s rights.</li>
+              <li>Do anything else that may bring LightBooks into disrepute or violate anyone&rsquo;s rights.</li>
             </ul>
 
             <h3>Copyright</h3>
@@ -86,7 +86,7 @@ export function TermsPage() {
               permission.
             </p>
             <p>
-              BookJar must ensure that it has the right to use the content that its users post to its site. Such
+              LightBooks must ensure that it has the right to use the content that its users post to its site. Such
               content may include but is not limited to reviews, ratings, photos, and other materials. Whenever you
               submit content to our site, you agree that you grant us the non-exclusive, universal, perpetual, and
               irrevocable right to use, reproduce, and display that content in connection with our services. You

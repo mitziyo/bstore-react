@@ -15,8 +15,9 @@ export function ForgotPasswordPage() {
 
       <div className="login-wrapper">
         <div className="login-left">
-          <a href="/" className="logo">
-            <img src="/img/home-two/logo-dark.svg" alt="" />
+          <a href="/" className="logo logo-lockup">
+            <img src="/icons/logo-icon.png" alt="" />
+            <span>LightBooks</span>
           </a>
 
           <div className="forgot-icon-wrapper wow fadeInUp">

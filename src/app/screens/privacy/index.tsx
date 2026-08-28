@@ -9,18 +9,18 @@ export function PrivacyPolicyPage() {
       <div className="sec_padding bj_privacy_policy" style={{ backgroundColor: "#f5f5f5" }}>
         <div className="container">
           <div className="page-area">
-            <h3 className="pt-0">BookJar Privacy Policy &amp; Data Collection (GDPR) Disclosure</h3>
+            <h3 className="pt-0">LightBooks Privacy Policy &amp; Data Collection (GDPR) Disclosure</h3>
             <p>
               <strong>Last Revision Date: October 31, 2025</strong>
             </p>
             <p>
-              At BookJar, we respect and recognize our users&rsquo; right to privacy and their right to know how and
+              At LightBooks, we respect and recognize our users&rsquo; right to privacy and their right to know how and
               why we collect, use, protect, and disclose their personal information.
             </p>
 
             <h3 id="a-accountability">A. Accountability</h3>
             <p>
-              BookJar (&ldquo;BookJar&rdquo;, &ldquo;we&rdquo;, &ldquo;us&rdquo;, &ldquo;our&rdquo;) is an online
+              LightBooks (&ldquo;LightBooks&rdquo;, &ldquo;we&rdquo;, &ldquo;us&rdquo;, &ldquo;our&rdquo;) is an online
               bookstore that helps readers discover, purchase, and read physical and digital books. Our customers are
               readers of all backgrounds, many of whom are not familiar with the hows and whys of privacy rules.
             </p>
@@ -76,7 +76,7 @@ export function PrivacyPolicyPage() {
               us, or improve our products, services, and website.
             </p>
             <p>
-              By entering into a contract with BookJar (i.e. purchasing a book or subscription), you consent to our
+              By entering into a contract with LightBooks (i.e. purchasing a book or subscription), you consent to our
               collection and use of personal information as described in this policy. By browsing our website, you
               agree to our collection and use of personal and non-personal information arising from your use as
               described in this policy.
@@ -84,7 +84,7 @@ export function PrivacyPolicyPage() {
             <p>
               If you do not want us to collect or use your personal information, please do not browse our website or
               purchase our products or services. If you wish to discuss an acceptable alternative, you can contact us
-              at <a href="mailto:hello@bookjar.com">hello@bookjar.com</a>.
+              at <a href="mailto:hello@lightbooks.com">hello@lightbooks.com</a>.
             </p>
             <p>
               If you contact us via the forms on this website, you consent to our collection and use of the personal
@@ -95,12 +95,12 @@ export function PrivacyPolicyPage() {
 
             <h3 id="e-internal-access-to-personal-information">E. Internal Access to Personal Information</h3>
             <p>
-              Access to personal information is limited to BookJar employees who need it to provide our products and
+              Access to personal information is limited to LightBooks employees who need it to provide our products and
               services. Personal information provided to employees is limited to the information they need to do
               their jobs.
             </p>
             <p>
-              We may share personal information with companies affiliated with BookJar. If we do so, we will require
+              We may share personal information with companies affiliated with LightBooks. If we do so, we will require
               those companies to abide by this policy. Affiliates include our parent company and any subsidiaries,
               joint venture partners, and other companies under common control with us.
             </p>
@@ -112,12 +112,12 @@ export function PrivacyPolicyPage() {
 
             <h3 id="f-external-disclosure-of-personal-information">F. External Disclosure of Personal Information</h3>
             <p>
-              Except as disclosed in this policy, BookJar will not disclose personal information to third parties,
+              Except as disclosed in this policy, LightBooks will not disclose personal information to third parties,
               except where a reasonable person would expect such disclosure &mdash; for example, if we engage a third
               party to provide customer support.
             </p>
             <p>
-              BookJar may disclose personal information in response to a court order or when required by law
+              LightBooks may disclose personal information in response to a court order or when required by law
               enforcement. Unless prohibited by law, we will first attempt to inform customers that we have received
               an order or instruction to disclose personal information, so they can dispute it as they see fit.
             </p>
@@ -135,7 +135,7 @@ export function PrivacyPolicyPage() {
               information.
             </p>
             <p>
-              Please contact us at <a href="mailto:hello@bookjar.com">hello@bookjar.com</a> if you wish to have your
+              Please contact us at <a href="mailto:hello@lightbooks.com">hello@lightbooks.com</a> if you wish to have your
               personal information deleted from our records.
             </p>
 
@@ -168,13 +168,13 @@ export function PrivacyPolicyPage() {
             <p>You have the right to know your personal information in our records.</p>
             <p>
               If you would like a copy of your personal information, please contact us at{" "}
-              <a href="mailto:hello@bookjar.com">hello@bookjar.com</a>. If any of your personal information is
+              <a href="mailto:hello@lightbooks.com">hello@lightbooks.com</a>. If any of your personal information is
               inaccurate or incomplete, please let us know and we will correct it.
             </p>
 
             <h3 id="l-compliance">L. Compliance</h3>
             <p>
-              BookJar offers its products and services to readers around the world, and we have customers in many
+              LightBooks offers its products and services to readers around the world, and we have customers in many
               countries.
             </p>
             <p>
@@ -187,14 +187,14 @@ export function PrivacyPolicyPage() {
             <p>
               If you believe that we are not processing your personal information as required by the privacy
               legislation in your country, please first raise your concern to us at{" "}
-              <a href="mailto:hello@bookjar.com">hello@bookjar.com</a>.
+              <a href="mailto:hello@lightbooks.com">hello@lightbooks.com</a>.
             </p>
 
             <h3 id="m-privacy-compliance-officer">M. Privacy Compliance Officer</h3>
             <p>
-              BookJar has designated an appropriate officer to serve as its Privacy Compliance Officer, empowered to
+              LightBooks has designated an appropriate officer to serve as its Privacy Compliance Officer, empowered to
               ensure compliance with our obligations to keep personal information confidential. Contact us at{" "}
-              <a href="mailto:hello@bookjar.com">hello@bookjar.com</a>.
+              <a href="mailto:hello@lightbooks.com">hello@lightbooks.com</a>.
             </p>
 
             <h3 id="n-other-information-we-collect">N. Other Information We Collect</h3>
@@ -242,7 +242,7 @@ export function PrivacyPolicyPage() {
                 <strong>Other Service Providers</strong>
               </em>
             </p>
-            <p>In addition to Google, we work with a small number of trusted third parties who help us run BookJar:</p>
+            <p>In addition to Google, we work with a small number of trusted third parties who help us run LightBooks:</p>
             <ul>
               <li>Our web hosting provider, who stores our website and data securely.</li>
               <li>Our payment processor, who handles payment for orders placed on our website.</li>

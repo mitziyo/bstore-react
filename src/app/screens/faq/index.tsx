@@ -25,9 +25,9 @@ const CATEGORIES: FaqCategory[] = [
     items: [
       {
         id: "general1",
-        question: "What is Bookjar?",
+        question: "What is LightBooks?",
         answer:
-          "Bookjar is your one-stop destination for discovering, purchasing, and enjoying books. Whether you prefer physical copies or eBooks, we offer a vast collection across all genres including fiction, non-fiction, romance, thriller, biography, and more. Our mission is to bring the passion and love for reading books back to everyone.",
+          "LightBooks is your one-stop destination for discovering, purchasing, and enjoying books. Whether you prefer physical copies or eBooks, we offer a vast collection across all genres including fiction, non-fiction, romance, thriller, biography, and more. Our mission is to bring the passion and love for reading books back to everyone.",
       },
       {
         id: "general2",
@@ -46,7 +46,7 @@ const CATEGORIES: FaqCategory[] = [
         question: "How can I contact customer support?",
         answer: (
           <>
-            You can reach our customer support team through multiple channels: Email us at support@bookjar.com, call us at +61 (0) 3 8376 6284, or
+            You can reach our customer support team through multiple channels: Email us at support@lightbooks.com, call us at +61 (0) 3 8376 6284, or
             use the contact form on our <a href="/contact">Contact Us</a> page. Our support team is available Monday-Friday, 9am-6pm EST.
           </>
         ),
@@ -100,7 +100,7 @@ const CATEGORIES: FaqCategory[] = [
         id: "payment1",
         question: "What payment methods do you accept?",
         answer:
-          "We accept all major credit and debit cards (Visa, MasterCard, American Express, Discover), PayPal, Apple Pay, Google Pay, and Bookjar Gift Cards. All transactions are secured with SSL encryption for your safety.",
+          "We accept all major credit and debit cards (Visa, MasterCard, American Express, Discover), PayPal, Apple Pay, Google Pay, and LightBooks Gift Cards. All transactions are secured with SSL encryption for your safety.",
       },
       {
         id: "payment2",
@@ -154,7 +154,7 @@ const CATEGORIES: FaqCategory[] = [
         id: "ebooks4",
         question: "Do eBooks expire?",
         answer:
-          "No! Once you purchase an eBook, it's yours forever. You can read it as many times as you like, and it will always be available in your eBook library as long as you have an active Bookjar account.",
+          "No! Once you purchase an eBook, it's yours forever. You can read it as many times as you like, and it will always be available in your eBook library as long as you have an active LightBooks account.",
       },
     ],
   },

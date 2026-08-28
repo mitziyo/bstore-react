@@ -42,7 +42,7 @@ export function ShopNoSidebarPage() {
                     </label>
                   </div>
                   <div className="form-check form-check-inline mr-30">
-                    <input className="form-check-input" type="radio" name="inlineRadioOptions" id="category" value="option2" />
+                    <input className="form-check-input" type="radio" name="inlineRadioOptions" id="category" value="option3" />
                     <label className="form-check-label" htmlFor="category">
                       Category
                     </label>

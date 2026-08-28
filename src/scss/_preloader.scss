@@ -77,6 +77,13 @@
         font-weight: 700;
       }
     }
+    .preloader-logo {
+      width: 170px;
+      height: auto;
+      @media (max-width: 576px) {
+        width: 110px;
+      }
+    }
   }
 }
 

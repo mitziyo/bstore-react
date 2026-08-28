@@ -33,7 +33,7 @@ export function ProductSidebar() {
             <div className="icon">
               <img src="/img/arrow.png" alt="" />
             </div>
-            <span className="blue_text">FREE delivery</span>if you spend $25 on items shipped by Bookjar
+            <span className="blue_text">FREE delivery</span>if you spend $25 on items shipped by LightBooks
           </li>
           <li>
             <div className="icon">

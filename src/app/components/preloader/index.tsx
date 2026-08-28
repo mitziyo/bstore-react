@@ -41,10 +41,7 @@ export function Preloader() {
         <div className="round_spinner">
           <div className="spinner"></div>
           <div className="text">
-            <img src="/img/favicon.png" alt="Image" />
-            <h4>
-              <span>Bookjar</span>
-            </h4>
+            <img className="preloader-logo" src="/icons/logo-wordmark.svg" alt="LightBooks" />
           </div>
         </div>
         <h2 className="head">Did You Know?</h2>
