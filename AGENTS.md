@@ -234,6 +234,22 @@ Manba: rasmiy Vite hujjatlari ([vite.dev/guide/env-and-mode](https://vite.dev/gu
 
 ---
 
+## Backend integratsiyasi — schema/tur qatlami (2026-08-29, boshlangan)
+
+Foydalanuvchi so'rovi bilan (`C:\Users\User\Desktop\bstore-react` bo'ylab 4 ta parallel agent orqali to'liq backend-tayyorlik auditi o'tkazilgandan so'ng) `src/lib/types/`/`src/lib/enums/` — avval bo'sh bo'lgan stub fayllar — endi haqiqiy mazmun bilan to'ldirilmoqda. Bu ish **`C:\Users\User\Desktop\burak-react`** (xuddi shu skelet asosida qurilgan, to'liq ishlagan referens loyiha — restoran-do'koni, MUI+Redux+CRA) tuzilmasini o'rganib, LightBooks'ning kitob-do'koni sohasiga moslashtirish orqali qurilmoqda, shuningdek schema.org'ning rasmiy `Book`/`Offer` standarti va Google Books API'ning amaliy modeli bilan solishtirib tasdiqlangan (`bookFormat` schema.org'ning `BookFormatType` enumiga mos, `averageRating`/`ratingsCount` alohida-alohida — Google Books'ning `averageRating`/`ratingsCount` pattern'iga mos).
+
+**Auditda topilgan asosiy muammo**: 40+ sahifaning har biri "Kitob"/"Manzil"/"Buyurtma" uchun o'z mustaqil, bir-biriga mos kelmaydigan ma'lumot shaklini "o'ylab topgan" edi (masalan "Kitob" uchun 7 xil interfeys, "Manzil" uchun 4 xil, "Buyurtma" uchun 3 xil — hech biri umumiy tur ishlatmagan). Hech qanday global state (savat/foydalanuvchi sessiyasi) yo'q edi — `useBasket.ts`/`useGlobals.ts` butunlay bo'sh. Dinamik marshrutlash yo'q — hech bir sahifada `:id` parametri yo'q, shuning uchun masalan Author Single doim bir xil "Gustavo Carder"ni ko'rsatadi.
+
+**Hozircha yozilgan** (`src/lib/enums/`: `product.enum.ts`, `member.enum.ts`, `order.enum.ts`, `address.enum.ts`, `collection.enum.ts`, `view.enum.ts`; `src/lib/types/`: `product.ts`, `member.ts`, `order.ts`, `search.ts`, `common.ts`, `author.ts`, `address.ts`, `review.ts`, `collection.ts`):
+- `Product` (Kitob) — burak-react'ning `productStatus/productCollection/productSize/productVolume` (ovqat-do'koniga xos) o'rniga `bookStatus/genres[]/bookFormat` (kitobga xos, schema.org asosida); yangi maydonlar: `authorId, isbn, publisher, publishedDate, pageCount, language, averageRating, ratingsCount`
+- `Member` — burak-react'dagi bitta `memberNick`/`memberAddress` o'rniga `firstName/lastName` (UserProfile formasiga mos) va **manzil maydoni yo'q** (alohida `Address` turi orqali, chunki LightBooks'da butun Address Book funksiyasi bor)
+- `Order` — `OrderStatus` (PENDING/PROCESSING/COMPLETED/CANCELLED/REFUNDED, MyOrders sahifasida topilgan holatlarga mos) + `PaymentMethod` (auditda topilgan `payment_method`/`check_payment_method` nom-nomuvofiqligini birlashtiradi)
+- **Yangi, faqat LightBooks'ga xos** (burak-react'da yo'q edi): `Author` (bio, statistikalar — copiesSold/bookCount/awardCount/followerCount), `Address` (Address Book uchun, `AddressType` HOME/OFFICE bilan), `Review`, `Collection` (Book List, `CollectionVisibility` PUBLIC/PRIVATE bilan)
+
+**Muhim texnik moslashtirish**: `tsconfig.app.json`'da `erasableSyntaxOnly` + `verbatimModuleSyntax` yoqilgan (burak-react'da yo'q edi) — shuning uchun haqiqiy `enum` o'rniga `as const` obyekt + hosila tur pattern ishlatildi, va faqat-tur importlar `import type` bilan belgilandi.
+
+**Keyingi bosqichlar** (burak-react patternidan, lekin Bootstrap/SCSS saqlanadi — MUI yo'q; Redux Toolkit ixtiyoriy, ehtimol oddiy `useState`/Context yetarli): 2) Service qatlami (`src/app/services/ProductService.ts` va h.k., `axios` bilan, hozircha real backend yo'qligi sababli mock ma'lumot qaytaradi lekin real API chaqiruv shaklida — `async`, `Promise`), 3) Global state (`useBasket`/`useGlobals`/`ContextProvider`, `localStorage`-asosida savat), 4) Dinamik marshrutlash (`:id` parametrlari), 5) Formalarni ulash.
+
 ## Kelajakdagi backend integratsiyasi uchun eslatmalar
 
 Bu bo'lim hozir amalga oshirilmaydigan, lekin backend/`services/` bosqichida hisobga olinishi kerak bo'lgan qarorlarni saqlaydi (foydalanuvchi "saqlab qo'y" deb boshlagan xabarlar shu yerga yoziladi).
