@@ -57,7 +57,7 @@ export function CheckoutForm() {
                 <span className="checkout-form__text">
                   New user? <a href="/registration">Create an account</a>
                 </span>
-                <a href="#" className="checkout-form__link">
+                <a href="/forgot-password" className="checkout-form__link">
                   Forgot password?
                 </a>
               </div>
@@ -77,24 +77,24 @@ export function CheckoutForm() {
           </div>
         </div>
         <div className="checkout-card__body">
-          <div className="address-type-toggle">
-            <label className="address-type">
-              <input type="radio" name="address_type" value="home" defaultChecked />
-              <div className="address-type__card">
-                <i className="fa-solid fa-house"></i>
-                <span>Home</span>
-              </div>
-            </label>
-            <label className="address-type">
-              <input type="radio" name="address_type" value="office" />
-              <div className="address-type__card">
-                <i className="fa-solid fa-building"></i>
-                <span>Office</span>
-              </div>
-            </label>
-          </div>
-
           <form className="checkout-form" action="#" method="post">
+            <div className="address-type-toggle">
+              <label className="address-type">
+                <input type="radio" name="address_type" value="home" defaultChecked />
+                <div className="address-type__card">
+                  <i className="fa-solid fa-house"></i>
+                  <span>Home</span>
+                </div>
+              </label>
+              <label className="address-type">
+                <input type="radio" name="address_type" value="office" />
+                <div className="address-type__card">
+                  <i className="fa-solid fa-building"></i>
+                  <span>Office</span>
+                </div>
+              </label>
+            </div>
+
             <div className="row gy-3">
               <div className="col-md-12">
                 <div className="form-floating-group">
@@ -159,7 +159,7 @@ export function CheckoutForm() {
               </div>
               <div className="col-md-12">
                 <div className="form-floating-group">
-                  <textarea className="form-floating-group__input" id="address" placeholder=" "></textarea>
+                  <textarea className="form-floating-group__input" id="address" placeholder=" " required></textarea>
                   <label className="form-floating-group__label" htmlFor="address">
                     Full Address *
                   </label>

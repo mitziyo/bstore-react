@@ -7,7 +7,7 @@ export function ContactForm() {
     <section className="contact-area">
       <div className="contact-map">
         <iframe
-          src="https://maps.google.com/maps?q=manhatan&t=&z=13&ie=UTF8&iwloc=&output=embed"
+          src="https://maps.google.com/maps?q=6-24+Goejeong-dong,+Seo-gu,+Daejeon&t=&z=15&ie=UTF8&iwloc=&output=embed"
           style={{ border: 0 }}
           allowFullScreen
         ></iframe>
