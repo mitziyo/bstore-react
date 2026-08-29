@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 interface BoughtTogetherItem {
   id: string;
   image: string;
@@ -5,17 +7,30 @@ interface BoughtTogetherItem {
   date: string;
   pages: string;
   rating: string;
-  original: string;
-  price: string;
+  original: number;
+  price: number;
 }
 
 const ITEMS: BoughtTogetherItem[] = [
-  { id: "fbt-box-1", image: "/img/home/book5.jpg", title: "The Sun And The Star", date: "Dec 2019", pages: "77 pages", rating: "4.7", original: "410", price: "$100" },
-  { id: "fbt-box-2", image: "/img/home/book6.jpg", title: "The Most Fun", date: "Oct 2024", pages: "55 pages", rating: "4.7", original: "410", price: "$100" },
-  { id: "fbt-box-3", image: "/img/home/book7.jpg", title: "The Magic and Fear", date: "Jan 2010", pages: "27 pages", rating: "4.7", original: "410", price: "$100" },
+  { id: "fbt-box-1", image: "/img/home/book5.jpg", title: "The Sun And The Star", date: "Dec 2019", pages: "77 pages", rating: "4.7", original: 24, price: 12 },
+  { id: "fbt-box-2", image: "/img/home/book6.jpg", title: "The Most Fun", date: "Oct 2024", pages: "55 pages", rating: "4.7", original: 20, price: 10 },
+  { id: "fbt-box-3", image: "/img/home/book7.jpg", title: "The Magic and Fear", date: "Jan 2010", pages: "27 pages", rating: "4.7", original: 16, price: 8 },
 ];
 
 export function FrequentlyBought() {
+  const [selected, setSelected] = useState<Record<string, boolean>>(
+    Object.fromEntries(ITEMS.map((item) => [item.id, true])),
+  );
+
+  function toggle(id: string) {
+    setSelected((prev) => ({ ...prev, [id]: !prev[id] }));
+  }
+
+  const selectedItems = ITEMS.filter((item) => selected[item.id]);
+  const totalPrice = selectedItems.reduce((sum, item) => sum + item.price, 0);
+  const totalOriginal = selectedItems.reduce((sum, item) => sum + item.original, 0);
+  const totalSaved = totalOriginal - totalPrice;
+
   return (
     <section className="bj_frequently_bought_area sec_padding pt-0 product-single-page" style={{ backgroundColor: "#f5f5f5" }}>
       <div className="container">
@@ -28,7 +43,13 @@ export function FrequentlyBought() {
             <div className="col-xl-3 col-lg-4 col-sm-6" key={item.id}>
               <div className="bj_new_pr_item mb-0">
                 <label className="select-box" htmlFor={item.id}>
-                  <input type="checkbox" className="form-check-input" id={item.id} defaultChecked />
+                  <input
+                    type="checkbox"
+                    className="form-check-input"
+                    id={item.id}
+                    checked={selected[item.id]}
+                    onChange={() => toggle(item.id)}
+                  />
                 </label>
                 <a href="#" className="img">
                   <img src={item.image} alt={item.title} />
@@ -50,10 +71,10 @@ export function FrequentlyBought() {
                       <option>paperback</option>
                     </select>
                     <div className="book_price mt-2">
-                      <del className="me-2">{item.original}</del> {item.price}
+                      <del className="me-2">${item.original}</del> ${item.price}
                     </div>
                   </div>
-                  <button type="button" className="bj_theme_btn strock_btn add-to-cart-automated" data-name={item.title} data-price="125" data-img={item.image}>
+                  <button type="button" className="bj_theme_btn strock_btn add-to-cart-automated" data-name={item.title} data-price={item.price} data-img={item.image}>
                     Add To Cart
                   </button>
                 </div>
@@ -63,9 +84,9 @@ export function FrequentlyBought() {
           <div className="col-xl-3 col-lg-12 col-sm-6">
             <div className="added_cart_total">
               <h4 className="mt-auto">Total</h4>
-              <div className="price">$265</div>
-              <del>$740</del>
-              <div>$375.00 saved</div>
+              <div className="price">${totalPrice}</div>
+              <del>${totalOriginal}</del>
+              <div>${totalSaved.toFixed(2)} saved</div>
               <a href="#" className="bj_theme_btn w-100 mt-auto">
                 Add selected to cart
               </a>

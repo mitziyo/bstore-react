@@ -13,7 +13,7 @@ export function GiftCheckoutSidebar() {
           <div className="cart_checkout_body">
             <div className="checkout_item">
               <span>Subtotal</span>
-              <span>1,243 Tk</span>
+              <span>$73.96</span>
             </div>
             <div className="checkout_item">
               <span>
@@ -23,20 +23,20 @@ export function GiftCheckoutSidebar() {
                   className="tooltip-btn"
                   data-bs-toggle="tooltip"
                   data-bs-placement="top"
-                  title="Minimum delivery charge will start from Rs.48. However, delivery charges will vary depending on the number, price, weight and location of your product."
+                  title="Minimum delivery charge will start from $5.99. However, delivery charges will vary depending on the number, price, weight and location of your product."
                 >
                   <i className="icon_info_alt"></i>
                 </button>
               </span>
-              <span>57 Tk</span>
+              <span>$5.99</span>
             </div>
             <div className="checkout_item">
               <span>Total</span>
-              <span>777 Tk</span>
+              <span>$79.95</span>
             </div>
             <div className="checkout_item strong">
               <span>Payable Total</span>
-              <span>1,243 Tk</span>
+              <span>$79.95</span>
             </div>
           </div>
         </div>

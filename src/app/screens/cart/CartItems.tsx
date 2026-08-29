@@ -8,10 +8,10 @@ interface CartLine {
 }
 
 const CART_ITEMS: CartLine[] = [
-  { id: "c1", img: "/img/cart/best_book1.jpg", name: "The light we can't see", author: "Anthony Doerr", priceDiscount: "1,243 Tk", priceMrp: "1,910 Tk." },
-  { id: "c2", img: "/img/cart/best_book2.jpg", name: "The light we can't see", author: "Anthony Doerr", priceDiscount: "1,243 Tk", priceMrp: "1,910 Tk." },
-  { id: "c3", img: "/img/cart/best_book3.jpg", name: "The light we can't see", author: "Anthony Doerr", priceDiscount: "1,243 Tk", priceMrp: "1,910 Tk." },
-  { id: "c4", img: "/img/cart/best_book4.jpg", name: "The light we can't see", author: "Anthony Doerr", priceDiscount: "1,243 Tk", priceMrp: "1,910 Tk." },
+  { id: "c1", img: "/img/cart/best_book1.jpg", name: "The light we can't see", author: "Anthony Doerr", priceDiscount: "$24.99", priceMrp: "$34.99" },
+  { id: "c2", img: "/img/cart/best_book2.jpg", name: "The light we can't see", author: "Anthony Doerr", priceDiscount: "$19.99", priceMrp: "$27.99" },
+  { id: "c3", img: "/img/cart/best_book3.jpg", name: "The light we can't see", author: "Anthony Doerr", priceDiscount: "$15.99", priceMrp: "$22.99" },
+  { id: "c4", img: "/img/cart/best_book4.jpg", name: "The light we can't see", author: "Anthony Doerr", priceDiscount: "$12.99", priceMrp: "$18.99" },
 ];
 
 export function CartItems() {
@@ -25,8 +25,8 @@ export function CartItems() {
           </label>
         </div>
         <div>
-          <span>Muaz</span>, your total: <span className="cart_total_mrp">1,910 Tk.</span>{" "}
-          <span className="cart_total_price">1,243 Tk</span>
+          <span>Muaz</span>, your total: <span className="cart_total_mrp">$104.96</span>{" "}
+          <span className="cart_total_price">$73.96</span>
         </div>
       </div>
       <div className="cart_item_wrapper">

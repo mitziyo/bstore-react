@@ -69,7 +69,7 @@ export function PaymentMethodCard({ footerAlignClass = "text-end" }: PaymentMeth
       <hr />
       <div className={`payment_method_footer ${footerAlignClass}`}>
         <a href="#" className="bj_theme_btn">
-          Confirm Order <span className="price ms-1">1,585 Tk</span>
+          Confirm Order <span className="price ms-1">$79.95</span>
         </a>
       </div>
     </div>

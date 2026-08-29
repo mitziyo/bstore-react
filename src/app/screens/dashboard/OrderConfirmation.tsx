@@ -141,19 +141,19 @@ export function OrderConfirmation() {
                 <div className="cart_checkout_body">
                   <div className="checkout_item">
                     <span>Subtotal</span>
-                    <span>1,243 Tk</span>
+                    <span>$73.96</span>
                   </div>
                   <div className="checkout_item">
                     <span>Shipping</span>
-                    <span>57 Tk</span>
+                    <span>$5.99</span>
                   </div>
                   <div className="checkout_item">
                     <span>Total</span>
-                    <span>777 Tk</span>
+                    <span>$79.95</span>
                   </div>
                   <div className="checkout_item strong">
                     <span>Payable Total</span>
-                    <span>1,243 Tk</span>
+                    <span>$79.95</span>
                   </div>
                 </div>
               </div>
