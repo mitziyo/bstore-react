@@ -8,13 +8,14 @@ interface ShopProduct {
   price: number;
   mrp: number;
   rating: number;
+  views: number;
 }
 
 const PRODUCTS: ShopProduct[] = [
-  { name: "A Storytelling Workbook", img: "/img/author_book1.jpg", price: 25, mrp: 120, rating: 4.9 },
-  { name: "The Ruthless ..", img: "/img/author_book2.jpg", price: 25, mrp: 120, rating: 4.9 },
-  { name: "The Psychology of..", img: "/img/author_book3.jpg", price: 25, mrp: 120, rating: 4.9 },
-  { name: "Your Next Five Moves", img: "/img/author_book4.jpg", price: 25, mrp: 120, rating: 4.9 },
+  { name: "A Storytelling Workbook", img: "/img/author_book1.jpg", price: 25, mrp: 120, rating: 4.9, views: 1221 },
+  { name: "The Ruthless ..", img: "/img/author_book2.jpg", price: 25, mrp: 120, rating: 4.9, views: 843 },
+  { name: "The Psychology of..", img: "/img/author_book3.jpg", price: 25, mrp: 120, rating: 4.9, views: 2015 },
+  { name: "Your Next Five Moves", img: "/img/author_book4.jpg", price: 25, mrp: 120, rating: 4.9, views: 567 },
 ];
 
 const GRID_SIZE = 12;
@@ -88,15 +89,10 @@ export function ShopPage() {
                               <i className="arrow_move"></i>
                             </button>
                           </span>
-                          <a
-                            className="quick_button"
-                            href="#"
-                            data-bs-toggle="tooltip"
-                            data-bs-placement="right"
-                            title="Compare"
-                          >
-                            <i className="ti-control-shuffle"></i>
-                          </a>
+                        </div>
+                        <div className="view-badge" data-bs-toggle="tooltip" title="Views">
+                          <i className="fa-regular fa-eye"></i>
+                          {product.views.toLocaleString()}
                         </div>
                         <button
                           type="button"

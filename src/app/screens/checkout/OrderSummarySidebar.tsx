@@ -1,4 +1,14 @@
+import { useState } from "react";
+
+const SUBTOTAL = 59.97;
+const SHIPPING = 5.0;
+const TAX = 4.5;
+const PROMO_DISCOUNT = 15.0;
+
 export function OrderSummarySidebar() {
+  const [promoApplied, setPromoApplied] = useState(false);
+  const total = SUBTOTAL + SHIPPING + TAX - (promoApplied ? PROMO_DISCOUNT : 0);
+
   return (
     <div className="col-lg-5">
       <div className="checkout-sidebar">
@@ -12,7 +22,7 @@ export function OrderSummarySidebar() {
           <div className="order-summary__body">
             <div className="summary-row">
               <span>Subtotal (3 items)</span>
-              <span>$59.97</span>
+              <span>${SUBTOTAL.toFixed(2)}</span>
             </div>
             <div className="summary-row">
               <span>
@@ -21,22 +31,24 @@ export function OrderSummarySidebar() {
                   <i className="fa-solid fa-circle-info"></i>
                 </button>
               </span>
-              <span>$5.00</span>
+              <span>${SHIPPING.toFixed(2)}</span>
             </div>
             <div className="summary-row">
               <span>Tax</span>
-              <span>$4.50</span>
+              <span>${TAX.toFixed(2)}</span>
             </div>
-            <div className="summary-row summary-row--discount">
-              <span>
-                <i className="fa-solid fa-tag"></i>
-                Promo Applied
-              </span>
-              <span>-$15.00</span>
-            </div>
+            {promoApplied && (
+              <div className="summary-row summary-row--discount">
+                <span>
+                  <i className="fa-solid fa-tag"></i>
+                  Promo Applied
+                </span>
+                <span>-${PROMO_DISCOUNT.toFixed(2)}</span>
+              </div>
+            )}
             <div className="summary-row summary-row--total">
               <span>Total</span>
-              <span>$54.47</span>
+              <span>${total.toFixed(2)}</span>
             </div>
           </div>
         </div>
@@ -50,16 +62,25 @@ export function OrderSummarySidebar() {
             <i className="fa-solid fa-chevron-down promo-toggle__arrow"></i>
           </button>
           <div className="collapse" id="promoCollapse">
-            <div className="promo-form">
-              <input type="text" className="form-control" placeholder="Enter code" />
-              <button className="promo-apply">Apply</button>
-            </div>
-          </div>
-          <div className="promo-success">
-            <i className="fa-solid fa-circle-check"></i>
-            <span>
-              <strong>SAVE15</strong> applied — You're saving $15.00!
-            </span>
+            {promoApplied ? (
+              <div className="promo-success">
+                <i className="fa-solid fa-circle-check"></i>
+                <span>
+                  <strong>SAVE15</strong> applied — You&rsquo;re saving ${PROMO_DISCOUNT.toFixed(2)}!
+                </span>
+              </div>
+            ) : (
+              <div className="promo-form">
+                <input type="text" className="form-control" placeholder="Enter code" />
+                <button
+                  type="button"
+                  className="promo-apply"
+                  onClick={() => setPromoApplied(true)}
+                >
+                  Apply
+                </button>
+              </div>
+            )}
           </div>
         </div>
 

@@ -4,13 +4,14 @@ interface Product {
   img: string;
   price: number;
   rating: number;
+  views: number;
 }
 
 const PRODUCTS: Record<string, Product> = {
-  enemy: { id: "enemy", name: "Enemy – Jake Gyllenhaal", img: "/img/home-two/choice1.png", price: 25, rating: 1221 },
-  knowledge: { id: "knowledge", name: "Knowledge of Earth", img: "/img/home-two/choice2.png", price: 25, rating: 1221 },
-  cover: { id: "cover", name: "Book Cover Mockup", img: "/img/home-two/choice3.jpg", price: 35, rating: 1220 },
-  business: { id: "business", name: "Create Your Own Business", img: "/img/home-two/choice4.jpg", price: 25, rating: 1221 },
+  enemy: { id: "enemy", name: "Enemy – Jake Gyllenhaal", img: "/img/home-two/choice1.png", price: 25, rating: 1221, views: 1221 },
+  knowledge: { id: "knowledge", name: "Knowledge of Earth", img: "/img/home-two/choice2.png", price: 25, rating: 1221, views: 954 },
+  cover: { id: "cover", name: "Book Cover Mockup", img: "/img/home-two/choice3.jpg", price: 35, rating: 1220, views: 1602 },
+  business: { id: "business", name: "Create Your Own Business", img: "/img/home-two/choice4.jpg", price: 25, rating: 1221, views: 711 },
 };
 
 const TABS = [
@@ -36,9 +37,10 @@ function ProductCard({ product }: { product: Product }) {
                 <i className="arrow_move"></i>
               </button>
             </span>
-            <a className="quick_button" href="#" data-bs-toggle="tooltip" data-bs-placement="right" title="Compare">
-              <i className="ti-control-shuffle"></i>
-            </a>
+          </div>
+          <div className="view-badge" data-bs-toggle="tooltip" title="Views">
+            <i className="fa-regular fa-eye"></i>
+            {product.views.toLocaleString()}
           </div>
           <button
             type="button"

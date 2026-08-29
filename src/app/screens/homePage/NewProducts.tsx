@@ -6,17 +6,18 @@ interface NewProduct {
   img: string;
   price: number;
   rating: number;
+  views: number;
   author: string;
   tags: string[];
 }
 
 const PRODUCTS: NewProduct[] = [
-  { id: "n1", name: "A Storytelling Workbook", img: "/img/home-two/product-filter/n_pr_img1.jpg", price: 25, rating: 1221, author: "SERO GLAN", tags: ["bio", "kid"] },
-  { id: "n2", name: "The Psychology of..", img: "/img/home-two/product-filter/n_pr_img2.jpg", price: 25, rating: 1221, author: "Morgan Housel", tags: ["bio", "drama"] },
-  { id: "n3", name: "Your Next Five Moves", img: "/img/home-two/product-filter/n_pr_img3.jpg", price: 25, rating: 1221, author: "Patrick Bet-David", tags: ["cook", "romance"] },
-  { id: "n4", name: "The Ruthless ..", img: "/img/home-two/product-filter/n_pr_img4.jpg", price: 55, rating: 1221, author: "John Mark Comer", tags: ["cook", "romance", "drama"] },
-  { id: "n5", name: "There was a Country", img: "/img/home-two/product-filter/n_pr_img5.jpg", price: 15, rating: 1220, author: "Patrick Bet-David", tags: ["cook", "romance", "kid"] },
-  { id: "n6", name: "The Burden is Light", img: "/img/home-two/product-filter/n_pr_img6.jpg", price: 55, rating: 1221, author: "Jon Tyson", tags: ["cook", "romance"] },
+  { id: "n1", name: "A Storytelling Workbook", img: "/img/home-two/product-filter/n_pr_img1.jpg", price: 25, rating: 1221, views: 1221, author: "SERO GLAN", tags: ["bio", "kid"] },
+  { id: "n2", name: "The Psychology of..", img: "/img/home-two/product-filter/n_pr_img2.jpg", price: 25, rating: 1221, views: 946, author: "Morgan Housel", tags: ["bio", "drama"] },
+  { id: "n3", name: "Your Next Five Moves", img: "/img/home-two/product-filter/n_pr_img3.jpg", price: 25, rating: 1221, views: 1780, author: "Patrick Bet-David", tags: ["cook", "romance"] },
+  { id: "n4", name: "The Ruthless ..", img: "/img/home-two/product-filter/n_pr_img4.jpg", price: 55, rating: 1221, views: 632, author: "John Mark Comer", tags: ["cook", "romance", "drama"] },
+  { id: "n5", name: "There was a Country", img: "/img/home-two/product-filter/n_pr_img5.jpg", price: 15, rating: 1220, views: 2104, author: "Patrick Bet-David", tags: ["cook", "romance", "kid"] },
+  { id: "n6", name: "The Burden is Light", img: "/img/home-two/product-filter/n_pr_img6.jpg", price: 55, rating: 1221, views: 789, author: "Jon Tyson", tags: ["cook", "romance"] },
 ];
 
 const FILTERS = [
@@ -69,9 +70,10 @@ export function NewProducts() {
                               <i className="arrow_move"></i>
                             </button>
                           </span>
-                          <a className="quick_button" href="#" data-bs-toggle="tooltip" data-bs-placement="right" title="Compare">
-                            <i className="ti-control-shuffle"></i>
-                          </a>
+                        </div>
+                        <div className="view-badge" data-bs-toggle="tooltip" title="Views">
+                          <i className="fa-regular fa-eye"></i>
+                          {product.views.toLocaleString()}
                         </div>
                         <button
                           type="button"

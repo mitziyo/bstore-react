@@ -33,7 +33,6 @@ import { LoginPage } from "./screens/auth/Login";
 import { RegistrationPage } from "./screens/auth/Registration";
 import { ForgotPasswordPage } from "./screens/auth/ForgotPassword";
 import { FaqPage } from "./screens/faq";
-import { ComparePage } from "./screens/compare";
 import { AboutPage } from "./screens/about";
 import { ContactPage } from "./screens/contact";
 import { TermsPage } from "./screens/terms";
@@ -88,7 +87,6 @@ function AppRoutes() {
           <Route path="/checkout-gift" element={<CheckoutGiftPage />} />
           <Route path="/checkout-login" element={<CheckoutLoginPage />} />
           <Route path="/faq" element={<FaqPage />} />
-          <Route path="/compare" element={<ComparePage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/terms-condition" element={<TermsPage />} />

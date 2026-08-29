@@ -6,15 +6,16 @@ interface AuthorBook {
   img: string;
   price: number;
   rating: number;
+  views: number;
   author: string;
   tags: string[];
 }
 
 const BOOKS: AuthorBook[] = [
-  { id: "a1", name: "A Storytelling Workbook", img: "/img/author_book1.jpg", price: 25, rating: 1221, author: "MUAZ BK", tags: ["bio", "kid"] },
-  { id: "a2", name: "The Psychology of..", img: "/img/author_book2.jpg", price: 25, rating: 1221, author: "Morgan Housel", tags: ["bio", "drama"] },
-  { id: "a3", name: "Your Next Five Moves", img: "/img/author_book3.jpg", price: 25, rating: 1221, author: "Patrick Bet-David", tags: ["cook", "romance"] },
-  { id: "a4", name: "The Ruthless ..", img: "/img/author_book4.jpg", price: 55, rating: 1221, author: "John Mark Comer", tags: ["cook", "romance", "drama"] },
+  { id: "a1", name: "A Storytelling Workbook", img: "/img/author_book1.jpg", price: 25, rating: 1221, views: 1221, author: "MUAZ BK", tags: ["bio", "kid"] },
+  { id: "a2", name: "The Psychology of..", img: "/img/author_book2.jpg", price: 25, rating: 1221, views: 946, author: "Morgan Housel", tags: ["bio", "drama"] },
+  { id: "a3", name: "Your Next Five Moves", img: "/img/author_book3.jpg", price: 25, rating: 1221, views: 1780, author: "Patrick Bet-David", tags: ["cook", "romance"] },
+  { id: "a4", name: "The Ruthless ..", img: "/img/author_book4.jpg", price: 55, rating: 1221, views: 632, author: "John Mark Comer", tags: ["cook", "romance", "drama"] },
 ];
 
 const FILTERS = [
@@ -65,9 +66,10 @@ export function AuthorBooks() {
                           <i className="arrow_move"></i>
                         </button>
                       </span>
-                      <a className="quick_button" href="/compare" data-bs-toggle="tooltip" data-bs-placement="right" title="Compare">
-                        <i className="ti-control-shuffle"></i>
-                      </a>
+                    </div>
+                    <div className="view-badge" data-bs-toggle="tooltip" title="Views">
+                      <i className="fa-regular fa-eye"></i>
+                      {book.views.toLocaleString()}
                     </div>
                     <button
                       type="button"

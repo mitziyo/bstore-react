@@ -9,12 +9,13 @@ interface ListBook {
   author: string;
   price: number;
   rating: number;
+  views: number;
 }
 
 const LIST_BOOKS: ListBook[] = [
-  { id: "b1", image: "/img/home-two/choice2.png", title: "Enemy – Jake Gyllenhaal", author: "SERO GLAN", price: 25, rating: 1221 },
-  { id: "b2", image: "/img/home-two/choice3.jpg", title: "Enemy – Jake Gyllenhaal", author: "SERO GLAN", price: 25, rating: 1221 },
-  { id: "b3", image: "/img/home-two/choice4.jpg", title: "Enemy – Jake Gyllenhaal", author: "SERO GLAN", price: 25, rating: 1221 },
+  { id: "b1", image: "/img/home-two/choice2.png", title: "Enemy – Jake Gyllenhaal", author: "SERO GLAN", price: 25, rating: 1221, views: 1221 },
+  { id: "b2", image: "/img/home-two/choice3.jpg", title: "Enemy – Jake Gyllenhaal", author: "SERO GLAN", price: 25, rating: 1221, views: 954 },
+  { id: "b3", image: "/img/home-two/choice4.jpg", title: "Enemy – Jake Gyllenhaal", author: "SERO GLAN", price: 25, rating: 1221, views: 1602 },
 ];
 
 export function MyListDetails() {
@@ -51,9 +52,10 @@ export function MyListDetails() {
                                 <i className="arrow_move"></i>
                               </button>
                             </span>
-                            <a className="quick_button" href="#" data-bs-toggle="tooltip" data-bs-placement="right" title="Compare">
-                              <i className="ti-control-shuffle"></i>
-                            </a>
+                          </div>
+                          <div className="view-badge" data-bs-toggle="tooltip" title="Views">
+                            <i className="fa-regular fa-eye"></i>
+                            {book.views.toLocaleString()}
                           </div>
                           <button
                             type="button"

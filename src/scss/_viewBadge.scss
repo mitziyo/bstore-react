@@ -1,0 +1,20 @@
+.view-badge {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 9px;
+  border-radius: 20px;
+  background: rgba(33, 40, 51, 0.65);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1;
+
+  i {
+    font-size: 12px;
+  }
+}
