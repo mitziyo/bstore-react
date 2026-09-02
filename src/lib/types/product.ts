@@ -3,25 +3,26 @@ import { BookFormat, BookGenre, BookStatus } from "../enums/product.enum";
 export interface Product {
   _id: string;
   bookStatus: BookStatus;
-  genres: BookGenre[];
+  bookGenre: BookGenre;
   bookFormat: BookFormat;
-  title: string;
-  authorId: string;
+  bookName: string;
+  bookPrice: number;
+  bookLeftCount: number;
+  bookDesc?: string;
+  bookImages: string[];
+  bookViews: number;
+  createdAt: Date;
+  updatedAt: Date;
+  // Backend hali qo'llab-quvvatlamaydi (Author/Review funksiyasi qurilganda to'ldiriladi):
+  authorId?: string;
   isbn?: string;
   publisher?: string;
   publishedDate?: Date;
   pageCount?: number;
   language?: string;
-  price: number;
   originalPrice?: number;
-  stockCount: number;
-  description?: string;
-  images: string[];
-  averageRating: number;
-  ratingsCount: number;
-  viewCount: number;
-  createdAt: Date;
-  updatedAt: Date;
+  averageRating?: number;
+  ratingsCount?: number;
 }
 
 export interface ProductInquiry {

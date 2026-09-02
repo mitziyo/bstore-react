@@ -3,7 +3,8 @@
 // ergonomics (`BookStatus.ACTIVE`), fully erasable at compile time.
 
 export const BookStatus = {
-  ACTIVE: "ACTIVE",
+  PAUSE: "PAUSE",
+  PROCESS: "PROCESS",
   DELETE: "DELETE",
 } as const;
 export type BookStatus = (typeof BookStatus)[keyof typeof BookStatus];
