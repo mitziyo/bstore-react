@@ -12,16 +12,11 @@ export const BookGenre = {
   FICTION: "FICTION",
   NON_FICTION: "NON_FICTION",
   BIOGRAPHY: "BIOGRAPHY",
-  MYSTERY: "MYSTERY",
   THRILLER: "THRILLER",
-  DRAMA: "DRAMA",
   ROMANCE: "ROMANCE",
   CHILDREN: "CHILDREN",
-  COOKBOOK: "COOKBOOK",
   HISTORY: "HISTORY",
-  SELF_HELP: "SELF_HELP",
   SCI_FI: "SCI_FI",
-  UNCATEGORIZED: "UNCATEGORIZED",
 } as const;
 export type BookGenre = (typeof BookGenre)[keyof typeof BookGenre];
 
