@@ -86,7 +86,7 @@ function AppRoutes() {
           <Route path="/order-confrmation" element={<OrderConfirmation />} />
           <Route path="/my-list-create" element={<MyListCreate />} />
           <Route path="/my-list-details" element={<MyListDetails />} />
-          <Route path="/product-single" element={<ProductSinglePage />} />
+          <Route path="/book/:id" element={<ProductSinglePage />} />
           <Route path="/shop-no-sidebar" element={<ShopNoSidebarPage />} />
           <Route path="/cart-guest" element={<CartGuestPage />} />
           <Route path="/checkout-gift" element={<CheckoutGiftPage />} />

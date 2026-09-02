@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { serverApi } from "../../../lib/config";
 import type { Product } from "../../../lib/types/product";
 
@@ -43,7 +44,7 @@ export function BestBooks({ books }: { books: Product[] }) {
                         <span className="category">{book.bookGenre}</span>
                       </div>
                       <h3 className="best-book-card__title">
-                        <a href="/product-single">{book.bookName}</a>
+                        <Link to={`/book/${book._id}`}>{book.bookName}</Link>
                       </h3>
 
                       <div className="best-book-card__footer">

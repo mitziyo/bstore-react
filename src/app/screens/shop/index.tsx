@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import type { FormEvent } from "react";
-import { useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import "../../../scss/shop/shop.scss";
 import { Breadcrumb } from "./Breadcrumb";
 import { ShopSidebar } from "./ShopSidebar";
@@ -132,9 +132,9 @@ export function ShopPage() {
                             </button>
                           </div>
                           <div className="bj_new_pr_content">
-                            <a href="/product-single">
+                            <Link to={`/book/${book._id}`}>
                               <h4 className="bj_new_pr_title">{book.bookName}</h4>
-                            </a>
+                            </Link>
                             <div className="bj_pr_meta d-flex">
                               <div className="book_price">${book.bookPrice}</div>
                             </div>
