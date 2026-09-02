@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useGlobals } from "../../hooks/useGlobals";
+import MemberService from "../../services/MemberService";
 
 interface NavbarProps {
   relative?: boolean;
@@ -27,10 +28,21 @@ const DASHBOARD_PATHS = [
 
 export function Navbar({ relative = false }: NavbarProps) {
   const { pathname } = useLocation();
-  const { basket } = useGlobals();
+  const { basket, authMember, setAuthMember } = useGlobals();
+  const navigate = useNavigate();
   const [exploreTab, setExploreTab] = useState<ExploreTab>("utility");
   const [searchOpen, setSearchOpen] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
+
+  const logoutHandler = async () => {
+    try {
+      await new MemberService().logout();
+    } catch (err) {
+      console.log(err);
+    }
+    setAuthMember(null);
+    navigate("/");
+  };
 
   return (
     <header className={relative ? "header_area header_relative" : "header_area"}>
@@ -488,9 +500,21 @@ export function Navbar({ relative = false }: NavbarProps) {
                 </li>
               </ul>
             </div>
-            <Link className="bj_theme_btn strock_btn hidden-sm hidden-xs" to="/login">
-              <i className="fa-regular fa-user"></i>Login
-            </Link>
+            {authMember ? (
+              <div className="d-flex align-items-center gap-2 hidden-sm hidden-xs">
+                <Link className="bj_theme_btn strock_btn" to="/my-account">
+                  <i className="fa-regular fa-user"></i>
+                  {authMember.memberNick}
+                </Link>
+                <button type="button" className="bj_theme_btn strock_btn" onClick={logoutHandler}>
+                  Logout
+                </button>
+              </div>
+            ) : (
+              <Link className="bj_theme_btn strock_btn hidden-sm hidden-xs" to="/login">
+                <i className="fa-regular fa-user"></i>Login
+              </Link>
+            )}
           </div>
         </div>
       </nav>

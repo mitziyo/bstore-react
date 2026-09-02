@@ -1,7 +1,10 @@
 import { createContext, useContext } from "react";
 import useBasket from "./useBasket";
+import type { Member } from "../../lib/types/member";
 
 interface GlobalInterface {
+  authMember: Member | null;
+  setAuthMember: (member: Member | null) => void;
   basket: ReturnType<typeof useBasket>;
 }
 
