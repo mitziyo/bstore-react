@@ -1,11 +1,14 @@
+import { Link } from "react-router-dom";
+import { BookGenre } from "../../../lib/enums/product.enum";
+
 const CATEGORIES = [
-  { icon: "icon-uncategorized", label: "Uncategorized" },
-  { icon: "icon-biography", label: "Biography" },
-  { icon: "icon-mystery", label: "Mystery" },
-  { icon: "icon-drama", label: "Drama" },
-  { icon: "icon-history", label: "History" },
-  { icon: "icon-fiction", label: "Fiction" },
-  { icon: "icon-heart", label: "Romantic" },
+  { icon: "icon-fiction", label: "Fiction", value: BookGenre.FICTION },
+  { icon: "icon-uncategorized", label: "Non-Fiction", value: BookGenre.NON_FICTION },
+  { icon: "icon-mystery", label: "Thriller", value: BookGenre.THRILLER },
+  { icon: "icon-heart", label: "Romance", value: BookGenre.ROMANCE },
+  { icon: "icon-drama", label: "Children", value: BookGenre.CHILDREN },
+  { icon: "icon-history", label: "History", value: BookGenre.HISTORY },
+  { icon: "icon-fiction", label: "Sci-Fi", value: BookGenre.SCI_FI },
 ];
 
 export function BookCategories() {
@@ -17,9 +20,9 @@ export function BookCategories() {
         </div>
         <div className="bj_category_inner">
           {CATEGORIES.map((category, index) => (
-            <a
-              key={category.icon}
-              href="#"
+            <Link
+              key={category.value}
+              to={`/shop?genre=${category.value}`}
               className="bj_book_category_item text-center wow fadeInUp"
               data-wow-delay={`${0.2 + index * 0.1}s`}
             >
@@ -27,7 +30,7 @@ export function BookCategories() {
                 <i className={category.icon}></i>
               </div>
               <h6>{category.label}</h6>
-            </a>
+            </Link>
           ))}
         </div>
       </div>

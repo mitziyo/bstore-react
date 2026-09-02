@@ -9,7 +9,6 @@ const FILTERS = [
   { label: "All", value: "*" },
   { label: "Fiction", value: BookGenre.FICTION },
   { label: "Non-Fiction", value: BookGenre.NON_FICTION },
-  { label: "Biography", value: BookGenre.BIOGRAPHY },
   { label: "Thriller", value: BookGenre.THRILLER },
   { label: "Romance", value: BookGenre.ROMANCE },
   { label: "Children", value: BookGenre.CHILDREN },

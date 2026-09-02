@@ -12,7 +12,6 @@ export type BookStatus = (typeof BookStatus)[keyof typeof BookStatus];
 export const BookGenre = {
   FICTION: "FICTION",
   NON_FICTION: "NON_FICTION",
-  BIOGRAPHY: "BIOGRAPHY",
   THRILLER: "THRILLER",
   ROMANCE: "ROMANCE",
   CHILDREN: "CHILDREN",

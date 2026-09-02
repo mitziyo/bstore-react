@@ -1,32 +1,29 @@
 import { useState } from "react";
+import { BookGenre } from "../../../lib/enums/product.enum";
 
 const CATEGORIES = [
-  { label: "All Categories", count: 500 },
-  { label: "Fiction", count: 125 },
-  { label: "Drama", count: 98 },
-  { label: "Mystery", count: 76 },
-  { label: "Novels", count: 64 },
-  { label: "Recipe Books", count: 45 },
-];
-
-const MORE_CATEGORIES = [
-  { label: "Science Fiction", count: 38 },
-  { label: "Biography", count: 32 },
+  { label: "All Categories", value: "*" },
+  { label: "Fiction", value: BookGenre.FICTION },
+  { label: "Non-Fiction", value: BookGenre.NON_FICTION },
+  { label: "Thriller", value: BookGenre.THRILLER },
+  { label: "Romance", value: BookGenre.ROMANCE },
+  { label: "Children", value: BookGenre.CHILDREN },
+  { label: "History", value: BookGenre.HISTORY },
+  { label: "Sci-Fi", value: BookGenre.SCI_FI },
 ];
 
 const AUTHORS = ["Burt Geller", "Candy Carson", "Drew Berrymore", "Karen Perry", "Richard Mann"];
 
-const RATINGS = [
-  { value: 5, filled: 5 },
-  { value: 4, filled: 4 },
-  { value: 3, filled: 3 },
-  { value: 2, filled: 2 },
-];
+interface ShopSidebarProps {
+  activeGenre: string;
+  onGenreChange: (genre: string) => void;
+}
 
-export function ShopSidebar() {
+export function ShopSidebar({ activeGenre, onGenreChange }: ShopSidebarProps) {
   const [priceMin, setPriceMin] = useState(0);
   const [priceMax, setPriceMax] = useState(500);
-  const [activeCategory, setActiveCategory] = useState("All Categories");
+  const [categoriesExpanded, setCategoriesExpanded] = useState(false);
+  const [authorsExpanded, setAuthorsExpanded] = useState(false);
 
   return (
     <div className="shop-sidebar">
@@ -35,7 +32,7 @@ export function ShopSidebar() {
           <i className="fa-solid fa-sliders"></i>
           Filters
         </h3>
-        <button className="filter-reset">
+        <button className="filter-reset" onClick={() => onGenreChange("*")}>
           <i className="fa-solid fa-rotate"></i>
           Reset All
         </button>
@@ -47,44 +44,42 @@ export function ShopSidebar() {
           Categories
         </h4>
         <ul className="category-list">
-          {CATEGORIES.map((category) => (
+          {CATEGORIES.slice(0, 3).map((category) => (
             <li
-              className={`category-list__item${activeCategory === category.label ? " category-list__item--active" : ""}`}
-              key={category.label}
+              className={`category-list__item${activeGenre === category.value ? " category-list__item--active" : ""}`}
+              key={category.value}
             >
               <a
                 href="#"
                 onClick={(e) => {
                   e.preventDefault();
-                  setActiveCategory(category.label);
+                  onGenreChange(category.value);
                 }}
               >
                 <span>{category.label}</span>
-                <span className="count">{category.count}</span>
               </a>
             </li>
           ))}
         </ul>
-        <button className="filter-show-more" data-bs-toggle="collapse" data-bs-target="#moreCategories">
-          <span>Show more</span>
+        <button className="filter-show-more" onClick={() => setCategoriesExpanded(!categoriesExpanded)} aria-expanded={categoriesExpanded}>
+          <span>{categoriesExpanded ? "Show less" : "Show more"}</span>
           <i className="fa-solid fa-chevron-down"></i>
         </button>
-        <div className="collapse" id="moreCategories">
+        <div className={`collapse${categoriesExpanded ? " show" : ""}`} id="moreCategories">
           <ul className="category-list category-list--more">
-            {MORE_CATEGORIES.map((category) => (
+            {CATEGORIES.slice(3).map((category) => (
               <li
-                className={`category-list__item${activeCategory === category.label ? " category-list__item--active" : ""}`}
-                key={category.label}
+                className={`category-list__item${activeGenre === category.value ? " category-list__item--active" : ""}`}
+                key={category.value}
               >
                 <a
                   href="#"
                   onClick={(e) => {
                     e.preventDefault();
-                    setActiveCategory(category.label);
+                    onGenreChange(category.value);
                   }}
                 >
                   <span>{category.label}</span>
-                  <span className="count">{category.count}</span>
                 </a>
               </li>
             ))}
@@ -98,7 +93,7 @@ export function ShopSidebar() {
           Authors
         </h4>
         <div className="filter-checkboxes">
-          {AUTHORS.map((author) => (
+          {AUTHORS.slice(0, 3).map((author) => (
             <label className="filter-checkbox" key={author}>
               <input type="checkbox" name="author" value={author.toLowerCase()} />
               <span className="filter-checkbox__mark"></span>
@@ -106,26 +101,20 @@ export function ShopSidebar() {
             </label>
           ))}
         </div>
-      </div>
-
-      <div className="filter-widget">
-        <h4 className="filter-widget__title">
-          <i className="fa-solid fa-star"></i>
-          Rating
-        </h4>
-        <div className="filter-checkboxes">
-          {RATINGS.map((rating) => (
-            <label className="filter-checkbox" key={rating.value}>
-              <input type="checkbox" name="rating" value={rating.value} />
-              <span className="filter-checkbox__mark"></span>
-              <span className="filter-checkbox__stars">
-                {Array.from({ length: 5 }, (_, i) => (
-                  <i key={i} className={i < rating.filled ? "fa-solid fa-star" : "fa-regular fa-star"}></i>
-                ))}
-                {rating.filled < 5 && <span>&amp; up</span>}
-              </span>
-            </label>
-          ))}
+        <button className="filter-show-more" onClick={() => setAuthorsExpanded(!authorsExpanded)} aria-expanded={authorsExpanded}>
+          <span>{authorsExpanded ? "Show less" : "Show more"}</span>
+          <i className="fa-solid fa-chevron-down"></i>
+        </button>
+        <div className={`collapse${authorsExpanded ? " show" : ""}`} id="moreAuthors">
+          <div className="filter-checkboxes filter-checkboxes--more">
+            {AUTHORS.slice(3).map((author) => (
+              <label className="filter-checkbox" key={author}>
+                <input type="checkbox" name="author" value={author.toLowerCase()} />
+                <span className="filter-checkbox__mark"></span>
+                <span className="filter-checkbox__label">{author}</span>
+              </label>
+            ))}
+          </div>
         </div>
       </div>
 
