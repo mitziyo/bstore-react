@@ -1,37 +1,25 @@
 import { useState } from "react";
+import { serverApi } from "../../../lib/config";
+import { BookGenre } from "../../../lib/enums/product.enum";
+import type { Product } from "../../../lib/types/product";
 
-interface NewProduct {
-  id: string;
-  name: string;
-  img: string;
-  price: number;
-  rating: number;
-  views: number;
-  author: string;
-  tags: string[];
-}
-
-const PRODUCTS: NewProduct[] = [
-  { id: "n1", name: "A Storytelling Workbook", img: "/img/home-two/product-filter/n_pr_img1.jpg", price: 25, rating: 1221, views: 1221, author: "SERO GLAN", tags: ["bio", "kid"] },
-  { id: "n2", name: "The Psychology of..", img: "/img/home-two/product-filter/n_pr_img2.jpg", price: 25, rating: 1221, views: 946, author: "Morgan Housel", tags: ["bio", "drama"] },
-  { id: "n3", name: "Your Next Five Moves", img: "/img/home-two/product-filter/n_pr_img3.jpg", price: 25, rating: 1221, views: 1780, author: "Patrick Bet-David", tags: ["cook", "romance"] },
-  { id: "n4", name: "The Ruthless ..", img: "/img/home-two/product-filter/n_pr_img4.jpg", price: 55, rating: 1221, views: 632, author: "John Mark Comer", tags: ["cook", "romance", "drama"] },
-  { id: "n5", name: "There was a Country", img: "/img/home-two/product-filter/n_pr_img5.jpg", price: 15, rating: 1220, views: 2104, author: "Patrick Bet-David", tags: ["cook", "romance", "kid"] },
-  { id: "n6", name: "The Burden is Light", img: "/img/home-two/product-filter/n_pr_img6.jpg", price: 55, rating: 1221, views: 789, author: "Jon Tyson", tags: ["cook", "romance"] },
-];
+const FALLBACK_IMG = "/img/home-two/product-filter/n_pr_img1.jpg";
 
 const FILTERS = [
   { label: "All", value: "*" },
-  { label: "BIOGRAPHY", value: "bio" },
-  { label: "COOKBOOKS", value: "cook" },
-  { label: "DRAMA", value: "drama" },
-  { label: "FOR KID", value: "kid" },
-  { label: "ROMANCE", value: "romance" },
+  { label: "Fiction", value: BookGenre.FICTION },
+  { label: "Non-Fiction", value: BookGenre.NON_FICTION },
+  { label: "Biography", value: BookGenre.BIOGRAPHY },
+  { label: "Thriller", value: BookGenre.THRILLER },
+  { label: "Romance", value: BookGenre.ROMANCE },
+  { label: "Children", value: BookGenre.CHILDREN },
+  { label: "History", value: BookGenre.HISTORY },
+  { label: "Sci-Fi", value: BookGenre.SCI_FI },
 ];
 
-export function NewProducts() {
-  const [activeFilter, setActiveFilter] = useState("*");
-  const visibleProducts = activeFilter === "*" ? PRODUCTS : PRODUCTS.filter((p) => p.tags.includes(activeFilter));
+export function NewProducts({ books }: { books: Product[] }) {
+  const [activeFilter, setActiveFilter] = useState<string>("*");
+  const visibleBooks = activeFilter === "*" ? books : books.filter((b) => b.bookGenre === activeFilter);
 
   return (
     <section className="bj_new_product_area_three sec_padding_three" style={{ backgroundColor: "#f5f5f5" }}>
@@ -53,56 +41,52 @@ export function NewProducts() {
         <div className="row flex-row-reverse">
           <div className="col-lg-8 wow fadeInRight" data-wow-delay="0.4s">
             <div className="projects_gallery_one">
-              <div className="row">
-                {visibleProducts.map((product) => (
-                  <div className="col-xl-4 col-lg-6 col-sm-6 projects_item" key={product.id}>
-                    <div className="best_product_item best_product_item_two">
-                      <div className="img">
-                        <a href="#">
-                          <img src={product.img} alt="book" />
-                        </a>
-                        <div className="hover_item">
-                          <a className="quick_button" href="/my-wishlist" data-bs-toggle="tooltip" data-bs-placement="right" title="Wishlist">
-                            <i className="icon_heart_alt"></i>
-                          </a>
-                          <span data-bs-toggle="tooltip" data-bs-placement="right" title="Quickview">
-                            <button className="quick_button" data-bs-toggle="modal" data-bs-target="#productQuickView">
-                              <i className="arrow_move"></i>
+              {visibleBooks.length === 0 ? (
+                <p className="text-center">No books available yet.</p>
+              ) : (
+                <div className="row">
+                  {visibleBooks.map((book) => {
+                    const imagePath = book.bookImages[0] ? `${serverApi}/${book.bookImages[0]}` : FALLBACK_IMG;
+                    return (
+                      <div className="col-xl-4 col-lg-6 col-sm-6 projects_item" key={book._id}>
+                        <div className="best_product_item best_product_item_two">
+                          <div className="img">
+                            <a href="#">
+                              <img src={imagePath} alt={book.bookName} />
+                            </a>
+                            <div className="hover_item">
+                              <a className="quick_button" href="/my-wishlist" data-bs-toggle="tooltip" data-bs-placement="right" title="Wishlist">
+                                <i className="icon_heart_alt"></i>
+                              </a>
+                            </div>
+                            <div className="view-badge" data-bs-toggle="tooltip" title="Views">
+                              <i className="fa-regular fa-eye"></i>
+                              {book.bookViews.toLocaleString()}
+                            </div>
+                            <button
+                              type="button"
+                              className="bj_theme_btn add-to-cart-automated"
+                              data-name={book.bookName}
+                              data-img={imagePath}
+                              data-price={book.bookPrice}
+                            >
+                              <i className="icon_cart_alt"></i>Add to Cart
                             </button>
-                          </span>
-                        </div>
-                        <div className="view-badge" data-bs-toggle="tooltip" title="Views">
-                          <i className="fa-regular fa-eye"></i>
-                          {product.views.toLocaleString()}
-                        </div>
-                        <button
-                          type="button"
-                          className="bj_theme_btn add-to-cart-automated"
-                          data-name={product.name}
-                          data-img={product.img}
-                          data-price={product.price}
-                        >
-                          <i className="icon_cart_alt"></i>Add to Cart
-                        </button>
-                      </div>
-                      <div className="bj_new_pr_content">
-                        <a href="/product-single">
-                          <h4 className="bj_new_pr_title">{product.name}</h4>
-                        </a>
-                        <div className="writer_name">
-                          By - <a href="/author-single">{product.author} </a>
-                        </div>
-                        <div className="bj_pr_meta d-flex">
-                          <div className="book_price">${product.price}</div>
-                          <div className="ratting">
-                            <img src="/img/home/raiting.png" alt="" /> {product.rating}
+                          </div>
+                          <div className="bj_new_pr_content">
+                            <a href="/product-single">
+                              <h4 className="bj_new_pr_title">{book.bookName}</h4>
+                            </a>
+                            <div className="bj_pr_meta d-flex">
+                              <div className="book_price">${book.bookPrice}</div>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
+                    );
+                  })}
+                </div>
+              )}
             </div>
           </div>
           <div className="col-lg-4">

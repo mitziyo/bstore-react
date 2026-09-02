@@ -1,70 +1,42 @@
-interface Product {
-  id: string;
-  name: string;
-  img: string;
-  price: number;
-  rating: number;
-  views: number;
-}
+import { serverApi } from "../../../lib/config";
+import type { Product } from "../../../lib/types/product";
 
-const PRODUCTS: Record<string, Product> = {
-  enemy: { id: "enemy", name: "Enemy – Jake Gyllenhaal", img: "/img/home-two/choice1.png", price: 25, rating: 1221, views: 1221 },
-  knowledge: { id: "knowledge", name: "Knowledge of Earth", img: "/img/home-two/choice2.png", price: 25, rating: 1221, views: 954 },
-  cover: { id: "cover", name: "Book Cover Mockup", img: "/img/home-two/choice3.jpg", price: 35, rating: 1220, views: 1602 },
-  business: { id: "business", name: "Create Your Own Business", img: "/img/home-two/choice4.jpg", price: 25, rating: 1221, views: 711 },
-};
+const FALLBACK_IMG = "/img/home-two/choice1.png";
 
-const TABS = [
-  { id: "pills-best", tabId: "pills-best-tab", label: "Bestseller Books", active: true, products: ["enemy", "knowledge", "cover", "business"] },
-  { id: "pills-offer", tabId: "pills-offer-tab", label: "Top Rating Books", active: false, products: ["cover", "business", "enemy", "knowledge"] },
-  { id: "pills-featured", tabId: "pills-featured-tab", label: "Featured Books", active: false, products: ["business", "knowledge", "enemy", "cover"] },
-];
-
-function ProductCard({ product }: { product: Product }) {
+function ProductCard({ book }: { book: Product }) {
+  const imagePath = book.bookImages[0] ? `${serverApi}/${book.bookImages[0]}` : FALLBACK_IMG;
   return (
     <div className="col-lg-3 col-md-4 col-sm-6">
       <div className="best_product_item best_product_item_two">
         <div className="img">
           <a href="#">
-            <img src={product.img} alt="book" />
+            <img src={imagePath} alt={book.bookName} />
           </a>
           <div className="hover_item">
             <a className="quick_button" href="/my-wishlist" data-bs-toggle="tooltip" data-bs-placement="right" title="Wishlist">
               <i className="icon_heart_alt"></i>
             </a>
-            <span data-bs-toggle="tooltip" data-bs-placement="right" title="Quickview">
-              <button className="quick_button" data-bs-toggle="modal" data-bs-target="#productQuickView">
-                <i className="arrow_move"></i>
-              </button>
-            </span>
           </div>
           <div className="view-badge" data-bs-toggle="tooltip" title="Views">
             <i className="fa-regular fa-eye"></i>
-            {product.views.toLocaleString()}
+            {book.bookViews.toLocaleString()}
           </div>
           <button
             type="button"
             className="bj_theme_btn add-to-cart-automated"
-            data-name={product.name}
-            data-img={product.img}
-            data-price={product.price}
+            data-name={book.bookName}
+            data-img={imagePath}
+            data-price={book.bookPrice}
           >
             <i className="icon_cart_alt"></i>Add to Cart
           </button>
         </div>
         <div className="bj_new_pr_content">
           <a href="/product-single">
-            <h4 className="bj_new_pr_title">{product.name}</h4>
+            <h4 className="bj_new_pr_title">{book.bookName}</h4>
           </a>
-          <div className="writer_name">
-            By - <a href="/author-single">SERO GLAN </a>
-          </div>
           <div className="bj_pr_meta d-flex">
-            <div className="book_price">${product.price}</div>
-            <div className="ratting">
-              <img src="/img/home/raiting.png" alt="" />
-              {product.rating}
-            </div>
+            <div className="book_price">${book.bookPrice}</div>
           </div>
         </div>
       </div>
@@ -72,7 +44,14 @@ function ProductCard({ product }: { product: Product }) {
   );
 }
 
-export function BestSelling() {
+const TABS = [
+  { id: "pills-best", tabId: "pills-best-tab", label: "Most Viewed", active: true },
+  { id: "pills-new", tabId: "pills-new-tab", label: "Newest", active: false },
+];
+
+export function BestSelling({ mostViewed, newest }: { mostViewed: Product[]; newest: Product[] }) {
+  const tabBooks: Record<string, Product[]> = { "pills-best": mostViewed, "pills-new": newest };
+
   return (
     <section className="best_selling_pr_area_two" style={{ backgroundColor: "#f5f5f5" }}>
       <div className="container">
@@ -109,11 +88,15 @@ export function BestSelling() {
               aria-labelledby={tab.tabId}
               key={tab.id}
             >
-              <div className="row">
-                {tab.products.map((productId) => (
-                  <ProductCard product={PRODUCTS[productId]} key={productId} />
-                ))}
-              </div>
+              {tabBooks[tab.id].length === 0 ? (
+                <p className="text-center">No books available yet.</p>
+              ) : (
+                <div className="row">
+                  {tabBooks[tab.id].map((book) => (
+                    <ProductCard book={book} key={book._id} />
+                  ))}
+                </div>
+              )}
             </div>
           ))}
         </div>
