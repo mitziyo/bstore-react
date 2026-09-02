@@ -6,11 +6,13 @@ import { Breadcrumb } from "./Breadcrumb";
 import { ShopSidebar } from "./ShopSidebar";
 import BookService from "../../services/BookService";
 import { serverApi } from "../../../lib/config";
+import { useGlobals } from "../../hooks/useGlobals";
 import type { Product, ProductInquiry } from "../../../lib/types/product";
 
 const FALLBACK_IMG = "/img/author_book1.jpg";
 
 export function ShopPage() {
+  const { basket } = useGlobals();
   const [searchParams] = useSearchParams();
   const [bookSearch, setBookSearch] = useState<ProductInquiry>({
     page: 1,
@@ -123,10 +125,10 @@ export function ShopPage() {
                             </div>
                             <button
                               type="button"
-                              className="bj_theme_btn add-to-cart-automated"
-                              data-name={book.bookName}
-                              data-img={imagePath}
-                              data-price={book.bookPrice}
+                              className="bj_theme_btn"
+                              onClick={() =>
+                                basket.onAdd({ _id: book._id, quantity: 1, title: book.bookName, price: book.bookPrice, image: imagePath })
+                              }
                             >
                               <i className="icon_cart_alt"></i>Add To Cart
                             </button>

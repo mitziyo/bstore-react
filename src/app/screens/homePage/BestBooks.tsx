@@ -1,10 +1,13 @@
 import { Link } from "react-router-dom";
 import { serverApi } from "../../../lib/config";
+import { useGlobals } from "../../hooks/useGlobals";
 import type { Product } from "../../../lib/types/product";
 
 const FALLBACK_IMG = "/img/home-two/best_book1.jpg";
 
 export function BestBooks({ books }: { books: Product[] }) {
+  const { basket } = useGlobals();
+
   return (
     <section className="best-books-section" style={{ backgroundColor: "#fff" }}>
       <div className="container">
@@ -52,10 +55,10 @@ export function BestBooks({ books }: { books: Product[] }) {
                           <span className="current">${book.bookPrice}</span>
                         </div>
                         <button
-                          className="add-cart-btn add-to-cart-automated"
-                          data-name={book.bookName}
-                          data-img={imagePath}
-                          data-price={book.bookPrice}
+                          className="add-cart-btn"
+                          onClick={() =>
+                            basket.onAdd({ _id: book._id, quantity: 1, title: book.bookName, price: book.bookPrice, image: imagePath })
+                          }
                         >
                           <i className="fa-solid fa-cart-plus"></i>
                           Add to Cart

@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { serverApi } from "../../../lib/config";
+import { useGlobals } from "../../hooks/useGlobals";
 import type { Product } from "../../../lib/types/product";
 
 const FALLBACK_IMG = "/img/book-single1.jpg";
 
 export function ProductSidebar({ book }: { book: Product }) {
+  const { basket } = useGlobals();
   const [qty, setQty] = useState(1);
   const imagePath = book.bookImages[0] ? `${serverApi}/${book.bookImages[0]}` : FALLBACK_IMG;
   const inStock = book.bookLeftCount > 0;
@@ -54,11 +56,11 @@ export function ProductSidebar({ book }: { book: Product }) {
           Buy Now
         </a>
         <button
-          className="bj_theme_btn add-to-cart-automated"
+          className="bj_theme_btn"
           type="button"
-          data-name={book.bookName}
-          data-price={book.bookPrice}
-          data-img={imagePath}
+          onClick={() =>
+            basket.onAdd({ _id: book._id, quantity: qty, title: book.bookName, price: book.bookPrice, image: imagePath })
+          }
         >
           <i className="icon_cart_alt"></i>Add to cart
         </button>

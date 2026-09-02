@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { serverApi } from "../../../lib/config";
 import { BookGenre } from "../../../lib/enums/product.enum";
+import { useGlobals } from "../../hooks/useGlobals";
 import type { Product } from "../../../lib/types/product";
 
 const FALLBACK_IMG = "/img/home-two/product-filter/n_pr_img1.jpg";
@@ -18,6 +19,7 @@ const FILTERS = [
 ];
 
 export function NewProducts({ books }: { books: Product[] }) {
+  const { basket } = useGlobals();
   const [activeFilter, setActiveFilter] = useState<string>("*");
   const visibleBooks = activeFilter === "*" ? books : books.filter((b) => b.bookGenre === activeFilter);
 
@@ -65,10 +67,10 @@ export function NewProducts({ books }: { books: Product[] }) {
                             </div>
                             <button
                               type="button"
-                              className="bj_theme_btn add-to-cart-automated"
-                              data-name={book.bookName}
-                              data-img={imagePath}
-                              data-price={book.bookPrice}
+                              className="bj_theme_btn"
+                              onClick={() =>
+                                basket.onAdd({ _id: book._id, quantity: 1, title: book.bookName, price: book.bookPrice, image: imagePath })
+                              }
                             >
                               <i className="icon_cart_alt"></i>Add to Cart
                             </button>

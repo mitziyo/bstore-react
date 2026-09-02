@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { useGlobals } from "../../hooks/useGlobals";
 
 interface NavbarProps {
   relative?: boolean;
@@ -26,6 +27,7 @@ const DASHBOARD_PATHS = [
 
 export function Navbar({ relative = false }: NavbarProps) {
   const { pathname } = useLocation();
+  const { basket } = useGlobals();
   const [exploreTab, setExploreTab] = useState<ExploreTab>("utility");
   const [searchOpen, setSearchOpen] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
@@ -34,10 +36,10 @@ export function Navbar({ relative = false }: NavbarProps) {
     <header className={relative ? "header_area header_relative" : "header_area"}>
       <nav className="navbar navbar-expand-lg menu_one" id="header">
         <div className="container">
-          <a className="navbar-brand logo-lockup" href="/">
+          <Link className="navbar-brand logo-lockup" to="/">
             <img src="/icons/logo-icon.png" alt="" />
             <span>LightBooks</span>
-          </a>
+          </Link>
           <button
             className="navbar-toggler collapsed"
             type="button"
@@ -62,168 +64,168 @@ export function Navbar({ relative = false }: NavbarProps) {
           <div className="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
             <ul className="navbar-nav menu w_menu ms-auto me-auto">
               <li className={`nav-item${pathname === "/" ? " active" : ""}`}>
-                <a className="nav-link" href="/">
+                <Link className="nav-link" to="/">
                   HOME
-                </a>
+                </Link>
               </li>
               <li className={`nav-item dropdown submenu${SHOP_PATHS.includes(pathname) ? " active" : ""}`}>
-                <a
+                <Link
                   className="nav-link dropdown-toggle"
-                  href="/shop"
+                  to="/shop"
                   role="button"
                   data-bs-toggle="dropdown"
                   aria-haspopup="true"
                   aria-expanded="false"
                 >
                   Shop
-                </a>
+                </Link>
 
                 <ul className="dropdown-menu">
                   <li className="nav-item">
-                    <a href="/shop" className="nav-link">
+                    <Link to="/shop" className="nav-link">
                       Shop
-                    </a>
+                    </Link>
                   </li>
                   <li className="nav-item">
-                    <a href="/cart" className="nav-link">
+                    <Link to="/cart" className="nav-link">
                       Cart
-                    </a>
+                    </Link>
                   </li>
                   <li className="nav-item">
-                    <a href="/deals-offers" className="nav-link">
+                    <Link to="/deals-offers" className="nav-link">
                       Deals Offers
-                    </a>
+                    </Link>
                   </li>
                   <li className="nav-item">
-                    <a href="/new-arrivals" className="nav-link">
+                    <Link to="/new-arrivals" className="nav-link">
                       New Arrivals
-                    </a>
+                    </Link>
                   </li>
                 </ul>
               </li>
               <li className={`nav-item dropdown submenu${DASHBOARD_PATHS.includes(pathname) ? " active" : ""}`}>
-                <a
+                <Link
                   className="nav-link dropdown-toggle"
-                  href="/my-account"
+                  to="/my-account"
                   role="button"
                   data-bs-toggle="dropdown"
                   aria-haspopup="true"
                   aria-expanded="false"
                 >
                   Dashboard
-                </a>
+                </Link>
 
                 <ul className="dropdown-menu">
                   <li className="nav-item">
-                    <a href="/my-account" className="nav-link">
+                    <Link to="/my-account" className="nav-link">
                       User Profile
-                    </a>
+                    </Link>
                   </li>
 
                   <li className="nav-item dropdown submenu">
-                    <a
+                    <Link
                       className="nav-link dropdown-toggle"
-                      href="/my-orders"
+                      to="/my-orders"
                       role="button"
                       data-bs-toggle="dropdown"
                       aria-haspopup="true"
                       aria-expanded="false"
                     >
                       Orders
-                    </a>
+                    </Link>
                     <ul className="dropdown-menu">
                       <li className="nav-item">
-                        <a href="/my-orders" className="nav-link">
+                        <Link to="/my-orders" className="nav-link">
                           Orders
-                        </a>
+                        </Link>
                       </li>
                       <li className="nav-item">
-                        <a href="/order-track" className="nav-link">
+                        <Link to="/order-track" className="nav-link">
                           Order Tracking
-                        </a>
+                        </Link>
                       </li>
                       <li className="nav-item">
-                        <a href="/order-confrmation" className="nav-link">
+                        <Link to="/order-confrmation" className="nav-link">
                           Thank You Page
-                        </a>
+                        </Link>
                       </li>
                     </ul>
                   </li>
 
                   <li className="nav-item">
-                    <a href="/my-ebook-library" className="nav-link">
+                    <Link to="/my-ebook-library" className="nav-link">
                       Ebook Library
-                    </a>
+                    </Link>
                   </li>
 
                   <li className="nav-item dropdown submenu">
-                    <a
+                    <Link
                       className="nav-link dropdown-toggle"
-                      href="/my-list"
+                      to="/my-list"
                       role="button"
                       data-bs-toggle="dropdown"
                       aria-haspopup="true"
                       aria-expanded="false"
                     >
                       Book List
-                    </a>
+                    </Link>
                     <ul className="dropdown-menu">
                       <li className="nav-item">
-                        <a href="/my-list" className="nav-link">
+                        <Link to="/my-list" className="nav-link">
                           Book List
-                        </a>
+                        </Link>
                       </li>
                       <li className="nav-item">
-                        <a href="/my-list-details" className="nav-link">
+                        <Link to="/my-list-details" className="nav-link">
                           Book List Details
-                        </a>
+                        </Link>
                       </li>
                       <li className="nav-item">
-                        <a href="/my-list-create" className="nav-link">
+                        <Link to="/my-list-create" className="nav-link">
                           Create Book List
-                        </a>
+                        </Link>
                       </li>
                     </ul>
                   </li>
                   <li className="nav-item dropdown submenu">
-                    <a
+                    <Link
                       className="nav-link dropdown-toggle"
-                      href="/my-address"
+                      to="/my-address"
                       role="button"
                       data-bs-toggle="dropdown"
                       aria-haspopup="true"
                       aria-expanded="false"
                     >
                       Address Book
-                    </a>
+                    </Link>
                     <ul className="dropdown-menu">
                       <li className="nav-item">
-                        <a href="/my-address" className="nav-link">
+                        <Link to="/my-address" className="nav-link">
                           Address Book
-                        </a>
+                        </Link>
                       </li>
                       <li className="nav-item">
-                        <a href="/add-new-address" className="nav-link">
+                        <Link to="/add-new-address" className="nav-link">
                           Add New Address
-                        </a>
+                        </Link>
                       </li>
                     </ul>
                   </li>
 
                   <li className="nav-item">
-                    <a href="/my-following-authors" className="nav-link">
+                    <Link to="/my-following-authors" className="nav-link">
                       Following Authors
-                    </a>
+                    </Link>
                   </li>
                   <li className="nav-item">
-                    <a href="/my-rating-reviews" className="nav-link">
+                    <Link to="/my-rating-reviews" className="nav-link">
                       Rating &amp; Reviews
-                    </a>
+                    </Link>
                   </li>
                   <li className="nav-item">
-                    <a href="/my-wishlist" className="nav-link">
+                    <Link to="/my-wishlist" className="nav-link">
                       Wishlist
-                    </a>
+                    </Link>
                   </li>
                 </ul>
               </li>
@@ -307,13 +309,13 @@ export function Navbar({ relative = false }: NavbarProps) {
                             <div className="d-flex">
                               <ul className="list-unstyled tab_list w_100">
                                 <li>
-                                  <a href="/registration">Sign Up</a>
+                                  <Link to="/registration">Sign Up</Link>
                                 </li>
                                 <li>
-                                  <a href="/forgot-password">Forgot Password</a>
+                                  <Link to="/forgot-password">Forgot Password</Link>
                                 </li>
                                 <li>
-                                  <a href="/faq">Faq</a>
+                                  <Link to="/faq">Faq</Link>
                                 </li>
                               </ul>
                             </div>
@@ -326,16 +328,16 @@ export function Navbar({ relative = false }: NavbarProps) {
                             <div className="d-flex">
                               <ul className="list-unstyled tab_list w_100">
                                 <li>
-                                  <a href="/about">About</a>
+                                  <Link to="/about">About</Link>
                                 </li>
                                 <li>
-                                  <a href="/contact">Contact Us</a>
+                                  <Link to="/contact">Contact Us</Link>
                                 </li>
                                 <li>
-                                  <a href="/terms-condition">Terms &amp; Services</a>
+                                  <Link to="/terms-condition">Terms &amp; Services</Link>
                                 </li>
                                 <li>
-                                  <a href="/privacy-policy">Privacy Policy</a>
+                                  <Link to="/privacy-policy">Privacy Policy</Link>
                                 </li>
                               </ul>
                             </div>
@@ -348,21 +350,21 @@ export function Navbar({ relative = false }: NavbarProps) {
                             <div className="d-flex">
                               <ul className="list-unstyled tab_list">
                                 <li>
-                                  <a href="/shop-no-sidebar">Shop No Sidebar</a>
+                                  <Link to="/shop-no-sidebar">Shop No Sidebar</Link>
                                 </li>
                                 <li>
-                                  <a href="/product-single">Product Details</a>
+                                  <Link to="/shop">Product Details</Link>
                                 </li>
                                 <li>
-                                  <a href="/cart-guest">Cart Guest</a>
+                                  <Link to="/cart-guest">Cart Guest</Link>
                                 </li>
                               </ul>
                               <ul className="list-unstyled tab_list">
                                 <li>
-                                  <a href="/checkout-gift">Checkout Gift</a>
+                                  <Link to="/checkout-gift">Checkout Gift</Link>
                                 </li>
                                 <li>
-                                  <a href="/checkout-login">Checkout Login</a>
+                                  <Link to="/checkout-login">Checkout Login</Link>
                                 </li>
                               </ul>
                             </div>
@@ -375,10 +377,10 @@ export function Navbar({ relative = false }: NavbarProps) {
                             <div className="d-flex">
                               <ul className="list-unstyled tab_list">
                                 <li>
-                                  <a href="/author">Author</a>
+                                  <Link to="/author">Author</Link>
                                 </li>
                                 <li>
-                                  <a href="/author-single">Author Single</a>
+                                  <Link to="/author-single">Author Single</Link>
                                 </li>
                               </ul>
                             </div>
@@ -426,70 +428,69 @@ export function Navbar({ relative = false }: NavbarProps) {
                   >
                     {" "}
                     <i className="ti-shopping-cart"></i>
-                    <span className="num total-cart-count">2</span>
+                    <span className="num total-cart-count">{basket.cartItems.length}</span>
                   </a>
                   <div className="dropdown-menu">
-                    <ul className="cart-dropdown list-unstyled">
-                      <li className="cart-single-item clearfix">
-                        <div className="cart-img">
-                          <img src="/img/cart1.jpg" alt="styler" />
+                    {basket.cartItems.length === 0 ? (
+                      <p className="text-center mb-0 p-3">Your cart is empty.</p>
+                    ) : (
+                      <>
+                        <ul className="cart-dropdown list-unstyled">
+                          {basket.cartItems.map((item) => (
+                            <li className="cart-single-item clearfix" key={item._id}>
+                              <div className="cart-img">
+                                <img src={item.image} alt={item.title} />
+                              </div>
+                              <div className="cart-content text-left">
+                                <p className="cart-title">
+                                  <Link to={`/book/${item._id}`}>{item.title}</Link>
+                                </p>
+                                <p>
+                                  {item.quantity} x ${item.price}
+                                </p>
+                              </div>
+                              <div className="cart-remove">
+                                <a
+                                  href="#"
+                                  className="action"
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    basket.onDelete(item);
+                                  }}
+                                >
+                                  <span className="ti-close"></span>
+                                </a>
+                              </div>
+                            </li>
+                          ))}
+                        </ul>
+                        <div className="cart_f">
+                          <div className="cart-pricing">
+                            <p className="total">
+                              Subtotal :
+                              <span className="p-total text-end">
+                                ${basket.cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0)}
+                              </span>
+                            </p>
+                          </div>
+                          <div className="cart-button text-center">
+                            <Link to="/cart" className="btn btn-cart get_btn pink">
+                              View Cart
+                            </Link>
+                            <Link to="/checkout" className="btn btn-cart get_btn dark">
+                              Checkout
+                            </Link>
+                          </div>
                         </div>
-                        <div className="cart-content text-left">
-                          <p className="cart-title">
-                            <a href="#">Pale pink and black buttoned dress</a>
-                          </p>
-                          <p>
-                            <del>$400.00</del> - $350.00
-                          </p>
-                        </div>
-                        <div className="cart-remove">
-                          <a href="#" className="action">
-                            <span className="ti-close"></span>
-                          </a>
-                        </div>
-                      </li>
-                      <li className="cart-single-item clearfix">
-                        <div className="cart-img">
-                          <img src="/img/cart1.jpg" alt="styler" />
-                        </div>
-                        <div className="cart-content text-left">
-                          <p className="cart-title">
-                            <a href="#">Vera bradley lug- gage large duffel</a>
-                          </p>
-                          <p>$350.00</p>
-                        </div>
-                        <div className="cart-remove">
-                          <a href="#" className="action">
-                            <span className="ti-close"></span>
-                          </a>
-                        </div>
-                      </li>
-                    </ul>
-                    <div className="cart_f">
-                      <div className="cart-pricing">
-                        <p className="total">
-                          Subtotal :
-                          <span className="p-total text-end">
-                            $<span className="total-cart-amount"></span>
-                          </span>
-                        </p>
-                      </div>
-                      <div className="cart-button text-center">
-                        <a href="/cart" className="btn btn-cart get_btn pink">
-                          View Cart
-                        </a>
-                        <a href="/checkout" className="btn btn-cart get_btn dark">
-                          Checkout
-                        </a>
-                      </div>
-                    </div>
+                      </>
+                    )}
                   </div>
                 </li>
               </ul>
             </div>
-            <a className="bj_theme_btn strock_btn hidden-sm hidden-xs" href="/login">
+            <Link className="bj_theme_btn strock_btn hidden-sm hidden-xs" to="/login">
               <i className="fa-regular fa-user"></i>Login
-            </a>
+            </Link>
           </div>
         </div>
       </nav>

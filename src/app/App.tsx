@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { BrowserRouter, Routes, Route, Outlet, useLocation } from "react-router-dom";
 import { Tooltip } from "bootstrap";
+import { ContextProvider } from "./context/ContextProvider";
 import { Preloader } from "./components/preloader";
 import { Navbar } from "./components/headers/Navbar";
 import { Footer } from "./components/footer";
@@ -117,9 +118,11 @@ function App() {
   }, []);
 
   return (
-    <BrowserRouter>
-      <AppRoutes />
-    </BrowserRouter>
+    <ContextProvider>
+      <BrowserRouter>
+        <AppRoutes />
+      </BrowserRouter>
+    </ContextProvider>
   );
 }
 
