@@ -1,4 +1,6 @@
 import { NavLink } from "react-router-dom";
+import { serverApi } from "../../../lib/config";
+import { useGlobals } from "../../hooks/useGlobals";
 
 interface DashboardNavItem {
   to: string;
@@ -18,16 +20,19 @@ const NAV_ITEMS: DashboardNavItem[] = [
 ];
 
 export function DashboardSidebar() {
+  const { authMember } = useGlobals();
+  const avatarPath = authMember?.memberImage ? `${serverApi}/${authMember.memberImage}` : "/img/profile-img.png";
+
   return (
     <aside className="dashboard-sidebar">
       <div className="dashboard-sidebar__profile">
         <div className="dashboard-sidebar__avatar">
-          <img src="/img/profile-img.png" alt="Profile" />
+          <img src={avatarPath} alt="Profile" />
           <span className="dashboard-sidebar__status"></span>
         </div>
         <div className="dashboard-sidebar__info">
           <span className="dashboard-sidebar__greeting">Welcome back</span>
-          <h4 className="dashboard-sidebar__name">Muaz BK</h4>
+          <h4 className="dashboard-sidebar__name">{authMember?.memberNick ?? "Guest"}</h4>
         </div>
       </div>
 
