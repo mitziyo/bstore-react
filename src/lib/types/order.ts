@@ -1,8 +1,8 @@
-import { OrderStatus, PaymentMethod } from "../enums/order.enum";
+import { OrderStatus } from "../enums/order.enum";
 import type { Product } from "./product";
 
 export interface OrderItemInput {
-  productId: string;
+  bookId: string;
   itemQuantity: number;
   itemPrice: number;
   orderId?: string;
@@ -10,7 +10,7 @@ export interface OrderItemInput {
 
 export interface OrderItem {
   _id: string;
-  productId: string;
+  bookId: string;
   itemQuantity: number;
   itemPrice: number;
   orderId?: string;
@@ -22,17 +22,13 @@ export interface Order {
   _id: string;
   memberId: string;
   orderStatus: OrderStatus;
-  paymentMethod: PaymentMethod;
-  shippingAddressId?: string;
-  subtotal: number;
-  shippingFee: number;
-  discount: number;
   orderTotal: number;
+  orderDelivery: number;
   createdAt: Date;
   updatedAt: Date;
   /** from aggregations **/
   orderItems: OrderItem[];
-  productData: Product[];
+  bookData: Product[];
 }
 
 export interface OrderInquiry {

@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import "../../../scss/auth/auth.scss";
 import MemberService from "../../services/MemberService";
 import { useGlobals } from "../../hooks/useGlobals";
+import { extractErrorMessage } from "../../../lib/config";
 
 export function RegistrationPage() {
   const navigate = useNavigate();
@@ -27,8 +28,8 @@ export function RegistrationPage() {
       const member = await new MemberService().signup({ memberNick, memberPhone, memberPassword });
       setAuthMember(member);
       navigate("/");
-    } catch {
-      setError("That username or phone number is already in use.");
+    } catch (err) {
+      setError(extractErrorMessage(err));
     }
   };
 

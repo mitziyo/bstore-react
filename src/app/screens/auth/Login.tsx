@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import "../../../scss/auth/auth.scss";
 import MemberService from "../../services/MemberService";
 import { useGlobals } from "../../hooks/useGlobals";
+import { extractErrorMessage } from "../../../lib/config";
 
 export function LoginPage() {
   const navigate = useNavigate();
@@ -20,8 +21,8 @@ export function LoginPage() {
       const member = await new MemberService().login({ memberNick, memberPassword });
       setAuthMember(member);
       navigate("/");
-    } catch {
-      setError("Wrong username or password.");
+    } catch (err) {
+      setError(extractErrorMessage(err));
     }
   };
 

@@ -1,5 +1,7 @@
+import { Link, useLocation } from "react-router-dom";
 import "../../../scss/cart/cart.scss";
 import "../../../scss/orderConfirmation/orderConfirmation.scss";
+import type { Order } from "../../../lib/types/order";
 
 interface RecommendedProduct {
   id: string;
@@ -79,6 +81,10 @@ function Stars({ rating }: { rating: number }) {
 }
 
 export function OrderConfirmation() {
+  const location = useLocation();
+  const order = (location.state as { order?: Order } | null)?.order;
+  const subtotal = order ? order.orderTotal - order.orderDelivery : 0;
+
   return (
     <>
       <section className="bj_account_dashboard pb-0" style={{ backgroundColor: "#f5f5f5" }}>
@@ -95,69 +101,50 @@ export function OrderConfirmation() {
                     </div>
                     <div>
                       <h4 className="mb-2">Thank you for your order</h4>
-                      <div className="ordr_number">
-                        Order Number:{" "}
-                        <span className="copy_number_widget">
-                          <span className="target">47852846584854</span>{" "}
-                          <button className="actn_btn bj_theme_btn strock_btn btn_small">Copy</button>
-                        </span>
-                      </div>
+                      {order && (
+                        <div className="ordr_number">
+                          Order Number: <span className="copy_number_widget">{order._id}</span>
+                        </div>
+                      )}
                     </div>
                   </div>
                   <div className="order_information">
-                    <p className="mb-4">You will recieve an order confirmation via email or mobile number</p>
-                    <div className="row gy-lg-0 gy-3">
-                      <div className="col-lg-4">
-                        <h6>Contact</h6>
-                        <div className="info">Jason Momoa</div>
-                        <div className="info">8880123456789</div>
-                      </div>
-                      <div className="col-lg-4">
-                        <h6>Shipping Address</h6>
-                        <div className="info">23/6 Jackson Street</div>
-                      </div>
-                      <div className="col-lg-4">
-                        <h6>Payment Method</h6>
-                        <div className="info">cash on delivery</div>
-                      </div>
-                    </div>
+                    <p className="mb-4">Your payment was accepted and your order has been placed.</p>
                   </div>
                   <div className="d-flex flex-column flex-sm-row justify-content-end gap-3">
-                    <a href="/shop" className="bj_theme_btn strock_btn">
+                    <Link to="/shop" className="bj_theme_btn strock_btn">
                       Continue shopping
-                    </a>
-                    <a href="/order-track" className="bj_theme_btn">
-                      Track Order
-                    </a>
+                    </Link>
+                    <Link to="/my-orders" className="bj_theme_btn">
+                      View My Orders
+                    </Link>
                   </div>
                 </div>
               </div>
             </div>
-            <div className="col-lg-4">
-              <div className="cart_checkout_summary mt-4 ms-lg-2">
-                <div className="cart_checkout_header">
-                  <h5>Order Summary</h5>
-                </div>
-                <div className="cart_checkout_body">
-                  <div className="checkout_item">
-                    <span>Subtotal</span>
-                    <span>$73.96</span>
+            {order && (
+              <div className="col-lg-4">
+                <div className="cart_checkout_summary mt-4 ms-lg-2">
+                  <div className="cart_checkout_header">
+                    <h5>Order Summary</h5>
                   </div>
-                  <div className="checkout_item">
-                    <span>Shipping</span>
-                    <span>$5.99</span>
-                  </div>
-                  <div className="checkout_item">
-                    <span>Total</span>
-                    <span>$79.95</span>
-                  </div>
-                  <div className="checkout_item strong">
-                    <span>Payable Total</span>
-                    <span>$79.95</span>
+                  <div className="cart_checkout_body">
+                    <div className="checkout_item">
+                      <span>Subtotal</span>
+                      <span>${subtotal.toFixed(2)}</span>
+                    </div>
+                    <div className="checkout_item">
+                      <span>Delivery</span>
+                      <span>{order.orderDelivery === 0 ? "Free" : `$${order.orderDelivery.toFixed(2)}`}</span>
+                    </div>
+                    <div className="checkout_item strong">
+                      <span>Total</span>
+                      <span>${order.orderTotal.toFixed(2)}</span>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
       </section>

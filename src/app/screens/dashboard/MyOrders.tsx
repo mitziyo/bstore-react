@@ -1,159 +1,103 @@
-interface OrderProduct {
-  image: string;
-  title: string;
-  current: string;
-  original: string;
-}
+import { useEffect, useState } from "react";
+import { serverApi } from "../../../lib/config";
+import { OrderStatus } from "../../../lib/enums/order.enum";
+import OrderService from "../../services/OrderService";
+import type { Order, OrderInquiry } from "../../../lib/types/order";
 
-type OrderStatus = "completed" | "processing" | "cancelled" | "refunded";
-
-interface Order {
-  id: string;
-  date: string;
-  status: OrderStatus;
-  products: OrderProduct[];
-  total: string;
-  action: "track" | "details" | "reorder";
-}
-
-const STATUS_META: Record<OrderStatus, { icon: string; label: string }> = {
-  completed: { icon: "fa-solid fa-circle-check", label: "Completed" },
-  processing: { icon: "fa-solid fa-arrows-rotate", label: "Processing" },
-  cancelled: { icon: "fa-solid fa-circle-xmark", label: "Cancelled" },
-  refunded: { icon: "fa-solid fa-rotate-left", label: "Refunded" },
+const STATUS_META: Record<OrderStatus, { icon: string; label: string; className: string }> = {
+  [OrderStatus.PAUSE]: { icon: "fa-solid fa-hourglass-half", label: "Pending", className: "pause" },
+  [OrderStatus.PROCESS]: { icon: "fa-solid fa-arrows-rotate", label: "Processing", className: "processing" },
+  [OrderStatus.FINISH]: { icon: "fa-solid fa-circle-check", label: "Completed", className: "completed" },
+  [OrderStatus.DELETE]: { icon: "fa-solid fa-circle-xmark", label: "Cancelled", className: "cancelled" },
 };
 
-const ORDERS: Order[] = [
-  {
-    id: "#47162275294678",
-    date: "Dec 28, 2025",
-    status: "completed",
-    products: [
-      { image: "/img/cart/best_book1.jpg", title: "Tata Stories", current: "$19.99", original: "$29.99" },
-      { image: "/img/cart/best_book3.jpg", title: "Tata Stories", current: "$19.99", original: "$29.99" },
-      { image: "/img/cart/best_book2.jpg", title: "Tata Stories", current: "$19.99", original: "$29.99" },
-    ],
-    total: "$59.97",
-    action: "track",
-  },
-  {
-    id: "#47162275294679",
-    date: "Dec 25, 2025",
-    status: "refunded",
-    products: [
-      { image: "/img/cart/best_book3.jpg", title: "Tata Stories", current: "$19.99", original: "$29.99" },
-    ],
-    total: "$19.99",
-    action: "details",
-  },
-  {
-    id: "#47162275294680",
-    date: "Dec 20, 2025",
-    status: "cancelled",
-    products: [
-      { image: "/img/home-two/best_book1.jpg", title: "Tata Stories", current: "$19.99", original: "$29.99" },
-      { image: "/img/home-two/best_book2.jpg", title: "Tata Stories", current: "$19.99", original: "$29.99" },
-    ],
-    total: "$39.98",
-    action: "reorder",
-  },
-];
-
-function OrderAction({ action }: { action: Order["action"] }) {
-  if (action === "track") {
-    return (
-      <a href="/order-track" className="order-card__btn">
-        <i className="fa-solid fa-location-arrow"></i>
-        Track Order
-      </a>
-    );
-  }
-
-  if (action === "details") {
-    return (
-      <button className="order-card__btn order-card__btn--secondary">
-        <i className="fa-solid fa-file-invoice"></i>
-        View Details
-      </button>
-    );
-  }
-
-  return (
-    <button className="order-card__btn order-card__btn--reorder">
-      <i className="fa-solid fa-arrow-rotate-right"></i>
-      Reorder
-    </button>
-  );
-}
-
 export function MyOrders() {
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [statusFilter, setStatusFilter] = useState<string>("all");
+
+  useEffect(() => {
+    const inquiry: OrderInquiry = { page: 1, limit: 20 };
+    if (statusFilter !== "all") inquiry.orderStatus = statusFilter as OrderStatus;
+    new OrderService()
+      .getMyOrders(inquiry)
+      .then((data) => setOrders(data))
+      .catch((err) => console.log(err));
+  }, [statusFilter]);
+
   return (
     <div className="dashboard-card">
       <div className="dashboard-card__header">
         <div className="d-flex justify-content-between align-items-center flex-wrap gap-3">
           <div>
             <h3 className="dashboard-card__title">My Orders</h3>
-            <p className="dashboard-card__subtitle">You have {ORDERS.length} orders in total</p>
+            <p className="dashboard-card__subtitle">You have {orders.length} orders in total</p>
           </div>
         </div>
       </div>
 
       <div className="dashboard-card__body">
         <div className="orders-toolbar">
-          <div className="orders-toolbar__search">
-            <i className="fa-solid fa-magnifying-glass"></i>
-            <input type="text" placeholder="Search by Order ID..." className="orders-toolbar__input" />
-          </div>
           <div className="orders-toolbar__filter">
-            <select className="orders-toolbar__select">
+            <select className="orders-toolbar__select" value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
               <option value="all">All Orders</option>
-              <option value="processing">Processing</option>
-              <option value="completed">Completed</option>
-              <option value="cancelled">Cancelled</option>
-              <option value="refunded">Refunded</option>
+              <option value={OrderStatus.PAUSE}>Pending</option>
+              <option value={OrderStatus.PROCESS}>Processing</option>
+              <option value={OrderStatus.FINISH}>Completed</option>
+              <option value={OrderStatus.DELETE}>Cancelled</option>
             </select>
           </div>
         </div>
 
-        <div className="orders-list">
-          {ORDERS.map((order) => (
-            <div className="order-card" key={order.id}>
-              <div className="order-card__header">
-                <div className="order-card__info">
-                  <span className="order-card__id">{order.id}</span>
-                  <span className="order-card__date">{order.date}</span>
-                </div>
-                <div className={`order-card__status order-card__status--${order.status}`}>
-                  <i className={STATUS_META[order.status].icon}></i>
-                  {STATUS_META[order.status].label}
-                </div>
-              </div>
-
-              <div className="order-card__products">
-                {order.products.map((product, i) => (
-                  <div className="order-product" key={i}>
-                    <img src={product.image} alt={product.title} />
-                    <div className="order-product__info">
-                      <h6 className="order-product__title">{product.title}</h6>
-                      <div className="order-product__price">
-                        <span className="order-product__current">{product.current}</span>
-                        <span className="order-product__original">{product.original}</span>
-                      </div>
+        {orders.length === 0 ? (
+          <p className="text-center">No orders yet.</p>
+        ) : (
+          <div className="orders-list">
+            {orders.map((order) => {
+              const meta = STATUS_META[order.orderStatus];
+              return (
+                <div className="order-card" key={order._id}>
+                  <div className="order-card__header">
+                    <div className="order-card__info">
+                      <span className="order-card__id">{order._id}</span>
+                      <span className="order-card__date">{new Date(order.createdAt).toLocaleDateString()}</span>
+                    </div>
+                    <div className={`order-card__status order-card__status--${meta.className}`}>
+                      <i className={meta.icon}></i>
+                      {meta.label}
                     </div>
                   </div>
-                ))}
-              </div>
 
-              <div className="order-card__footer">
-                <div className="order-card__total">
-                  <span>Total:</span>
-                  <strong>{order.total}</strong>
+                  <div className="order-card__products">
+                    {order.orderItems.map((item) => {
+                      const book = order.bookData.find((b) => b._id === item.bookId);
+                      const imagePath = book?.bookImages[0] ? `${serverApi}/${book.bookImages[0]}` : "/img/cart/best_book1.jpg";
+                      return (
+                        <div className="order-product" key={item._id}>
+                          <img src={imagePath} alt={book?.bookName ?? "Book"} />
+                          <div className="order-product__info">
+                            <h6 className="order-product__title">{book?.bookName ?? "Unknown book"}</h6>
+                            <div className="order-product__price">
+                              <span className="order-product__current">
+                                {item.itemQuantity} x ${item.itemPrice}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                  <div className="order-card__footer">
+                    <div className="order-card__total">
+                      <span>Total:</span>
+                      <strong>${order.orderTotal}</strong>
+                    </div>
+                  </div>
                 </div>
-                <OrderAction action={order.action} />
-              </div>
-            </div>
-          ))}
-        </div>
+              );
+            })}
+          </div>
+        )}
       </div>
     </div>
   );

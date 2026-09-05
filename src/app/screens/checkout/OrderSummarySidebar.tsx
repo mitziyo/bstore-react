@@ -1,13 +1,7 @@
-import { useState } from "react";
+import { useGlobals } from "../../hooks/useGlobals";
 
-const SUBTOTAL = 59.97;
-const SHIPPING = 5.0;
-const TAX = 4.5;
-const PROMO_DISCOUNT = 15.0;
-
-export function OrderSummarySidebar() {
-  const [promoApplied, setPromoApplied] = useState(false);
-  const total = SUBTOTAL + SHIPPING + TAX - (promoApplied ? PROMO_DISCOUNT : 0);
+export function OrderSummarySidebar({ subtotal, delivery, total }: { subtotal: number; delivery: number; total: number }) {
+  const { basket } = useGlobals();
 
   return (
     <div className="col-lg-5">
@@ -21,66 +15,17 @@ export function OrderSummarySidebar() {
           </div>
           <div className="order-summary__body">
             <div className="summary-row">
-              <span>Subtotal (3 items)</span>
-              <span>${SUBTOTAL.toFixed(2)}</span>
+              <span>Subtotal ({basket.cartItems.length} items)</span>
+              <span>${subtotal.toFixed(2)}</span>
             </div>
             <div className="summary-row">
-              <span>
-                Shipping
-                <button type="button" className="info-tooltip" data-bs-toggle="tooltip" title="Shipping varies by location">
-                  <i className="fa-solid fa-circle-info"></i>
-                </button>
-              </span>
-              <span>${SHIPPING.toFixed(2)}</span>
+              <span>Delivery</span>
+              <span>{delivery === 0 ? "Free" : `$${delivery.toFixed(2)}`}</span>
             </div>
-            <div className="summary-row">
-              <span>Tax</span>
-              <span>${TAX.toFixed(2)}</span>
-            </div>
-            {promoApplied && (
-              <div className="summary-row summary-row--discount">
-                <span>
-                  <i className="fa-solid fa-tag"></i>
-                  Promo Applied
-                </span>
-                <span>-${PROMO_DISCOUNT.toFixed(2)}</span>
-              </div>
-            )}
             <div className="summary-row summary-row--total">
               <span>Total</span>
               <span>${total.toFixed(2)}</span>
             </div>
-          </div>
-        </div>
-
-        <div className="checkout-promo">
-          <button className="promo-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#promoCollapse">
-            <span>
-              <i className="fa-solid fa-percent"></i>
-              Have a promo code?
-            </span>
-            <i className="fa-solid fa-chevron-down promo-toggle__arrow"></i>
-          </button>
-          <div className="collapse" id="promoCollapse">
-            {promoApplied ? (
-              <div className="promo-success">
-                <i className="fa-solid fa-circle-check"></i>
-                <span>
-                  <strong>SAVE15</strong> applied — You&rsquo;re saving ${PROMO_DISCOUNT.toFixed(2)}!
-                </span>
-              </div>
-            ) : (
-              <div className="promo-form">
-                <input type="text" className="form-control" placeholder="Enter code" />
-                <button
-                  type="button"
-                  className="promo-apply"
-                  onClick={() => setPromoApplied(true)}
-                >
-                  Apply
-                </button>
-              </div>
-            )}
           </div>
         </div>
 
@@ -92,17 +37,6 @@ export function OrderSummarySidebar() {
           <div className="secure-checkout__content">
             <strong>100% Secure Checkout</strong>
             <p>Your payment information is encrypted and secure</p>
-          </div>
-        </div>
-
-        <div className="payment-icons">
-          <span>We Accept:</span>
-          <div className="payment-icons__list">
-            <i className="fa-brands fa-cc-visa"></i>
-            <i className="fa-brands fa-cc-mastercard"></i>
-            <i className="fa-brands fa-cc-amex"></i>
-            <i className="fa-brands fa-cc-paypal"></i>
-            <i className="fa-brands fa-cc-stripe"></i>
           </div>
         </div>
       </div>
