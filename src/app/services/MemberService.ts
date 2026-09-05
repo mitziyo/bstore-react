@@ -56,7 +56,7 @@ class MemberService {
     }
   }
 
-  public async updateMember(input: MemberUpdateInput): Promise<Member> {
+  public async updateMember(input: MemberUpdateInput, imageFile?: File): Promise<Member> {
     try {
       const formData = new FormData();
       if (input.memberNick) formData.append("memberNick", input.memberNick);
@@ -64,7 +64,7 @@ class MemberService {
       if (input.memberPassword) formData.append("memberPassword", input.memberPassword);
       if (input.memberAddress) formData.append("memberAddress", input.memberAddress);
       if (input.memberDesc) formData.append("memberDesc", input.memberDesc);
-      if (input.memberImage) formData.append("memberImage", input.memberImage);
+      if (imageFile) formData.append("memberImage", imageFile);
 
       const result = await api.post<Member>("/member/update", formData, {
         headers: { "Content-Type": "multipart/form-data" },
