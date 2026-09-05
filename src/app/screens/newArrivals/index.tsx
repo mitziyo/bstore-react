@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import "../../../scss/newArrivals/newArrivals.scss";
 import { NewArrivalsGrid } from "./NewArrivalsGrid";
 
@@ -10,7 +11,7 @@ export function NewArrivalsPage() {
           <h2 className="title wow fadeInUp">New Arrivals</h2>
           <ol className="breadcrumb justify-content-center wow fadeInUp">
             <li>
-              <a href="/">Home</a>
+              <Link to="/">Home</Link>
             </li>
             <li className="active">New Arrivals</li>
           </ol>
