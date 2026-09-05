@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { serverApi } from "../../../lib/config";
 import { OrderStatus } from "../../../lib/enums/order.enum";
 import OrderService from "../../services/OrderService";
@@ -92,6 +93,10 @@ export function MyOrders() {
                       <span>Total:</span>
                       <strong>${order.orderTotal}</strong>
                     </div>
+                    <Link to={`/order-track/${order._id}`} className="order-card__btn">
+                      <i className="fa-solid fa-location-arrow"></i>
+                      Track Order
+                    </Link>
                   </div>
                 </div>
               );

@@ -83,7 +83,7 @@ function AppRoutes() {
             <Route path="/my-following-authors" element={<MyFollowingAuthors />} />
             <Route path="/add-new-address" element={<AddNewAddress />} />
           </Route>
-          <Route path="/order-track" element={<OrderTrack />} />
+          <Route path="/order-track/:id" element={<OrderTrack />} />
           <Route path="/order-confrmation" element={<OrderConfirmation />} />
           <Route path="/my-list-create" element={<MyListCreate />} />
           <Route path="/my-list-details" element={<MyListDetails />} />
