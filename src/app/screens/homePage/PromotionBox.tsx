@@ -7,15 +7,6 @@ export function PromotionBox() {
             <li className="wow fadeInLeft" data-wow-delay="0.2s">
               <img src="/img/home-two/promo_book1.png" alt="" />
             </li>
-            <li className="wow fadeInLeft" data-wow-delay="0.3s">
-              <img src="/img/home-two/promo_book2.png" alt="" />
-            </li>
-            <li className="wow fadeInLeft" data-wow-delay="0.4s">
-              <img src="/img/home-two/promo_book3.png" alt="" />
-            </li>
-            <li className="wow fadeInLeft" data-wow-delay="0.5s">
-              <img src="/img/home-two/promo_book4.png" alt="" />
-            </li>
             <li className="wow fadeInLeft" data-wow-delay="0.6s">
               <img src="/img/home-two/promo_book5.png" alt="" />
             </li>

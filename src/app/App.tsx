@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useLayoutEffect } from "react";
 import { BrowserRouter, Routes, Route, Outlet, useLocation } from "react-router-dom";
 import { Tooltip } from "bootstrap";
 import { ContextProvider } from "./context/ContextProvider";
@@ -21,6 +21,7 @@ import { MyWishlist } from "./screens/dashboard/MyWishlist";
 import { MyRatingReviews } from "./screens/dashboard/MyRatingReviews";
 import { MyFollowingAuthors } from "./screens/dashboard/MyFollowingAuthors";
 import { OrderTrack } from "./screens/dashboard/OrderTrack";
+import { OrderTrackRedirect } from "./screens/dashboard/OrderTrackRedirect";
 import { OrderConfirmation } from "./screens/dashboard/OrderConfirmation";
 import { MyListCreate } from "./screens/dashboard/MyListCreate";
 import { AddNewAddress } from "./screens/dashboard/AddNewAddress";
@@ -47,7 +48,7 @@ import { NotFoundPage } from "./screens/notFound";
 function SiteLayout() {
   const location = useLocation();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     window.scrollTo(0, 0);
   }, [location.pathname]);
 
@@ -83,6 +84,7 @@ function AppRoutes() {
             <Route path="/my-following-authors" element={<MyFollowingAuthors />} />
             <Route path="/add-new-address" element={<AddNewAddress />} />
           </Route>
+          <Route path="/order-track" element={<OrderTrackRedirect />} />
           <Route path="/order-track/:id" element={<OrderTrack />} />
           <Route path="/order-confrmation" element={<OrderConfirmation />} />
           <Route path="/my-list-create" element={<MyListCreate />} />

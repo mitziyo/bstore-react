@@ -1,3 +1,5 @@
+import { useGlobals } from "../../hooks/useGlobals";
+
 interface Address {
   id: string;
   type: "home" | "office";
@@ -15,8 +17,8 @@ const ADDRESSES: Address[] = [
     type: "home",
     isDefault: true,
     name: "Muaz BK",
-    lines: ["123 Main Street, Apt 4B", "New York, NY 10001"],
-    phone: "+1 (555) 123-4567",
+    lines: ["12 Teheran-ro, Apt 4B", "Gangnam-gu, Seoul 06234"],
+    phone: "+82 10-1234-5678",
     email: "muaz@example.com",
     lastUsed: "Last used 2 days ago",
   },
@@ -25,8 +27,8 @@ const ADDRESSES: Address[] = [
     type: "office",
     isDefault: false,
     name: "Muaz BK",
-    lines: ["456 Business Center, Floor 12", "Manhattan, NY 10018"],
-    phone: "+1 (555) 987-6543",
+    lines: ["45 Jongno, Floor 12", "Jongno-gu, Seoul 03150"],
+    phone: "+82 10-9876-5432",
     email: "muaz.work@company.com",
     lastUsed: "Last used 1 week ago",
   },
@@ -35,8 +37,8 @@ const ADDRESSES: Address[] = [
     type: "office",
     isDefault: false,
     name: "Muaz BK",
-    lines: ["789 Tech Hub, Suite 200", "Brooklyn, NY 11201"],
-    phone: "+1 (555) 456-7890",
+    lines: ["78 Haeundae-ro, Suite 200", "Haeundae-gu, Busan 48094"],
+    phone: "+82 10-4567-8901",
     email: "muaz@techhub.com",
     lastUsed: "Never used",
   },
@@ -49,6 +51,8 @@ const STATS = [
 ];
 
 export function MyAddress() {
+  const { authMember } = useGlobals();
+
   return (
     <>
       <div className="address_page_header">
@@ -110,7 +114,7 @@ export function MyAddress() {
               </div>
             </div>
             <div className="address_card_body">
-              <h5 className="recipient_name">{address.name}</h5>
+              <h5 className="recipient_name">{authMember?.memberNick ?? address.name}</h5>
               <p className="address_text">
                 {address.lines.map((line, i) => (
                   <span key={i}>

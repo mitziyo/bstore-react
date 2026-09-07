@@ -8,7 +8,7 @@ const FORMAT_MAP: Record<string, BookFormat> = {
   EBOOK: BookFormat.EBOOK,
 };
 
-function toProduct(raw: Product): Product {
+export function toProduct(raw: Product): Product {
   return {
     ...raw,
     bookFormat: FORMAT_MAP[raw.bookFormat as unknown as string] ?? BookFormat.PAPERBACK,
@@ -21,6 +21,8 @@ class BookService {
       let url = `/book/all?order=${input.order}&page=${input.page}&limit=${input.limit}`;
       if (input.genre) url += `&bookGenre=${input.genre}`;
       if (input.search) url += `&search=${input.search}`;
+      if (input.priceMin !== undefined) url += `&priceMin=${input.priceMin}`;
+      if (input.priceMax !== undefined) url += `&priceMax=${input.priceMax}`;
 
       const result = await api.get<Product[]>(url);
       return result.data.map(toProduct);

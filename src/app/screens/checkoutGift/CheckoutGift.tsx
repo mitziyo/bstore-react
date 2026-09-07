@@ -1,5 +1,3 @@
-import { PaymentMethodCard } from "./PaymentMethodCard";
-
 export function CheckoutGift() {
   return (
     <div className="col-lg-8">
@@ -22,11 +20,8 @@ export function CheckoutGift() {
                   <label className="floating-label">Alternative Phone No</label>
                 </div>
                 <div className="col-md-12 form-group">
-                  <select className="selectpickers" defaultValue="Bangladesh">
-                    <option value="Bangladesh">Bangladesh</option>
-                    <option value="United States">United States</option>
-                    <option value="United Kingdom">United Kingdom</option>
-                    <option value="Canada">Canada</option>
+                  <select className="selectpickers" defaultValue="South Korea">
+                    <option value="South Korea">South Korea</option>
                   </select>
                 </div>
                 <div className="col-md-6 form-group">
@@ -34,13 +29,11 @@ export function CheckoutGift() {
                     <option value="" disabled>
                       Select City
                     </option>
-                    <option value="Comilla">Comilla</option>
-                    <option value="Dhaka">Dhaka</option>
-                    <option value="Chittagong">Chittagong</option>
-                    <option value="Khulna">Khulna</option>
-                    <option value="Rajshahi">Rajshahi</option>
-                    <option value="Rangpur">Rangpur</option>
-                    <option value="Mymensingh">Mymensingh</option>
+                    <option value="Seoul">Seoul</option>
+                    <option value="Busan">Busan</option>
+                    <option value="Incheon">Incheon</option>
+                    <option value="Daegu">Daegu</option>
+                    <option value="Daejeon">Daejeon</option>
                   </select>
                 </div>
                 <div className="col-md-6 form-group">
@@ -48,13 +41,10 @@ export function CheckoutGift() {
                     <option value="" disabled>
                       Select Area
                     </option>
-                    <option value="Comilla">Comilla</option>
-                    <option value="Dhaka">Dhaka</option>
-                    <option value="Chittagong">Chittagong</option>
-                    <option value="Khulna">Khulna</option>
-                    <option value="Rajshahi">Rajshahi</option>
-                    <option value="Rangpur">Rangpur</option>
-                    <option value="Mymensingh">Mymensingh</option>
+                    <option value="Gangnam-gu">Gangnam-gu</option>
+                    <option value="Jongno-gu">Jongno-gu</option>
+                    <option value="Seocho-gu">Seocho-gu</option>
+                    <option value="Songpa-gu">Songpa-gu</option>
                   </select>
                 </div>
                 <div className="col-md-12 form-group">
@@ -73,11 +63,8 @@ export function CheckoutGift() {
                   <label className="floating-label">Full Name *</label>
                 </div>
                 <div className="col-md-12 form-group">
-                  <select className="selectpickers" defaultValue="Bangladesh">
-                    <option value="Bangladesh">Bangladesh</option>
-                    <option value="United States">United States</option>
-                    <option value="United Kingdom">United Kingdom</option>
-                    <option value="Canada">Canada</option>
+                  <select className="selectpickers" defaultValue="South Korea">
+                    <option value="South Korea">South Korea</option>
                   </select>
                 </div>
                 <div className="col-md-6 form-group">
@@ -85,13 +72,11 @@ export function CheckoutGift() {
                     <option value="" disabled>
                       Select City
                     </option>
-                    <option value="Comilla">Comilla</option>
-                    <option value="Dhaka">Dhaka</option>
-                    <option value="Chittagong">Chittagong</option>
-                    <option value="Khulna">Khulna</option>
-                    <option value="Rajshahi">Rajshahi</option>
-                    <option value="Rangpur">Rangpur</option>
-                    <option value="Mymensingh">Mymensingh</option>
+                    <option value="Seoul">Seoul</option>
+                    <option value="Busan">Busan</option>
+                    <option value="Incheon">Incheon</option>
+                    <option value="Daegu">Daegu</option>
+                    <option value="Daejeon">Daejeon</option>
                   </select>
                 </div>
                 <div className="col-md-6 form-group">
@@ -99,13 +84,10 @@ export function CheckoutGift() {
                     <option value="" disabled>
                       Select Area
                     </option>
-                    <option value="Comilla">Comilla</option>
-                    <option value="Dhaka">Dhaka</option>
-                    <option value="Chittagong">Chittagong</option>
-                    <option value="Khulna">Khulna</option>
-                    <option value="Rajshahi">Rajshahi</option>
-                    <option value="Rangpur">Rangpur</option>
-                    <option value="Mymensingh">Mymensingh</option>
+                    <option value="Gangnam-gu">Gangnam-gu</option>
+                    <option value="Jongno-gu">Jongno-gu</option>
+                    <option value="Seocho-gu">Seocho-gu</option>
+                    <option value="Songpa-gu">Songpa-gu</option>
                   </select>
                 </div>
                 <div className="col-md-12 form-group">
@@ -146,8 +128,6 @@ export function CheckoutGift() {
           <p>Purchase and Earn Point</p>
         </div>
       </div>
-
-      <PaymentMethodCard />
     </div>
   );
 }

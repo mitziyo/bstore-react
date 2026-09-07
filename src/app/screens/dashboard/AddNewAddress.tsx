@@ -100,7 +100,7 @@ export function AddNewAddress() {
                     <i className="fa-solid fa-phone"></i>
                     Phone Number <span className="required">*</span>
                   </label>
-                  <input type="tel" className="form-control" id="phone_no" placeholder="+1 (555) 000-0000" required />
+                  <input type="tel" className="form-control" id="phone_no" placeholder="+82 10-0000-0000" required />
                 </div>
               </div>
               <div className="col-md-6">
@@ -109,7 +109,7 @@ export function AddNewAddress() {
                     <i className="fa-solid fa-phone"></i>
                     Alternative Phone <span className="optional">(Optional)</span>
                   </label>
-                  <input type="tel" className="form-control" id="alternative_phone_no" placeholder="+1 (555) 000-0000" />
+                  <input type="tel" className="form-control" id="alternative_phone_no" placeholder="+82 10-0000-0000" />
                 </div>
               </div>
               <div className="col-md-12">
@@ -141,10 +141,7 @@ export function AddNewAddress() {
                     <option value="" disabled>
                       Select Country
                     </option>
-                    <option value="Bangladesh">Bangladesh</option>
-                    <option value="United States">United States</option>
-                    <option value="United Kingdom">United Kingdom</option>
-                    <option value="Canada">Canada</option>
+                    <option value="South Korea">South Korea</option>
                   </select>
                 </div>
               </div>
@@ -158,11 +155,11 @@ export function AddNewAddress() {
                     <option value="" disabled>
                       Select City
                     </option>
-                    <option value="New York">New York</option>
-                    <option value="Dhaka">Dhaka</option>
-                    <option value="Chittagong">Chittagong</option>
-                    <option value="Khulna">Khulna</option>
-                    <option value="Rajshahi">Rajshahi</option>
+                    <option value="Seoul">Seoul</option>
+                    <option value="Busan">Busan</option>
+                    <option value="Incheon">Incheon</option>
+                    <option value="Daegu">Daegu</option>
+                    <option value="Daejeon">Daejeon</option>
                   </select>
                 </div>
               </div>
@@ -176,10 +173,10 @@ export function AddNewAddress() {
                     <option value="" disabled>
                       Select Area
                     </option>
-                    <option value="Manhattan">Manhattan</option>
-                    <option value="Brooklyn">Brooklyn</option>
-                    <option value="Queens">Queens</option>
-                    <option value="Bronx">Bronx</option>
+                    <option value="Gangnam-gu">Gangnam-gu</option>
+                    <option value="Jongno-gu">Jongno-gu</option>
+                    <option value="Seocho-gu">Seocho-gu</option>
+                    <option value="Songpa-gu">Songpa-gu</option>
                   </select>
                 </div>
               </div>
@@ -189,7 +186,7 @@ export function AddNewAddress() {
                     <i className="fa-solid fa-hashtag"></i>
                     Postal / ZIP Code <span className="optional">(Optional)</span>
                   </label>
-                  <input type="text" className="form-control" id="zip_code" placeholder="10001" />
+                  <input type="text" className="form-control" id="zip_code" placeholder="06234" />
                 </div>
               </div>
               <div className="col-md-12">

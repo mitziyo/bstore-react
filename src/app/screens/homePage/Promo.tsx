@@ -9,7 +9,7 @@ export function Promo() {
             </div>
             <div className="promo-feature__content">
               <h5>Free Shipping</h5>
-              <p>On all orders in the USA</p>
+              <p>On all orders in South Korea</p>
             </div>
           </div>
           <div className="promo-feature wow fadeInUp" data-wow-delay="0.3s">

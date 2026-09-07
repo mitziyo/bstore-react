@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { serverApi } from "../../../lib/config";
+import { formatGenre, serverApi } from "../../../lib/config";
 import type { Product } from "../../../lib/types/product";
 
 const FALLBACK_IMG = "/img/book-single1.jpg";
@@ -25,10 +25,10 @@ export function BookDetails({ book }: { book: Product }) {
         <h2>{book.bookName}</h2>
         <ul className="list-unstyled book_meta">
           <li>
-            Category:<Link to={`/shop?genre=${book.bookGenre}`}>{book.bookGenre}</Link>
+            Category: <Link to={`/shop?genre=${book.bookGenre}`}>{formatGenre(book.bookGenre)}</Link>
           </li>
           <li>
-            Format:<span>{book.bookFormat}</span>
+            Format: <span>{book.bookFormat}</span>
           </li>
         </ul>
         <div className="price-wrapper">

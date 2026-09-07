@@ -1,11 +1,14 @@
 import { createContext, useContext } from "react";
 import useBasket from "./useBasket";
 import type { Member } from "../../lib/types/member";
+import type { Product } from "../../lib/types/product";
 
 interface GlobalInterface {
   authMember: Member | null;
   setAuthMember: (member: Member | null) => void;
   basket: ReturnType<typeof useBasket>;
+  quickViewBook: Product | null;
+  setQuickViewBook: (book: Product | null) => void;
 }
 
 export const GlobalContext = createContext<GlobalInterface | undefined>(undefined);

@@ -1,8 +1,13 @@
-import { Outlet } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import "../../../scss/dashboard/dashboard.scss";
 import { DashboardSidebar } from "./DashboardSidebar";
+import { useGlobals } from "../../hooks/useGlobals";
 
 export function DashboardLayout() {
+  const { authMember } = useGlobals();
+
+  if (!authMember) return <Navigate to="/login" replace />;
+
   return (
     <section className="bj_account_dashboard" style={{ backgroundColor: "#f5f5f5" }}>
       <div className="container">

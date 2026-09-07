@@ -222,9 +222,36 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 40px;
 
     img {
       max-width: 100%;
+    }
+
+    &__content {
+      text-align: center;
+      color: #fff;
+
+      i {
+        font-size: 56px;
+        margin-bottom: 24px;
+        opacity: 0.9;
+      }
+
+      h3 {
+        color: #fff;
+        font-size: 28px;
+        font-weight: 700;
+        margin-bottom: 16px;
+      }
+
+      p {
+        color: rgba(255, 255, 255, 0.85);
+        font-size: 16px;
+        line-height: 1.6;
+        max-width: 320px;
+        margin: 0 auto;
+      }
     }
   }
 }

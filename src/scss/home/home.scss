@@ -1355,30 +1355,26 @@
   li {
     position: absolute;
 
+    img {
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    }
+
     &:nth-child(1) {
-      top: -50px;
-      left: 0px;
+      top: 30px;
+      left: 30px;
+
+      img {
+        transform: rotate(-20deg);
+      }
     }
 
     &:nth-child(2) {
-      bottom: 20px;
-      left: 20px;
-    }
+      bottom: 30px;
+      right: 30px;
 
-    &:nth-child(3) {
-      bottom: 100px;
-      right: 1px;
-      z-index: 1;
-    }
-
-    &:nth-child(4) {
-      bottom: -40px;
-      right: 170px;
-    }
-
-    &:nth-child(5) {
-      bottom: -35px;
-      right: -45px;
+      img {
+        transform: rotate(8deg);
+      }
     }
   }
 }
@@ -1577,19 +1573,23 @@
   li {
     position: absolute;
 
+    img {
+      transform: rotate(45deg);
+    }
+
     &:nth-child(1) {
       left: 95px;
-      top: -172px;
+      top: -90px;
     }
 
     &:nth-child(2) {
-      left: -174px;
+      left: -140px;
       top: 104px;
     }
 
     &:nth-child(3) {
-      left: 102px;
-      bottom: -172px;
+      left: 112px;
+      bottom: -120px;
     }
   }
 }
@@ -1746,5 +1746,35 @@
     i {
       transform: translateX(4px);
     }
+  }
+}
+
+// ================================================
+// Home Two — Top Users tab (most-points members, inside People's Choice)
+// ================================================
+.top-reader-card {
+  text-align: center;
+
+  &__photo {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 20px;
+  }
+
+  &__name {
+    font-family: "Libre Baskerville", serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: #2b2420;
+    margin-bottom: 4px;
+  }
+
+  &__points {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: #c17a4f;
   }
 }

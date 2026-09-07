@@ -102,7 +102,11 @@ export function LoginPage() {
           </div>
         </div>
         <div className="login-right">
-          <img src="/img/login/login-img.png" alt="" />
+          <div className="login-right__content">
+            <i className="fa-solid fa-book-open"></i>
+            <h3>Join Thousands of Readers</h3>
+            <p>Discover your next favorite book and track every order in one place.</p>
+          </div>
         </div>
       </div>
     </div>

@@ -19,22 +19,26 @@ export function ProductSinglePage() {
       .catch((err) => console.log(err));
   }, [id]);
 
-  if (!book) return null;
-
   return (
     <>
-      <Breadcrumb label={book.bookName} />
+      <Breadcrumb label={book?.bookName ?? "Book Details"} />
 
       <section className="product_details_area sec_padding" style={{ backgroundColor: "#f5f5f5" }}>
         <div className="container">
-          <div className="row gy-xl-0 gy-3">
-            <div className="col-xl-9">
-              <BookDetails book={book} />
+          {!book ? (
+            <p className="text-center" style={{ minHeight: 600 }}>
+              Loading book...
+            </p>
+          ) : (
+            <div className="row gy-xl-0 gy-3">
+              <div className="col-xl-9">
+                <BookDetails book={book} />
+              </div>
+              <div className="col-xl-3">
+                <ProductSidebar book={book} />
+              </div>
             </div>
-            <div className="col-xl-3">
-              <ProductSidebar book={book} />
-            </div>
-          </div>
+          )}
         </div>
       </section>
     </>

@@ -4,6 +4,7 @@ import Cookies from "universal-cookie";
 import { GlobalContext } from "../hooks/useGlobals";
 import useBasket from "../hooks/useBasket";
 import type { Member } from "../../lib/types/member";
+import type { Product } from "../../lib/types/product";
 
 const cookies = new Cookies();
 
@@ -17,6 +18,11 @@ export function ContextProvider({ children }: { children: ReactNode }) {
     return memberData ? JSON.parse(memberData) : null;
   });
   const basket = useBasket();
+  const [quickViewBook, setQuickViewBook] = useState<Product | null>(null);
 
-  return <GlobalContext.Provider value={{ authMember, setAuthMember, basket }}>{children}</GlobalContext.Provider>;
+  return (
+    <GlobalContext.Provider value={{ authMember, setAuthMember, basket, quickViewBook, setQuickViewBook }}>
+      {children}
+    </GlobalContext.Provider>
+  );
 }

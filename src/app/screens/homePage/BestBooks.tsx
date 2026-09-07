@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { serverApi } from "../../../lib/config";
 import { useGlobals } from "../../hooks/useGlobals";
 import type { Product } from "../../../lib/types/product";
@@ -7,6 +7,7 @@ const FALLBACK_IMG = "/img/home-two/best_book1.jpg";
 
 export function BestBooks({ books }: { books: Product[] }) {
   const { basket } = useGlobals();
+  const navigate = useNavigate();
 
   return (
     <section className="best-books-section" style={{ backgroundColor: "#fff" }}>
@@ -35,10 +36,20 @@ export function BestBooks({ books }: { books: Product[] }) {
               const imagePath = book.bookImages[0] ? `${serverApi}/${book.bookImages[0]}` : FALLBACK_IMG;
               return (
                 <div className="col-lg-6" key={book._id}>
-                  <div className="best-book-card wow fadeInUp" data-wow-delay={`${0.2 + index * 0.1}s`}>
+                  <div
+                    className="best-book-card wow fadeInUp"
+                    data-wow-delay={`${0.2 + index * 0.1}s`}
+                    onClick={() => navigate(`/book/${book._id}`)}
+                    style={{ cursor: "pointer" }}
+                  >
                     <div className="best-book-card__image">
                       <img src={imagePath} alt={book.bookName} />
-                      <button className="best-book-card__wishlist" data-bs-toggle="tooltip" title="Add to Wishlist">
+                      <button
+                        className="best-book-card__wishlist"
+                        data-bs-toggle="tooltip"
+                        title="Add to Wishlist"
+                        onClick={(e) => e.stopPropagation()}
+                      >
                         <i className="fa-regular fa-heart"></i>
                       </button>
                     </div>
@@ -56,9 +67,10 @@ export function BestBooks({ books }: { books: Product[] }) {
                         </div>
                         <button
                           className="add-cart-btn"
-                          onClick={() =>
-                            basket.onAdd({ _id: book._id, quantity: 1, title: book.bookName, price: book.bookPrice, image: imagePath })
-                          }
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            basket.onAdd({ _id: book._id, quantity: 1, title: book.bookName, price: book.bookPrice, image: imagePath });
+                          }}
                         >
                           <i className="fa-solid fa-cart-plus"></i>
                           Add to Cart

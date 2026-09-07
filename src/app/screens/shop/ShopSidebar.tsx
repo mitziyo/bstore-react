@@ -17,9 +17,10 @@ const AUTHORS = ["Burt Geller", "Candy Carson", "Drew Berrymore", "Karen Perry",
 interface ShopSidebarProps {
   activeGenre: string;
   onGenreChange: (genre: string) => void;
+  onPriceChange: (min: number, max: number) => void;
 }
 
-export function ShopSidebar({ activeGenre, onGenreChange }: ShopSidebarProps) {
+export function ShopSidebar({ activeGenre, onGenreChange, onPriceChange }: ShopSidebarProps) {
   const [priceMin, setPriceMin] = useState(0);
   const [priceMax, setPriceMax] = useState(500);
   const [categoriesExpanded, setCategoriesExpanded] = useState(false);
@@ -32,7 +33,15 @@ export function ShopSidebar({ activeGenre, onGenreChange }: ShopSidebarProps) {
           <i className="fa-solid fa-sliders"></i>
           Filters
         </h3>
-        <button className="filter-reset" onClick={() => onGenreChange("*")}>
+        <button
+          className="filter-reset"
+          onClick={() => {
+            onGenreChange("*");
+            setPriceMin(0);
+            setPriceMax(500);
+            onPriceChange(0, 500);
+          }}
+        >
           <i className="fa-solid fa-rotate"></i>
           Reset All
         </button>
@@ -129,6 +138,22 @@ export function ShopSidebar({ activeGenre, onGenreChange }: ShopSidebarProps) {
               className="price-range__fill"
               style={{ left: `${(priceMin / 500) * 100}%`, right: `${100 - (priceMax / 500) * 100}%` }}
             ></div>
+            <input
+              type="range"
+              className="price-range__slider price-range__slider--min"
+              min={0}
+              max={500}
+              value={priceMin}
+              onChange={(e) => setPriceMin(Math.min(Number(e.target.value), priceMax))}
+            />
+            <input
+              type="range"
+              className="price-range__slider price-range__slider--max"
+              min={0}
+              max={500}
+              value={priceMax}
+              onChange={(e) => setPriceMax(Math.max(Number(e.target.value), priceMin))}
+            />
           </div>
           <div className="price-range__inputs">
             <div className="price-range__input">
@@ -154,7 +179,7 @@ export function ShopSidebar({ activeGenre, onGenreChange }: ShopSidebarProps) {
         </div>
       </div>
 
-      <button className="filter-apply">
+      <button className="filter-apply" onClick={() => onPriceChange(priceMin, priceMax)}>
         <i className="fa-solid fa-check"></i>
         Apply Filters
       </button>

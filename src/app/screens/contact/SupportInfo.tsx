@@ -4,14 +4,14 @@ const SUPPORT_ITEMS: { icon: string; title: string; lines: SupportLine[] }[] = [
   {
     icon: "/img/map-icon.svg",
     title: "Visit Us",
-    lines: [{ text: "98 Main Avenue, Brooklyn, MS, United States" }],
+    lines: [{ text: "6-24 Goejeong-dong, Seo-gu, Daejeon, South Korea" }],
   },
   {
     icon: "/img/phone-icon.svg",
     title: "Call Us",
     lines: [
-      { text: "+1(666) 698-821-521", type: "tel" },
-      { text: "+1(333) 658-795-972", type: "tel" },
+      { text: "+82 42-698-8215", type: "tel" },
+      { text: "+82 42-658-7959", type: "tel" },
     ],
   },
   {

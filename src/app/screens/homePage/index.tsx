@@ -10,11 +10,14 @@ import { NewProducts } from "./NewProducts";
 import { HomeBlog } from "./HomeBlog";
 import { Subscribe } from "./Subscribe";
 import BookService from "../../services/BookService";
+import MemberService from "../../services/MemberService";
 import type { Product } from "../../../lib/types/product";
+import type { Member } from "../../../lib/types/member";
 
 export function HomePage() {
   const [mostViewed, setMostViewed] = useState<Product[]>([]);
   const [newest, setNewest] = useState<Product[]>([]);
+  const [topUsers, setTopUsers] = useState<Member[]>([]);
 
   useEffect(() => {
     const bookService = new BookService();
@@ -28,6 +31,11 @@ export function HomePage() {
       .getBooks({ page: 1, limit: 6, order: "createdAt" })
       .then((data) => setNewest(data))
       .catch((err) => console.log(err));
+
+    new MemberService()
+      .getTopUsers()
+      .then((data) => setTopUsers(data))
+      .catch((err) => console.log(err));
   }, []);
 
   return (
@@ -36,7 +44,7 @@ export function HomePage() {
       <Promo />
       <BestBooks books={mostViewed.slice(0, 2)} />
       <BookCategories />
-      <BestSelling mostViewed={mostViewed} newest={newest.slice(0, 4)} />
+      <BestSelling topUsers={topUsers} />
       <PromotionBox />
       <NewProducts books={newest} />
       <HomeBlog />

@@ -1,6 +1,18 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../../../scss/modal.scss";
+import { formatGenre, serverApi } from "../../../lib/config";
+import { useGlobals } from "../../hooks/useGlobals";
+
+const FALLBACK_IMG = "/img/book-single1.jpg";
 
 export function ProductQuickView() {
+  const { quickViewBook: book, basket } = useGlobals();
+  const navigate = useNavigate();
+  const [qty, setQty] = useState(1);
+
+  const imagePath = book?.bookImages[0] ? `${serverApi}/${book.bookImages[0]}` : FALLBACK_IMG;
+
   return (
     <div className="modal fade product-quickview-modal" id="productQuickView" tabIndex={-1} aria-hidden="true">
       <div className="modal-dialog modal-dialog-centered">
@@ -8,116 +20,76 @@ export function ProductQuickView() {
           <button type="button" className="close-btn" data-bs-dismiss="modal" aria-label="Close">
             <i className="icon_close"></i>
           </button>
+          {book && (
           <div className="bj_book_single">
-            <div className="bj_book_img flip">
-              <div className="front">
-                <img className="img-fluid" src="/img/home-two/best_book1.jpg" alt="" />
-              </div>
-              <div className="back">
-                <img className="img-fluid" src="/img/home-two/best_book2.jpg" alt="" />
-              </div>
-              <div className="pr_ribbon">
-                <span className="product-badge">New</span>
-              </div>
+            <div className="bj_book_img">
+              <img className="img-fluid" src={imagePath} alt={book.bookName} />
             </div>
             <div className="bj_book_details">
-              <h2>A Storytelling Workbook</h2>
+              <h2>{book.bookName}</h2>
               <ul className="list-unstyled book_meta">
-                <li>
-                  By:<a href="/author-single">Phillip Siphron</a>
-                </li>
-                <li>
-                  Category:<a href="/shop-sidebar">Drama</a>
-                </li>
-                <li>
-                  Tag:<a href="/shop-sidebar">Best Sellers</a>
-                </li>
+                <li>Category: {formatGenre(book.bookGenre)}</li>
+                <li>Format: {book.bookFormat}</li>
               </ul>
-              <div className="ratting review">
-                <div className="star-rating">
-                  <span>4.9</span>
-                </div>
-                <a href="#product_review" className="woocommerce-review-link">
-                  <span className="count"> 50 </span>Reviews
-                </a>
-              </div>
-              <div className="price">$10</div>
-              <p>
-                Dicta sunt explicabo. Nemo enim ipsam voluptatem voluptas sit odit aut fugit, sed quia consequuntur.
-              </p>
-              <ul className="product_meta list-unstyled">
-                <li>
-                  <span>Publisher:</span>Avery
-                </li>
-                <li>
-                  <span>Publication date:</span>July 20, 2024
-                </li>
-                <li>
-                  <span>Print length:</span>320 pages
-                </li>
-                <li>
-                  <span>ISBN:</span>3288365629
-                </li>
-                <li>
-                  <span>Language:</span>English
-                </li>
-              </ul>
+              <div className="price">${book.bookPrice}</div>
+              {book.bookDesc && <p>{book.bookDesc}</p>}
               <div className="product_sidbar">
                 <div className="product-qty">
                   Qty:
                   <div className="cart_quantity">
-                    <button className="quantity_btn minus">
+                    <button className="quantity_btn minus" onClick={() => setQty((q) => Math.max(1, q - 1))}>
                       <i className="icon_minus-06"></i>
                     </button>
-                    <input type="number" min={1} max={99} step={1} defaultValue={1} />
-                    <button className="quantity_btn plus">
+                    <input
+                      type="number"
+                      min={1}
+                      max={book.bookLeftCount || 99}
+                      step={1}
+                      value={qty}
+                      onChange={(e) => setQty(Number(e.target.value) || 1)}
+                    />
+                    <button
+                      className="quantity_btn plus"
+                      onClick={() => setQty((q) => Math.min(book.bookLeftCount || 99, q + 1))}
+                    >
                       <i className="icon_plus"></i>
                     </button>
                   </div>
                 </div>
 
-                <div className="single_product_price_variation mb-3">
-                  <label className="variation_single">
-                    <input className="variation_single_input" name="variation_single" type="radio" defaultChecked />
-                    <span className="price-details">
-                      <span className="price-type">Handcover</span>
-                      <span className="price-cost">$10</span>
-                    </span>
-                  </label>
-                  <label className="variation_single">
-                    <input className="variation_single_input" name="variation_single" type="radio" />
-                    <span className="price-details">
-                      <span className="price-type">eBook</span>
-                      <span className="price-cost">$20</span>
-                    </span>
-                  </label>
-                  <label className="variation_single">
-                    <input className="variation_single_input" name="variation_single" type="radio" />
-                    <span className="price-details">
-                      <span className="price-type">Print</span>
-                      <span className="price-cost">$30</span>
-                    </span>
-                  </label>
-                </div>
                 <div className="d-flex flex-column gap-2">
-                  <a href="/checkout" className="bj_theme_btn">
-                    {" "}
-                    Buy Now
-                  </a>
                   <button
-                    className="bj_theme_btn add-to-cart-automated"
                     type="button"
-                    data-name="A Storytelling Workbook"
-                    data-price="10"
-                    data-img="/img/home-two/best_book1.jpg"
-                    data-mrp="15"
+                    className="bj_theme_btn"
+                    data-bs-dismiss="modal"
+                    onClick={() => {
+                      basket.onAdd({ _id: book._id, quantity: qty, title: book.bookName, price: book.bookPrice, image: imagePath });
+                      navigate("/checkout");
+                    }}
+                  >
+                    Buy Now
+                  </button>
+                  <button
+                    className="bj_theme_btn"
+                    type="button"
+                    onClick={() =>
+                      basket.onAdd({ _id: book._id, quantity: qty, title: book.bookName, price: book.bookPrice, image: imagePath })
+                    }
                   >
                     <i className="icon_cart_alt"></i>Add to cart
                   </button>
+                  <a
+                    href={`/book/${book._id}`}
+                    className="bj_theme_btn strock_btn text-center"
+                    data-bs-dismiss="modal"
+                  >
+                    View Full Details
+                  </a>
                 </div>
               </div>
             </div>
           </div>
+          )}
         </div>
       </div>
     </div>

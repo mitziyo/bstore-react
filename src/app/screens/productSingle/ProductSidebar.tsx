@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { serverApi } from "../../../lib/config";
 import { useGlobals } from "../../hooks/useGlobals";
 import type { Product } from "../../../lib/types/product";
@@ -7,6 +8,7 @@ const FALLBACK_IMG = "/img/book-single1.jpg";
 
 export function ProductSidebar({ book }: { book: Product }) {
   const { basket } = useGlobals();
+  const navigate = useNavigate();
   const [qty, setQty] = useState(1);
   const imagePath = book.bookImages[0] ? `${serverApi}/${book.bookImages[0]}` : FALLBACK_IMG;
   const inStock = book.bookLeftCount > 0;
@@ -52,9 +54,16 @@ export function ProductSidebar({ book }: { book: Product }) {
       </div>
 
       <div className="d-flex flex-column gap-3">
-        <a href="/checkout" className="bj_theme_btn">
+        <button
+          type="button"
+          className="bj_theme_btn"
+          onClick={() => {
+            basket.onAdd({ _id: book._id, quantity: qty, title: book.bookName, price: book.bookPrice, image: imagePath });
+            navigate("/checkout");
+          }}
+        >
           Buy Now
-        </a>
+        </button>
         <button
           className="bj_theme_btn"
           type="button"

@@ -1,19 +1,27 @@
-interface Ebook {
-  id: string;
-  img: string;
-  title: string;
-  rating: string;
-  source: string;
-  readUrl: string;
-}
-
-const EBOOKS: Ebook[] = [
-  { id: "e1", img: "/img/cart/best_book1.jpg", title: "Game Of Thrones", rating: "5.0", source: "Free Learning", readUrl: "http://www.googleguide.com/print/adv_op_ref.pdf" },
-  { id: "e2", img: "/img/cart/best_book2.jpg", title: "Game Of Thrones", rating: "5.0", source: "Free Learning", readUrl: "http://www.googleguide.com/print/adv_op_ref.pdf" },
-  { id: "e3", img: "/img/cart/best_book3.jpg", title: "Game Of Thrones", rating: "5.0", source: "Free Learning", readUrl: "http://www.googleguide.com/print/adv_op_ref.pdf" },
-];
+import { useEffect, useState } from "react";
+import { serverApi } from "../../../lib/config";
+import { BookFormat } from "../../../lib/enums/product.enum";
+import OrderService from "../../services/OrderService";
+import type { Product } from "../../../lib/types/product";
 
 export function EbookLibrary() {
+  const [ebooks, setEbooks] = useState<Product[]>([]);
+
+  useEffect(() => {
+    new OrderService()
+      .getMyOrders({ page: 1, limit: 50 })
+      .then((orders) => {
+        const seen = new Map<string, Product>();
+        orders.forEach((order) =>
+          order.bookData
+            .filter((book) => book.bookFormat === BookFormat.EBOOK)
+            .forEach((book) => seen.set(book._id, book)),
+        );
+        setEbooks(Array.from(seen.values()));
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
   return (
     <div className="dashboard-card">
       <div className="dashboard-card__header">
@@ -37,47 +45,42 @@ export function EbookLibrary() {
           </div>
         </div>
 
-        <div className="ebook-list">
-          {EBOOKS.map((ebook) => (
-            <div className="ebook-card" key={ebook.id}>
-              <div className="ebook-card__cover">
-                <img src={ebook.img} alt={ebook.title} />
-                <div className="ebook-card__overlay">
-                  <a href={ebook.readUrl} className="ebook-card__read gallerypdf">
-                    <i className="fa-solid fa-book-open-reader"></i>
-                  </a>
+        {ebooks.length === 0 ? (
+          <p className="text-center">No eBooks purchased yet.</p>
+        ) : (
+          <div className="ebook-list">
+            {ebooks.map((book) => {
+              const imagePath = book.bookImages[0] ? `${serverApi}/${book.bookImages[0]}` : "/img/cart/best_book1.jpg";
+              return (
+                <div className="ebook-card" key={book._id}>
+                  <div className="ebook-card__cover">
+                    <img src={imagePath} alt={book.bookName} />
+                    <div className="ebook-card__overlay">
+                      <a href="#" onClick={(e) => e.preventDefault()} className="ebook-card__read" title="Coming soon">
+                        <i className="fa-solid fa-book-open-reader"></i>
+                      </a>
+                    </div>
+                  </div>
+                  <div className="ebook-card__content">
+                    <a href={`/book/${book._id}`} className="ebook-card__title">
+                      {book.bookName}
+                    </a>
+                  </div>
+                  <div className="ebook-card__actions">
+                    <div className="ebook-card__downloads">
+                      <a href="#" onClick={(e) => e.preventDefault()} className="ebook-card__download" title="Coming soon">
+                        <i className="fa-solid fa-file-pdf"></i>
+                      </a>
+                      <a href="#" onClick={(e) => e.preventDefault()} className="ebook-card__download" title="Coming soon">
+                        <i className="fa-solid fa-book"></i>
+                      </a>
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <div className="ebook-card__content">
-                <a href="/product-single" className="ebook-card__title">
-                  {ebook.title}
-                </a>
-                <div className="ebook-card__rating">
-                  <i className="fa-solid fa-star"></i>
-                  <i className="fa-solid fa-star"></i>
-                  <i className="fa-solid fa-star"></i>
-                  <i className="fa-solid fa-star"></i>
-                  <i className="fa-solid fa-star"></i>
-                  <span>{ebook.rating}</span>
-                </div>
-                <span className="ebook-card__source">{ebook.source}</span>
-              </div>
-              <div className="ebook-card__actions">
-                <div className="ebook-card__downloads">
-                  <a href={ebook.readUrl} download className="ebook-card__download" title="Download Code">
-                    <i className="fa-solid fa-code"></i>
-                  </a>
-                  <a href={ebook.readUrl} download className="ebook-card__download" title="Download PDF">
-                    <i className="fa-solid fa-file-pdf"></i>
-                  </a>
-                  <a href={ebook.readUrl} download className="ebook-card__download" title="Download EPUB">
-                    <i className="fa-solid fa-book"></i>
-                  </a>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+              );
+            })}
+          </div>
+        )}
       </div>
     </div>
   );

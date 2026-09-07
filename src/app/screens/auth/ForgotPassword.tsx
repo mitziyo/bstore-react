@@ -28,7 +28,7 @@ export function ForgotPasswordPage() {
 
           <h2 className="title text-center">Forgot Password?</h2>
           <p className="sibtitle text-center">
-            No worries! Enter your registered email address and we'll send you a link to reset your password.
+            No worries! Enter your registered phone number and we'll send you a code to reset your password.
           </p>
 
           {!submitted ? (
@@ -41,16 +41,16 @@ export function ForgotPasswordPage() {
                 }}
               >
                 <div className="input-field">
-                  <label htmlFor="emailInput" className="form-label">
-                    Email Address
+                  <label htmlFor="phoneInput" className="form-label">
+                    Phone Number
                   </label>
                   <div className="input-icon-wrapper">
-                    <i className="fa-regular fa-envelope"></i>
-                    <input type="email" className="form-control" id="emailInput" placeholder="Enter your email address" required />
+                    <i className="fa-solid fa-phone"></i>
+                    <input type="tel" className="form-control" id="phoneInput" placeholder="Enter your phone number" required />
                   </div>
                 </div>
                 <button type="submit" className="bj_theme_btn w-100 border-0">
-                  <i className="fa-solid fa-paper-plane me-2"></i>Send Reset Link
+                  <i className="fa-solid fa-paper-plane me-2"></i>Send Reset Code
                 </button>
               </form>
 
@@ -71,8 +71,8 @@ export function ForgotPasswordPage() {
               <div className="success-icon">
                 <i className="fa-solid fa-check"></i>
               </div>
-              <h4>Email Sent Successfully!</h4>
-              <p>We've sent a password reset link to your email address. Please check your inbox and spam folder.</p>
+              <h4>Code Sent Successfully!</h4>
+              <p>We've sent a password reset code to your phone number.</p>
               <a href="/login" className="bj_theme_btn w-100 text-center">
                 <i className="fa-solid fa-arrow-left me-2"></i>Back to Login
               </a>
@@ -81,7 +81,11 @@ export function ForgotPasswordPage() {
         </div>
 
         <div className="login-right">
-          <img src="/img/login/login-img.png" alt="" />
+          <div className="login-right__content">
+            <i className="fa-solid fa-book-open"></i>
+            <h3>Join Thousands of Readers</h3>
+            <p>Discover your next favorite book and track every order in one place.</p>
+          </div>
         </div>
       </div>
     </div>

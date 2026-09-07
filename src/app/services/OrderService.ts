@@ -1,6 +1,7 @@
 import { api } from "../../lib/config";
 import type { CartItem } from "../../lib/types/search";
 import type { Order, OrderInquiry, OrderItemInput, OrderUpdateInput } from "../../lib/types/order";
+import { toProduct } from "./BookService";
 
 class OrderService {
   public async createOrder(input: CartItem[]): Promise<Order> {
@@ -25,7 +26,7 @@ class OrderService {
       if (input.orderStatus) url += `&orderStatus=${input.orderStatus}`;
 
       const result = await api.get<Order[]>(url);
-      return result.data;
+      return result.data.map((order) => ({ ...order, bookData: order.bookData.map(toProduct) }));
     } catch (err) {
       console.log("Error, getMyOrders:", err);
       throw err;

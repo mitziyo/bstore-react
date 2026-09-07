@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { FormEvent } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import "../../../scss/shop/shop.scss";
 import { Breadcrumb } from "./Breadcrumb";
 import { ShopSidebar } from "./ShopSidebar";
@@ -12,7 +12,8 @@ import type { Product, ProductInquiry } from "../../../lib/types/product";
 const FALLBACK_IMG = "/img/author_book1.jpg";
 
 export function ShopPage() {
-  const { basket } = useGlobals();
+  const { basket, setQuickViewBook } = useGlobals();
+  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const [bookSearch, setBookSearch] = useState<ProductInquiry>({
     page: 1,
@@ -22,6 +23,7 @@ export function ShopPage() {
   });
   const [searchText, setSearchText] = useState("");
   const [books, setBooks] = useState<Product[]>([]);
+  const shopSectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const bookService = new BookService();
@@ -43,6 +45,10 @@ export function ShopPage() {
     });
   };
 
+  const priceHandler = (min: number, max: number) => {
+    setBookSearch({ ...bookSearch, page: 1, priceMin: min, priceMax: max });
+  };
+
   const searchHandler = (e: FormEvent) => {
     e.preventDefault();
     setBookSearch({ ...bookSearch, page: 1, search: searchText });
@@ -51,16 +57,17 @@ export function ShopPage() {
   const paginationHandler = (page: number) => {
     if (page < 1) return;
     setBookSearch({ ...bookSearch, page });
+    shopSectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   return (
     <>
       <Breadcrumb />
-      <section className="bj_shop_area sec_padding" style={{ backgroundColor: "#f5f5f5" }}>
+      <section ref={shopSectionRef} className="bj_shop_area sec_padding" style={{ backgroundColor: "#f5f5f5" }}>
         <div className="container">
           <div className="row">
             <div className="col-lg-3">
-              <ShopSidebar activeGenre={bookSearch.genre ?? "*"} onGenreChange={genreHandler} />
+              <ShopSidebar activeGenre={bookSearch.genre ?? "*"} onGenreChange={genreHandler} onPriceChange={priceHandler} />
             </div>
             <div className="col-lg-9">
               <form role="search" className="pr_search_form input-group" onSubmit={searchHandler}>
@@ -103,11 +110,13 @@ export function ShopPage() {
                     const imagePath = book.bookImages[0] ? `${serverApi}/${book.bookImages[0]}` : FALLBACK_IMG;
                     return (
                       <div className="col-xl-3 col-lg-4 col-sm-6 projects_item" key={book._id}>
-                        <div className="best_product_item best_product_item_two shop_product">
+                        <div
+                          className="best_product_item best_product_item_two shop_product"
+                          onClick={() => navigate(`/book/${book._id}`)}
+                          style={{ cursor: "pointer" }}
+                        >
                           <div className="img">
-                            <a href="#">
-                              <img src={imagePath} alt={book.bookName} />
-                            </a>
+                            <img src={imagePath} alt={book.bookName} />
                             <div className="hover_item">
                               <a
                                 className="quick_button"
@@ -115,9 +124,23 @@ export function ShopPage() {
                                 data-bs-toggle="tooltip"
                                 data-bs-placement="right"
                                 title="Wishlist"
+                                onClick={(e) => e.stopPropagation()}
                               >
                                 <i className="icon_heart_alt"></i>
                               </a>
+                              <span data-bs-toggle="tooltip" data-bs-placement="right" title="Quickview">
+                                <button
+                                  className="quick_button"
+                                  data-bs-toggle="modal"
+                                  data-bs-target="#productQuickView"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    setQuickViewBook(book);
+                                  }}
+                                >
+                                  <i className="arrow_move"></i>
+                                </button>
+                              </span>
                             </div>
                             <div className="view-badge" data-bs-toggle="tooltip" title="Views">
                               <i className="fa-regular fa-eye"></i>
@@ -126,9 +149,10 @@ export function ShopPage() {
                             <button
                               type="button"
                               className="bj_theme_btn"
-                              onClick={() =>
-                                basket.onAdd({ _id: book._id, quantity: 1, title: book.bookName, price: book.bookPrice, image: imagePath })
-                              }
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                basket.onAdd({ _id: book._id, quantity: 1, title: book.bookName, price: book.bookPrice, image: imagePath });
+                              }}
                             >
                               <i className="icon_cart_alt"></i>Add To Cart
                             </button>
@@ -150,13 +174,13 @@ export function ShopPage() {
               <div className="text-center">
                 <nav aria-label="Shop pagination">
                   <ul className="pagination pagi-content">
-                    <li className="page-item">
+                    <li className={`page-item${bookSearch.page <= 1 ? " disabled" : ""}`}>
                       <a
                         className="page-link"
                         href="#"
                         onClick={(e) => {
                           e.preventDefault();
-                          paginationHandler(bookSearch.page - 1);
+                          if (bookSearch.page > 1) paginationHandler(bookSearch.page - 1);
                         }}
                       >
                         <i className="ti-angle-left"></i>Prev
@@ -165,13 +189,13 @@ export function ShopPage() {
                     <li className="page-item active" aria-current="page">
                       <span className="page-link">{bookSearch.page}</span>
                     </li>
-                    <li className="page-item">
+                    <li className={`page-item${books.length < bookSearch.limit ? " disabled" : ""}`}>
                       <a
                         className="page-link"
                         href="#"
                         onClick={(e) => {
                           e.preventDefault();
-                          paginationHandler(bookSearch.page + 1);
+                          if (books.length >= bookSearch.limit) paginationHandler(bookSearch.page + 1);
                         }}
                       >
                         Next<i className="ti-angle-right"></i>

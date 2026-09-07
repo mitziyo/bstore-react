@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { serverApi } from "../../../lib/config";
 import { BookGenre } from "../../../lib/enums/product.enum";
 import { useGlobals } from "../../hooks/useGlobals";
@@ -20,6 +20,7 @@ const FILTERS = [
 
 export function NewProducts({ books }: { books: Product[] }) {
   const { basket } = useGlobals();
+  const navigate = useNavigate();
   const [activeFilter, setActiveFilter] = useState<string>("*");
   const visibleBooks = activeFilter === "*" ? books : books.filter((b) => b.bookGenre === activeFilter);
 
@@ -51,13 +52,22 @@ export function NewProducts({ books }: { books: Product[] }) {
                     const imagePath = book.bookImages[0] ? `${serverApi}/${book.bookImages[0]}` : FALLBACK_IMG;
                     return (
                       <div className="col-xl-4 col-lg-6 col-sm-6 projects_item" key={book._id}>
-                        <div className="best_product_item best_product_item_two">
+                        <div
+                          className="best_product_item best_product_item_two"
+                          onClick={() => navigate(`/book/${book._id}`)}
+                          style={{ cursor: "pointer" }}
+                        >
                           <div className="img">
-                            <a href="#">
-                              <img src={imagePath} alt={book.bookName} />
-                            </a>
+                            <img src={imagePath} alt={book.bookName} />
                             <div className="hover_item">
-                              <a className="quick_button" href="/my-wishlist" data-bs-toggle="tooltip" data-bs-placement="right" title="Wishlist">
+                              <a
+                                className="quick_button"
+                                href="/my-wishlist"
+                                data-bs-toggle="tooltip"
+                                data-bs-placement="right"
+                                title="Wishlist"
+                                onClick={(e) => e.stopPropagation()}
+                              >
                                 <i className="icon_heart_alt"></i>
                               </a>
                             </div>
@@ -68,9 +78,10 @@ export function NewProducts({ books }: { books: Product[] }) {
                             <button
                               type="button"
                               className="bj_theme_btn"
-                              onClick={() =>
-                                basket.onAdd({ _id: book._id, quantity: 1, title: book.bookName, price: book.bookPrice, image: imagePath })
-                              }
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                basket.onAdd({ _id: book._id, quantity: 1, title: book.bookName, price: book.bookPrice, image: imagePath });
+                              }}
                             >
                               <i className="icon_cart_alt"></i>Add to Cart
                             </button>
@@ -98,7 +109,7 @@ export function NewProducts({ books }: { books: Product[] }) {
               </a>
               <h3>Get Extra</h3>
               <h2>
-                Slae <span>-25%</span>
+                Sale <span>-25%</span>
               </h2>
               <h5>ON ORDER OVER $100</h5>
               <a href="/shop" className="bj_theme_btn">

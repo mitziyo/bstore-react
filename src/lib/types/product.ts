@@ -32,4 +32,6 @@ export interface ProductInquiry {
   genre?: BookGenre;
   format?: BookFormat;
   search?: string;
+  priceMin?: number;
+  priceMax?: number;
 }

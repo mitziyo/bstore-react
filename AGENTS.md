@@ -254,6 +254,10 @@ Foydalanuvchi so'rovi bilan (`C:\Users\User\Desktop\bstore-react` bo'ylab 4 ta p
 
 Bu bo'lim hozir amalga oshirilmaydigan, lekin backend/`services/` bosqichida hisobga olinishi kerak bo'lgan qarorlarni saqlaydi (foydalanuvchi "saqlab qo'y" deb boshlagan xabarlar shu yerga yoziladi).
 
+- **Forgot Password — telefon orqali reset (2026-09-05, foydalanuvchi tanladi):** `ForgotPassword.tsx`dagi maydon "Email Address"dan **"Phone Number"ga** o'zgartirildi (real `Member` sxemasida email umuman yo'q, faqat `memberNick`/`memberPhone` bor). Hozircha faqat frontend ko'rinishi — forma hali hech qanday backend'ga ulanmagan (`onSubmit` faqat local `setSubmitted(true)`). **Rejalashtirilgan backend** (keyinroq): `POST /member/forgot-password` (`memberPhone` bo'yicha qidiradi, `resetToken`+`resetTokenExpiry` generatsiya qiladi, real SMS-gateway yo'qligi sababli tokenni javobda to'g'ridan-to'g'ri qaytaradi — dev-rejim) + `POST /member/reset-password` (`resetToken`+yangi parol, `bcrypt` bilan xeshlaydi) + yangi `ResetPassword.tsx` sahifa/`/reset-password/:token` route. **Hozircha kod yozilmagan** — faqat reja sifatida qayd etilgan.
+
+- **Subscribe (newsletter) va Contact Us murojaatlari uchun admin panel (2026-09-05, foydalanuvchi so'rovi bilan saqlab qo'yildi):** Hozir `Subscribe.tsx`ning forma yuborilishi hech narsa qilmaydi (`onSubmit` yo'q), Contact sahifasidagi forma esa hatto `useState`/handler'siz to'liq statik. Kelajakda: LightBooks-Store backend'ida 2 ta yangi oddiy model (`Subscriber`: email+createdAt; `ContactMessage`: name/email/message+createdAt) + ularga mos public submit-endpoint va admin ro'yxat-endpoint (`verifyAdmin` bilan himoyalangan, Book/User panelidagi naqsh bo'yicha) qo'shiladi, so'ng admin SSR panelga shu ikkisini ko'rsatadigan bitta yangi sahifa qo'shiladi. **Hozircha kod yozilmagan** — faqat reja sifatida qayd etilgan, backend integratsiyasi bosqichida qo'lga olinadi.
+
 - **Sayt bo'ylab barcha qidiruv/saralash maydonlari (2026-08-30, foydalanuvchi so'rovi bilan kechiktirildi):** `HeroBanner.tsx`ning qidiruv maydoni (`<form>` ham emas, hech narsa qilmaydi), Shop'ning qidiruv formasi (`action="#"`, `onSubmit` yo'q — submit qilinsa sahifa noto'g'ri qayta yuklanadi) va "Sort by" tanlov-menyusi (`onChange` yo'q), Navbar/Author/NotFound'ning qidiruv maydonlari — **barchasi backend/qidiruv-API ulanguncha tegilmaydi**. Foydalanuvchi: "bular backend ulanganda qilinadi, tugmalarga bog'liq mantiqlar turib tursin".
 
 - **eBook Library — yuklab olish (`download`) mantig'i:** `src/app/screens/dashboard/EbookLibrary.tsx`dagi "Download Code / PDF / EPUB" tugmalari hozir faqat statik `<a href download>` havolalar — barcha uchtasi manba shablonidagi bitta ishlamaydigan tashqi demo-URL'ga (`googleguide.com/...pdf`) bog'langan, haqiqiy fayl yo'q.
@@ -285,6 +289,265 @@ Bu bo'lim hozir amalga oshirilmaydigan, lekin backend/`services/` bosqichida his
 
 ---
 
+## Backend arxitekturasi — `burak` loyihasidan o'rganilgan andoza (LightBooks backendini qurish uchun)
+
+Bu bo'lim `C:\Users\User\Desktop\burak` (Express + TypeScript + MongoDB/Mongoose backend, `burak-react` frontendining serveri) loyihasini to'liq o'rganish natijasi (2026-08-30). LightBooks'ning o'z backendini shu andoza asosida, kitob-do'koni domeniga moslab quramiz. Foydalanuvchi tasdiqlagan yo'nalish: **Express, ikkita router (SPA/REST + Admin/SSR), `burak`dagi har bir qatlam/API o'rganilgan holda.**
+
+### Papka tuzilmasi (`burak`)
+
+```
+burak/
+├── .env                        # PORT, MONGO_URL, SESSION_SECRET, SECRET_TOKEN
+├── package.json                # express, mongoose, bcryptjs, ejs, morgan, dotenv + (keyinroq) cors, cookie-parser, express-session, connect-mongodb-session, jsonwebtoken, multer, uuid
+├── tsconfig.json                # target ES2020, module/moduleResolution NodeNext, rootDir ./src, outDir ./dist, strict:true
+├── uploads/                     # multer bilan yuklangan rasmlar (.gitignore'da — repo'ga tushmaydi)
+│   ├── members/                 # foydalanuvchi/restoran rasmlari
+│   └── products/                # mahsulot rasmlari
+└── src/
+    ├── server.ts                 # KIRISH NUQTASI: dotenv → mongoose.connect → app.listen
+    ├── app.ts                    # Express sozlash: middleware'lar + ikkita router ulanadi
+    ├── router.ts                 # "/" — SPA/REST (React frontend uchun, JSON qaytaradi)
+    ├── router-admin.ts           # "/admin" — SSR (EJS render qiladi, admin-panel uchun)
+    ├── controllers/
+    │   ├── member.controller.ts     # SPA: login/signup/logout/detail/update/top-users, + verifyAuth/retrieveAuth middleware
+    │   ├── restaurant.controller.ts # SSR: goHome/getLogin/getSignup/processLogin/processSignup/logout/getUsers/updateChosenUser/checkAuthSession, + verifyRestaurant middleware
+    │   ├── product.controller.ts    # ikkalasi ham: SPA (getProducts/getProduct) + SSR (getAllProducts/createNewProduct/updatedChosenProduct)
+    │   └── order.controller.ts      # faqat SPA: createOrder/getMyOrders/updateOrder
+    ├── models/                      # "service" deb nomlangan, lekin bu — BIZNES-MANTIQ qatlami (controller emas)
+    │   ├── Member.service.ts
+    │   ├── Auth.service.ts          # faqat JWT: createToken/checkAuth
+    │   ├── Product.service.ts       # ichida ViewService'ni ham chaqiradi (ko'rishlar hisoblash uchun)
+    │   ├── Order.service.ts         # ichida MemberService'ni ham chaqiradi (order PROCESS bo'lganda ball qo'shish uchun)
+    │   └── View.service.ts
+    ├── schema/                      # mongoose Schema + model (bittasi bir faylda)
+    │   ├── Member.model.ts
+    │   ├── Product.model.ts
+    │   ├── Order.model.ts
+    │   ├── OrderItem.model.ts       # Order'dan alohida kolleksiya, orderId+productId bilan bog'langan
+    │   └── View.model.ts            # memberId+viewRefId+viewGroup — takroriy ko'rishni oldini olish uchun
+    ├── libs/
+    │   ├── config.ts                # AUTH_TIMER, MORGAN_FORMAT, shapeIntoMongoseObjectId() (string→ObjectId helper)
+    │   ├── Error.ts                 # HttpCode enum + Message enum + Errors klassi (Error'dan meros)
+    │   ├── enums/                   # {member,product,order,view}.enum.ts — haqiqiy TS `enum` (backend'da erasableSyntaxOnly yo'q)
+    │   ├── types/                   # {member,product,order,view,common}.ts — interfeyslar, + ExtendedRequest/AdminRequest (Express Request kengaytmasi)
+    │   └── utils/
+    │       └── uploader.ts          # multer diskStorage fabrikasi: makeUploader("products") → papka+uuid nomli fayl
+    ├── views/                       # EJS shablonlar — pastda alohida tushuntirilgan
+    └── public/                      # /css, /js, /img — statik, page-nomiga mos fayllar (masalan products.css+products.js)
+```
+
+### `package.json` (burak, versiyalar o'zgarishsiz — kelajakda LightBooks backend uchun asos sifatida ishlatiladi)
+
+```json
+{
+  "scripts": {
+    "start": "ts-node src/server.ts",
+    "start:dev": "nodemon --exec ts-node src/server.ts",
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "connect-mongodb-session": "^3.1.1",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.6",
+    "dotenv": "^16.0.0",
+    "ejs": "^3.1.6",
+    "express": "^4.17.3",
+    "express-session": "^1.17.3",
+    "jsonwebtoken": "^8.5.1",
+    "mongodb": "^3.2.6",
+    "mongoose": "^6.2.9",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/connect-mongodb-session": "^2.4.8",
+    "@types/cookie-parser": "^1.4.10",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^4.17.3",
+    "@types/express-session": "^1.19.0",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/morgan": "^1.9.10",
+    "@types/multer": "^2.1.0",
+    "@types/uuid": "^9.0.7",
+    "nodemon": "^3.0.2",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2"
+  }
+}
+```
+
+(`kill-port`, `moment`, `tsconfig-paths`, `tsx` — `burak`da bor, lekin `train.py`/`train.ts` — ML-mashq skriptiga xos, LightBooks backendiga aloqasi yo'q, shuning uchun ro'yxatga kiritilmadi.)
+
+**Paket-menejer**: LightBooks backend'ida **npm** ishlatiladi (frontend — `bstore-react` — yarn'ga to'liq o'tgan, lekin bu backend uchun alohida, mustaqil loyiha bo'lgani sababli yarn shart emas — foydalanuvchi qarori, 2026-08-30).
+
+### Qatlamli oqim (pastdan yuqoriga)
+
+```
+.env → server.ts (mongoose.connect, keyin app.listen)
+  → app.ts (express instance, barcha middleware, ikkita router ulanadi)
+    → router.ts ("/")  yoki  router-admin.ts ("/admin")
+      → controller (req/res, try/catch, Errors'ni HTTP-javobga aylantiradi)
+        → model/*.service.ts (haqiqiy biznes-mantiq: mongoose so'rovlari, bcrypt, Errors tashlaydi)
+          → schema/*.model.ts (mongoose Schema+model)
+```
+
+Controller **hech qachon** to'g'ridan-to'g'ri mongoose bilan ishlamaydi — doim service orqali. Service **hech qachon** `req`/`res` bilan ishlamaydi — faqat oddiy qiymatlar oladi/qaytaradi, xato bo'lsa `Errors` klassini tashlaydi (`throw new Errors(HttpCode.X, Message.Y)`), buni controller `catch` qismida `err instanceof Errors ? res.status(err.code).json(err) : res.status(500).json(Errors.standard)` naqshi bilan ushlaydi — **har bir controller metodida bir xil takrorlanadi**, umumiy yordamchi emas.
+
+### Ikkita router — ikki xil autentifikatsiya
+
+| | **SPA/REST** (`router.ts`, `/`) | **Admin/SSR** (`router-admin.ts`, `/admin`) |
+|---|---|---|
+| Kimga | React frontend (`burak-react`) | Do'kon-egasi (admin-panel, brauzerda to'g'ridan-to'g'ri) |
+| Javob turi | JSON | EJS-render qilingan HTML (yoki `<script>alert();location.replace()</script>` — forma-submit'dan keyingi eski uslub) |
+| Autentifikatsiya | **JWT** (`jsonwebtoken`) — token `accessToken` nomli **httpOnly:false** cookie'da (frontend JS o'qiy oladi) | **express-session**, MongoDB'da saqlanadi (`connect-mongodb-session`) — `req.session.member` |
+| Middleware | `verifyAuth` (majburiy, 401 tashlaydi) / `retrieveAuth` (ixtiyoriy, xatosiz o'tkazadi — masalan mahsulot-ko'rish sahifasida) | `verifyRestaurant` (sessiyadagi `memberType==="RESTAURANT"`ni tekshiradi, aks holda EJS-alert+redirect) |
+| Rol-tekshiruv | Yo'q (har qanday `Member`) | **`memberType==="RESTAURANT"`** — bitta "do'kon-egasi" turi bor |
+
+**Muhim**: ikkalasi ham bitta `MemberService`/`ProductService` klassidan foydalanadi — metodlar shu klass ichida `/** SPA */` va `/** SSR */` izohlari bilan ikkiga bo'lingan (masalan `Member.service.ts`da `signup`/`login` — SPA uchun, `processSignup`/`processLogin` — SSR uchun, deyarli bir xil mantiq, faqat SSR versiyasi "faqat bitta RESTAURANT bo'lishi mumkin" tekshiruvini ham qiladi).
+
+### `views/` (EJS) qanday tashkil qilingan
+
+```
+views/
+├── includes/
+│   ├── header.ejs      # <!DOCTYPE html><html><head>...CDN Bootstrap4/jQuery/Popper/axios + /css/main.css...</head></html>
+│   └── footer.ejs       # faqat "</html>" — shu bilan tugaydi
+├── home.ejs             # <%- include('includes/header') %> → sahifaga xos <link>/<script> → <body>...</body> → <%- include('includes/footer') %>
+├── login.ejs
+├── signup.ejs
+├── products.ejs
+└── users.ejs
+```
+
+Har bir sahifa bir xil naqshda: `header` include → sahifaga xos `<link rel="stylesheet" href="/css/<page>.css">` → `<body>` (kontent) → `<script src="/js/<page>.js">` → `</body>` → `footer` include. **E'tibor beriladigan narsa**: `header.ejs`ning o'zi `</html>`ni allaqachon yopadi, keyin sahifa-fayl yana `<link>/<body>` qo'shadi va `footer.ejs` yana bir marta `</html>` beradi — bu texnik jihatdan noto'g'ri HTML ichma-ichlik (brauzerlar bunga chidamli, shuning uchun ishlayveradi, lekin LightBooks'ning o'z EJS'ini yozganda **buni takrorlamaslik kerak** — `<head>` to'liq yopilgandan keyin `<body>` ochilishi kerak, `</html>` faqat bitta marta, footer'da).
+
+`app.ts`dagi muhim moment: `res.locals.member = req.session.member` middleware **barcha** EJS render'lardan oldin ishlaydi, shuning uchun **har bir view ichida** (controller alohida `member`ni uzatmasa ham) `<% if(!member) { %>` kabi tekshiruv ishlaydi — `home.ejs`/`users.ejs`da shu orqali login/logout holatiga qarab navigatsiya almashadi.
+
+Sahifa ichidagi jonli (AJAX) yangilanishlar: `products.ejs`/`users.ejs`dagi holat-`<select>`lar (`productStatus`, `memberStatus`) o'zgarganda `public/js/products.js`/`users.js` ichidagi jQuery `.on("change")` handler **to'g'ridan-to'g'ri o'sha yerdan** `axios.post("/admin/product/:id", {...})` yuboradi — sahifa to'liq qayta yuklanmaydi, faqat shu maydon backend'ga yozib qo'yiladi. Yangi mahsulot yaratish/login/signup esa klassik full-page `<form method="POST">` + redirect (yoki xato bo'lsa inline `<script>alert()</script>`).
+
+### Umumiy naqshlar (LightBooks'ga ko'chiriladigan)
+
+- **`Errors` klassi** (`libs/Error.ts`) — `HttpCode` enum (200/201/304/400/401/403/404/500) + `Message` enum (barcha xato-matnlari markazlashgan, masalan `NO_MEMBER_NICK`, `WRONG_PASSWORD`, `BLOCKED_USER`) + `Errors extends Error` (`code`+`message` saqlaydi, `static standard` — noma'lum xatolar uchun default 500).
+- **`shapeIntoMongoseObjectId()`** (`libs/config.ts`) — string ID kelsa `mongoose.Types.ObjectId`ga aylantiradi, allaqachon ObjectId bo'lsa o'zgartirmaydi — deyarli har bir service metodida ishlatiladi.
+- **Ko'rishlar (views) hisoblash** — `View` alohida kolleksiya (`memberId`+`viewRefId`+`viewGroup`), `ProductService.getProduct()` avval `checkViewExistence()` bilan tekshiradi, faqat yangi bo'lsa `insertMemberView()` + `productViews`ni `$inc` bilan oshiradi — **bir foydalanuvchidan bir marta hisoblanadi**. LightBooks'da hozir statik `views` raqami bor joylar (shop/shopNoSidebar/NewProducts/BestSelling/AuthorBooks/MyListDetails kartochkalari) — backend ulanganda shu aynan mantiq bilan almashtiriladi.
+- **Rasm yuklash** — `multer.diskStorage` fabrika-funksiya (`makeUploader(papkaNomi)`), fayl nomi `uuid()+kengaytma`, `./uploads/<papka>/`ga saqlanadi, `app.use("/uploads", express.static("./uploads"))` orqali public bo'ladi.
+- **Pagination+filtr+qidiruv** — `ProductService.getProducts()` mongoose `.aggregate([$match, $sort, $skip, $limit])` bilan (oddiy `.find()` emas) — `$match` qidiruv/kolleksiya filtriga qarab dinamik quriladi (`productName: {$regex}` qidiruv uchun).
+- **`$lookup` bilan bog'lash** — `OrderService.getMyOrders()` — bitta so'rovda `orderItems` va `productData`ni ham qo'shib qaytaradi (ikkita alohida so'rov o'rniga).
+- **Forma-tekshiruv submit'dan oldin (client-side)** — `signup.ejs`ning `<form onsubmit="return validateSignupForm()">`, `products.ejs`ning `<form onsubmit="return validateForm()">`: shu nomdagi funksiya `public/js/<page>.js`da yozilgan, bo'sh maydon/parol-mos-kelmasligi/rasm-yo'qligi bo'lsa `alert()` + `return false` (submit to'xtaydi). Rasm tanlanganda esa `FileReader`/`URL.createObjectURL()` bilan **darhol oldindan ko'rish (preview)** ko'rsatiladi (serverga yubormasdan). Bular sof frontend-JS, `public/js/`ning boshqa fayllari (`main.js`, `home.js` — faqat sahifa-nomi konsolga chiqaradi/anime.js dekorativ animatsiyasi, arxitekturaga aloqasi yo'q) bilan bir xil oddiy `<script src="/js/<page>.js">` ulanish usulida.
+
+### LightBooks uchun moslashtirish kerak bo'lgan joylar (hali qaror qilinmagan)
+
+- **`memberType`** — 1-bosqichda (`lib/types/member.ts`) butunlay olib tashlangan edi ("restoran-egasi"ga o'xshash rol kerak emas, degan asosda). Endi admin/SSR panel qurilar ekan, **qaytadan kerak bo'ladi** (masalan `USER`/`ADMIN`) — `/admin` yo'liga faqat admin kirishi uchun. Bu Stage-1'da qilingan qarorni qisman bekor qiladi, alohida qayd etilishi kerak.
+- **Domen-mosligi**: `burak`ning `Product`i (`productCollection: DISH/SALAD/DESSERT/DRINK/OTHER`, `productSize`, `productVolume`) — taom uchun; LightBooks'da bu allaqachon Stage-1'da kitob-domeniga moslab qayta loyihalangan (`bookFormat`, `genres[]`, `isbn` va h.k., `src/lib/types/product.ts`da) — schema/service yozilganda **shu Stage-1 turlariga** asoslaniladi, `burak`ning maydon-nomlariga emas, faqat **naqsh** (qatlamlar, Errors, pagination, view-tracking usuli) ko'chiriladi.
+- **Backend joylashuvi hal qilindi (2026-08-30): `C:\Users\User\Desktop\LightBooks-Store`** — mustaqil npm/Express/TS/Mongoose loyiha, allaqachon faol (8 commit, o'zining 59-bosqichli reja-hujjati `LightBooks-Store\AGENTS.md`da, `burak`ning haqiqiy git-tarixidan qayta ishlab chiqilgan va "bookStore" domeniga moslashtirilgan). MongoDB — Atlas (o'z alohida klasteri, `burak`nikidan farqli). Har qanday backend ishi shu loyihaning o'z AGENTS.md'sidagi tegishli "Step N" bo'limini o'qishdan boshlanadi, bitta bosqich — tekshirish — to'xtash — tasdiq kutish tartibida.
+
+### Admin-panel (SSR) uchun kerakli API'lar — `burak`dan olingan ro'yxat (2026-08-30)
+
+Foydalanuvchi so'rovi: hozircha **faqat admin-panel (SSR, `/admin` ostida)** uchun ishlanadi, SPA (`/`) umuman aralashtirilmaydi. Ro'yxat `burak`ning `router-admin.ts` faylidan to'g'ridan-to'g'ri o'qib tuzildi (taxmin qilinmadi):
+
+```
+GET  /admin/                 → goHome
+GET  /admin/login            → getLogin
+POST /admin/login            → processLogin
+GET  /admin/signup           → getSignup
+POST /admin/signup           → processSignup   (multer: memberImage, bitta rasm)
+GET  /admin/logout           → logout
+GET  /admin/check-me         → checkAuthSession
+
+GET  /admin/product/all      → verifyRestaurant + getAllProducts
+POST /admin/product/create   → verifyRestaurant + multer (5 ta productImages) + createNewProduct
+POST /admin/product/:id      → verifyRestaurant + updatedChosenProduct
+
+GET  /admin/user/all         → verifyRestaurant + getUsers
+POST /admin/user/edit        → verifyRestaurant + updateChosenUser
+```
+
+Jami **12 ta endpoint**, uchta guruh (Admin-hisob/auth, Book/Product, User). `LightBooks-Store`ga moslashtirilgan nomlanish (mavjud §0a jadvali bo'yicha, yangi nom o'ylab topilmadi — `Product→Book`, `restaurant.controller→admin.controller`, `verifyRestaurant→verifyAdmin`, `RESTAURANT→ADMIN`):
+
+```
+GET  /admin/                 → goHome                [bor, hali res.send stub]
+GET  /admin/login            → getLogin               [bor, hali res.send stub]
+POST /admin/login            → processLogin           [yozilgan, commit qilinmagan]
+GET  /admin/signup           → getSignup               [bor, hali res.send stub]
+POST /admin/signup           → processSignup          (multer: memberImage)   [yozilgan, multer yo'q]
+GET  /admin/logout           → logout                  [yo'q]
+GET  /admin/check-me         → checkAuthSession        [yo'q]
+
+GET  /admin/book/all         → verifyAdmin + getAllBooks        [yo'q]
+POST /admin/book/create      → verifyAdmin + multer(5) + createNewBook  [yo'q]
+POST /admin/book/:id         → verifyAdmin + updatedChosenBook  [yo'q]
+
+GET  /admin/user/all         → verifyAdmin + getUsers           [yo'q]
+POST /admin/user/edit        → verifyAdmin + updateChosenUser   [yo'q]
+```
+
+**Hozirgi holat (LightBooks-Store, fayllar bevosita tekshirildi, 2026-08-30):** `router-admin.ts`da faqat `/`, `/login`, `/signup` bor — `logout`, `check-me`, `book/*`, `user/*` hali yo'q. `admin.controller.ts`da `goHome`/`getLogin`/`getSignup` hali `res.send("...Page")` — EJS yo'q (`views/` papkasi umuman yo'q). Session middleware (`app.ts`dagi `/** 2 - SESSION **/`) bo'sh — session-based `verifyAdmin` hali qurilmagan. Book/User controller-service-schema qatlamlari umuman yo'q. Commit qilinmagan: `processLogin` to'liq yozilgan (`Member.service.ts`, `admin.controller.ts`, `Error.ts`, `types/member.ts`).
+
+**Diqqat — SPA yig'ishtirib qo'yilgan**: `burak`ning admin-paneli 100% SSR, SPA (`member.controller.ts`, JWT) bilan hech qanday bog'liqligi yo'q — mustaqil parallel yo'l. `burak`ning Step 15'i ("Organize SPA vs SSR business logic" — `member.controller.ts`ga SPA signup/login qo'shish) SSR admin-panelga aloqasi yo'q, hozircha chetlab o'tiladi.
+
+**Qurish tartibi (bog'liqlikka ko'ra)**: avval qolgan auth-endpoint'lar (logout, check-me — session middleware talab qiladi), keyin Book (schema→service→controller→router), keyin User boshqaruvi — har biri alohida, MVC bosqichma-bosqich (Router→Controller→Service→Schema, har birida "ha" kutib), `LightBooks-Store\AGENTS.md`ning tegishli Step-tafsilotlariga (16-41) asoslanib.
+
+---
+
+## Brend-dizayn: rang/shrift/tugma tizimi (2026-08-30, kod skaneri orqali)
+
+Bu bo'lim `bstore-react` (React frontend)ning haqiqiy dizayn-tokenlarini hujjatlashtiradi — sabab: `LightBooks-Store` admin-panelini qurishda shu ranglar/uslublarga tayanish kerak bo'lganda foydalanish uchun.
+
+### Ranglar (`src/scss/_variables.scss`, `_root.scss`)
+
+| Nomi | Qiymati | Vazifasi |
+|---|---|---|
+| `$blue` / `--bj-blue` | **`#4285F4`** | **Asosiy (primary) urg'u-rang** — barcha asosiy tugmalar, havolalar |
+| tugma hover-fon (`::before`) | `#3972d2` | Primary tugma hover holatida (chapdan-o'ngga to'ldiruvchi animatsiya) |
+| `$heading_color` / `--bj-dark` | `#36383A` | Sarlavha-matn rangi |
+| `$dark` / `--bj-darks` | `#202124` | Eng to'q matn/fon (masalan checkout-forma tugmasi foni) |
+| `$text_color` / `--bj-light-gray` | `#636466` | Oddiy paragraf-matn |
+| `$gray_light` / `--bj-light` | `#4D4E50` | Ikkinchi darajali matn |
+| — | `#f9f9f9` / `#f5f5f5` | Neytral och-kulrang fon (masalan auth-sahifa foni) |
+| — | `#e0e2e6` / `#d1d1d1` / `#d0d5dd` | Chegara-ranglar (input, outline-tugma) |
+| — | `#001f58` | Noyob, faqat `.title_two`da ishlatiladigan to'q ko'k-binafsha |
+
+**Ikkinchi darajali (secondary) rang alohida belgilanmagan** — loyiha faqat bitta asosiy urg'u-rang (`$blue`) + neytral kulrang-shkala (`--black_25`...`--black_900`, `_root.scss`) bilan ishlaydi, klassik "primary/secondary/accent" uch-rangli tizim emas.
+
+### Shriftlar
+
+- **`Open Sans`** (`$open`) — **haqiqiy asosiy shrift**: `h1`-`h6` standart qoidasi (`_predefine.scss:10-19`), barcha tugmalar (`.bj_theme_btn`), deyarli butun sayt.
+- **`Libre Baskerville`** (`$lb`) — Google Fonts'dan import qilingan va `--bj-Libre-Baskerville` CSS-o'zgaruvchisi sifatida e'lon qilingan, lekin **amalda deyarli ishlatilmaydi** — butun kodbazada faqat **bitta joyda** (`.title_two`, `_predefine.scss:92-95`, maxsus klassik-uslubdagi sarlavhalar uchun, `#001f58` rang bilan). Bu — kod-skanerida topilgan real nomuvofiqlik: shrift import qilingan, lekin dizayn-tizimning asosiy qismi sifatida ishlatilmagan.
+
+### Tugmalar (`.bj_theme_btn`, `_predefine.scss:133-200`)
+
+- **Asosiy (filled)**: `background: var(--bj-blue)`, `color:#fff`, `border-radius:10px`, `font-weight:600`, `font-family: var(--bj-Open)`, padding `15px 36px 14px`; hover — `::before` orqali chapdan-o'ngga to'qroq-ko'k (`#3972d2`) to'ldiriladi (rang almashtirish emas, animatsion "wipe" effekti)
+- **Ikkinchi darajali (`.strock_btn`, outline)**: shaffof fon, `1px solid #d1d1d1` chegara, `#4d4e50` matn; hover'da chegara+matn `var(--bj-blue)`ga aylanadi
+
+### Input-maydonlar (`.form-control`, `src/scss/auth/auth.scss:147-154`)
+
+`border-radius:8px`, balandligi `58px`, oq fon, `1px solid #e0e2e6` chegara, `padding:16px`, `font-size:16px`.
+
+### Umumiy uslub
+
+**Yorug' (light) tema** — oq/och-kulrang fonlar, qorong'i matn, bitta to'yingan ko'k urg'u-rang. Minimalist, ortiqcha bezaksiz, keng bo'shliq (`padding`/`margin`) bilan.
+
+### Solishtiruv — `LightBooks-Store` admin-panel bilan farqlar
+
+| | React frontend (LightBooks) | Admin panel (LightBooks-Store) |
+|---|---|---|
+| **Tema** | Yorug' (oq/och-kulrang fon) | **To'q** (qora→binafsha gradient fon, `#08070c`→`#4c2fce`) |
+| **Urg'u-rang** | **Ko'k** `#4285F4` | **Binafsha** `#7c6cf6`/`#5b3fe0` — boshqa rang, garchi ikkalasi ham sovuq-spektrda bo'lsa ham |
+| **Shrift** | Open Sans (import qilingan, izchil qo'llanilgan) | **Hech qanday maxsus shrift import qilinmagan** — brauzer standart shriftiga tayanadi |
+| **Tugma** | Yagona tekis rang (`#4285F4`), hover — animatsion "wipe" | Gradient fon (`135deg, #7c6cf6→#5b3fe0`), hover — statik ranga o'zgarish |
+| **Tugma radius** | `10px` | `10px` — **bir xil** |
+| **Input radius/balandlik** | `8px` / `58px`, oq fon | `10px` / `48px`, shaffof to'q fon (`rgba(255,255,255,0.06)`) |
+
+**Xulosa**: ikkalasi ham "sovuq-rang, minimalist" falsafasida, tugma-radius ham mos keladi — lekin **tema (yorug'/to'q), aniq urg'u-rang va shrift butunlay farqli**, ataylab bog'liq qurilmagan (Login/Signup dizayni alohida, "Molto" namunasidan ilhomlanib qurilgan edi, React saytining ko'k-yorug' uslubidan emas). Agar kelajakda ikkalasini bir-biriga yaqinlashtirish kerak bo'lsa — eng oson yo'l: Admin panelga ham `Open Sans` shriftini ulash (hozir umuman yo'q, bu eng aniq nomuvofiqlik), rang-sxemasini esa ataylab boshqacha (tema-farqlash: sayt=yorug', boshqaruv-panel=to'q) qoldirish mumkin — bu ko'plab zamonaviy mahsulotlarda oddiy amaliyot.
+
+**Yangilanish (2026-08-30, foydalanuvchi so'rovi bilan) — Admin panel React'ning brend-tizimiga to'liq o'tkazildi:** yuqoridagi farqlar endi **bartaraf etildi** — `LightBooks-Store`ning Home/Login/Signup uchalasi ham React saytining aynan shu qiymatlariga o'tkazildi: `Open Sans` shrifti ulandi (Google Fonts, avval umuman yo'q edi), urg'u-rang binafshadan **`#4285F4` ko'kka** almashtirildi, tugmalar `.bj_theme_btn`/`HeroBanner`ning haqiqiy qiymatlari bilan (radius 10px auth-tugmalarda, pill-shape+gradient Home-hero tugmalarida) qayta qurildi, fon to'q-binafsha gradientdan **oq/`#f9f9f9` yorug' temaga** o'zgartirildi. Home'ning avvalgi "kitob+kema+bulut" hero-rasmi (`book-ship-hero.webp`, o'chirildi) **butunlay olib tashlandi** va React'ning `HeroBanner.tsx` naqshiga (badge+sarlavha+matn+ikkita tugma+trust-belgilar+o'ng tomonda rasm) moslab qayta qurildi — matn admin-kontekstga moslashtirildi ("Manage Your Bookstore With Ease" va h.k.). **Muhim topilma**: React saytining o'zining hero-rasmlari (`banner_book1.png`/`banner_book2.png`) haqiqatda **placeholder** ekan ("372X482" yozuvli kulrang to'rtburchak, sifatli fotosurat emas) — shuning uchun Home'ning yangi hero-rasmi uchun **Unsplash**dan (litsenziya: Unsplash License, tijorat uchun bepul, attributsiya shart emas) alohida sifatli fotosurat qidirib topildi va yuklab olindi: `hero-book.jpg` (asl manba: `https://unsplash.com/photos/Q7sGp9MStSY`, fotograf — Thought Catalog).
+
+---
+
 ## Ish jarayoni qoidalari (foydalanuvchi bilan hamkorlik)
 
 Bu bo'lim ushbu loyihada Claude qanday ishlashi kerakligini belgilaydi (foydalanuvchi tomonidan 2026-08-24'da tasdiqlangan qoidalar).
@@ -300,3 +563,9 @@ Bu bo'lim ushbu loyihada Claude qanday ishlashi kerakligini belgilaydi (foydalan
 5. **Faqat foydalanuvchi "commit qil" desa commit qilinadi**, va hatto shunda ham avval commit xabari taklif qilinib, foydalanuvchi tasdiqlagandan keyin (yoki o'z xabarini bergandan keyin) commit amalga oshiriladi.
 
 6. **Har bir sahifa/funksiya qurilgach**: build (`npm run build`/`yarn build`) va lint (`npm run lint`/`yarn lint`) tekshirilishi, so'ng ekran-rasm orqali (yoki interaktiv holatlar uchun avtomatlashtirilgan test orqali) asl dizayn/mantiq bilan solishtirilishi, va natija foydalanuvchiga qisqacha hisobot qilib berilishi kerak.
+
+7. **Backend API tashkil qilish — qat'iy tartib (2026-08-30, foydalanuvchi juda muhim deb alohida ta'kidlagan qoida).** Har safar foydalanuvchi bitta API'ni "tashkil qil" desa:
+   1. **Avval rasmiy hujjatlardan o'rganib kelinadi** (tegishli package/kutubxona — masalan Express, Mongoose, `jsonwebtoken`, `multer` va h.k.).
+   2. **Keyin `C:\Users\User\Desktop\burak` backendida shu narsa qanday qilinganini solishtirib o'rganiladi** (qarang: yuqoridagi "Backend arxitekturasi — `burak` loyihasidan o'rganilgan andoza" bo'limi).
+   3. Shu ikkalasiga asoslanib, **foydalanuvchiga tashkil qilish variantlari taklif qilinadi** — o'zboshimchalik bilan yozilmaydi.
+   4. Foydalanuvchi rozi bo'lgach (**"ha"**), qurish **MVC tartibida, bosqichma-bosqich, har bosqichdan keyin alohida tasdiq kutib** amalga oshiriladi: **Router → (ha) → Controller → (ha) → Service → (ha) → Schema**. Bitta xabarda bir nechta qatlamni birdan qurish yoki keyingi qatlamga o'zboshimchalik bilan o'tish — qoidabuzarlik hisoblanadi.
