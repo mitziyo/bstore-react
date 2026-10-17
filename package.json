@@ -3,6 +3,41 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "//": {
+    "_note": "JSON izohni qo'llamaydi — npm/yarn \"//\" kalitini e'tiborsiz qoldiradi, shuning uchun paketlar tavsifi shu yerda",
+    "dependencies": {
+      "@emotion/react": "MUI'ning CSS-in-JS dvigateli (MUI uchun majburiy)",
+      "@emotion/styled": "MUI'ning styled() API'si uchun (MUI uchun majburiy)",
+      "@mui/icons-material": "Material Design ikonkalari",
+      "@mui/joy": "MUI Joy UI komponentlari (burak-react'dan, beta)",
+      "@mui/lab": "MUI'ning tajribaviy komponentlari (masalan, TabContext)",
+      "@mui/material": "Material UI komponentlar kutubxonasi",
+      "@reduxjs/toolkit": "Redux store, slice va selector'lar (configureStore, createSlice, createSelector)",
+      "axios": "backend REST API'ga HTTP so'rovlar (services/*.ts)",
+      "bootstrap": "sayt layout'i, grid, dropdown/modal/tooltip (BookJar shabloni uchun)",
+      "moment": "sanalarni formatlash",
+      "react": "UI kutubxonasi",
+      "react-dom": "React'ni brauzer DOM'iga chizadi",
+      "react-redux": "React komponentlarini Redux store'ga ulaydi (Provider, useSelector, useDispatch)",
+      "react-router-dom": "sahifalar orasida client-side routing",
+      "redux-logger": "har bir Redux action'ni va state o'zgarishini konsolga log qiladi",
+      "socket.io-client": "backend'dagi socket.io bilan real-time ulanish (SocketContext)",
+      "styled-components": "komponent darajasidagi CSS-in-JS uslublar",
+      "sweetalert2": "chiroyli alert/confirm oynalari (lib/sweetAlert.ts)",
+      "swiper": "slayder/karusellar (Testimonials, RelatedProducts va boshqalar)",
+      "universal-cookie": "brauzer cookie'larini o'qish/yozish (accessToken)",
+      "web-vitals": "sahifa tezligi ko'rsatkichlarini o'lchash"
+    },
+    "devDependencies": {
+      "@testing-library/*": "React komponentlarini test qilish vositalari (hozircha testlar yo'q)",
+      "@types/*": "tegishli paketlar uchun TypeScript turlari (faqat kompilyatsiya paytida kerak)",
+      "@vitejs/plugin-react": "Vite'da React/JSX va Fast Refresh'ni yoqadi",
+      "oxlint": "tezkor linter (yarn lint)",
+      "sass": "SCSS fayllarni CSS'ga kompilyatsiya qiladi",
+      "typescript": "TypeScript kompilyatori (tsc -b, typecheck)",
+      "vite": "dev server (yarn dev) va production build"
+    }
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
