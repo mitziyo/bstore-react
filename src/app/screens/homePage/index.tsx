@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import "../../../scss/home/home.scss";
 import { HeroBanner } from "./HeroBanner";
 import { Promo } from "./Promo";
@@ -11,42 +11,45 @@ import { HomeBlog } from "./HomeBlog";
 import { Subscribe } from "./Subscribe";
 import BookService from "../../services/BookService";
 import MemberService from "../../services/MemberService";
-import type { Product } from "../../../lib/types/product";
-import type { Member } from "../../../lib/types/member";
+import { useAppDispatch, useAppSelector } from "../../hooks";
+import { setNewBooks, setPopularBooks, setTopUsers } from "./slice";
+import { retrieveNewBooks, retrievePopularBooks, retrieveTopUsers } from "./selector";
 
 export function HomePage() {
-  const [mostViewed, setMostViewed] = useState<Product[]>([]);
-  const [newest, setNewest] = useState<Product[]>([]);
-  const [topUsers, setTopUsers] = useState<Member[]>([]);
+  /*****   REDUX SLICE & SELECTOR    *****/
+  const dispatch = useAppDispatch();
+  const popularBooks = useAppSelector(retrievePopularBooks);
+  const newBooks = useAppSelector(retrieveNewBooks);
+  const topUsers = useAppSelector(retrieveTopUsers);
 
   useEffect(() => {
     const bookService = new BookService();
 
     bookService
       .getBooks({ page: 1, limit: 4, order: "bookViews" })
-      .then((data) => setMostViewed(data))
+      .then((data) => dispatch(setPopularBooks(data)))
       .catch((err) => console.log(err));
 
     bookService
       .getBooks({ page: 1, limit: 6, order: "createdAt" })
-      .then((data) => setNewest(data))
+      .then((data) => dispatch(setNewBooks(data)))
       .catch((err) => console.log(err));
 
     new MemberService()
       .getTopUsers()
-      .then((data) => setTopUsers(data))
+      .then((data) => dispatch(setTopUsers(data)))
       .catch((err) => console.log(err));
-  }, []);
+  }, [dispatch]);
 
   return (
     <>
       <HeroBanner />
       <Promo />
-      <BestBooks books={mostViewed.slice(0, 2)} />
+      <BestBooks books={popularBooks.slice(0, 2)} />
       <BookCategories />
       <BestSelling topUsers={topUsers} />
       <PromotionBox />
-      <NewProducts books={newest} />
+      <NewProducts books={newBooks} />
       <HomeBlog />
       <Subscribe />
     </>
