@@ -1,3 +1,5 @@
+@use "sass:meta";
+
 :root {
   //   Color variables
   @each $color, $value in $theme-colors {
@@ -5,6 +7,6 @@
   }
 
   //   fonts variables
-  --#{$variable-prefix}Libre-Baskerville: #{inspect($lb)};
-  --#{$variable-prefix}Open: #{inspect($open)};
+  --#{$variable-prefix}Libre-Baskerville: #{meta.inspect($lb)};
+  --#{$variable-prefix}Open: #{meta.inspect($open)};
 }
