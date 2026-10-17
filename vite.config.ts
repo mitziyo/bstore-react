@@ -10,5 +10,11 @@ export default defineConfig(({ mode }) => {
     server: {
       port: Number(env.PORT) || 5173,
     },
+    css: {
+      preprocessorOptions: {
+        // BookJar shablonidan kelgan SCSS hali @import ishlatadi — @use'ga migratsiya keyinga qoldirilgan
+        scss: { silenceDeprecations: ['import'] },
+      },
+    },
   }
 })
