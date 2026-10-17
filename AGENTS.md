@@ -230,7 +230,7 @@ Manba: rasmiy Vite hujjatlari ([vite.dev/guide/env-and-mode](https://vite.dev/gu
 - Yuklash tartibi (yuqoridan pastga ustunlik): 1) tizim env o'zgaruvchilari → 2) `.env.[mode].local`/`.env.[mode]` → 3) `.env.local`/`.env`.
 
 ### Joriy loyihadagi holat
-`.env`da hozircha faqat `PORT=3009` bor (dev server porti, `vite.config.ts` ichida `loadEnv()` orqali o'qiladi va `server.port`ga uzatiladi). Bu maxfiy emas — shuning uchun `VITE_` prefikssiz va commit qilingan holda saqlanadi (`.gitignore`da `.env` yo'q). Haqiqiy maxfiy kalitlar (`serverApi` manzillari, tokenlar va h.k.) keyinchalik qo'shilsa, ular `.env.local`ga yozilishi kerak — u `.gitignore`dagi `*.local` qoidasi bilan avtomatik chiqarib tashlanadi.
+`.env`da `PORT=5055` (dev server porti) va `VITE_API_URL=http://localhost:5102` (backend dev porti) bor — barcha portlar 5000–6000 oralig'ida, chunki serverda 3000–4999 boshqalar tomonidan band (2026-10-17). `PORT` `vite.config.ts` ichida `loadEnv()` orqali o'qiladi va `server.port`ga uzatiladi. Bu maxfiy emas — shuning uchun `VITE_` prefikssiz va commit qilingan holda saqlanadi (`.gitignore`da `.env` yo'q). Haqiqiy maxfiy kalitlar (`serverApi` manzillari, tokenlar va h.k.) keyinchalik qo'shilsa, ular `.env.local`ga yozilishi kerak — u `.gitignore`dagi `*.local` qoidasi bilan avtomatik chiqarib tashlanadi.
 
 ---
 
