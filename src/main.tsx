@@ -8,6 +8,7 @@ import "./scss/index.scss";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import App from "./app/App.tsx";
 import { ContextProvider } from "./app/context/ContextProvider";
+
 import { SocketProvider } from "./app/context/SocketContext.tsx";
 
 createRoot(document.getElementById("root")!).render(
