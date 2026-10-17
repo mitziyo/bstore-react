@@ -40,6 +40,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "start:prod": "serve -s dist -l 5055",
     "lint": "oxlint",
     "preview": "vite preview"
   },
